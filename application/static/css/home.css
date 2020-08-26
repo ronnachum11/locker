@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Muli&display=swap");
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes fadeInAnimation { 
+    0% { 
+        opacity: 0;
+    } 
+    100% { 
+        opacity: 1; 
+     } 
+} 
+
+#content-container {
+    height: 70vh;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 2%;
+    padding-bottom: 0%;
+}
+
+#content-column {
+    height: 100%;
+    padding-left: 5%;
+    padding-right: 5%;
+}

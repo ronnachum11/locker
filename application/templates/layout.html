@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}" />
+    {% block page_styles %}{% endblock page_styles %}
+    
+    {% if title %}
+        <title>COVID Reopenings - {{ title }}</title>
+    {% else %}
+        <title>COVID Reopenings</title>
+    {% endif %}
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/Logo.ico') }}" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script src="https://kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+    <script>
+        $(window).on("load", function () {
+            var urlHash = window.location.href.split("#")[1];
+            if (urlHash.length > 0)
+                $('html,body').animate({
+                    scrollTop: $('#' + urlHash).offset().top
+                }, 4000);
+        });
+    </script>
+    <!-- <script>
+        (function () {
+            var h, a, f;
+            a = document.getElementsByTagName('link');
+            for (h = 0; h < a.length; h++) {
+            f = a[h];
+            if (f.rel.toLowerCase().match(/stylesheet/) && f.href) {
+                var g = f.href.replace(/(&|\?)rnd=\d+/, '');
+                f.href = g + (g.match(/\?/) ? '&' : '?');
+                f.href += 'rnd=' + (new Date().valueOf());
+            }
+            } // for
+        })()
+    </script> -->
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+            <a id="logo_title" class="navbar-brand" href="{{ url_for('home', _anchor='home_anchor') }}">
+                <img src="{{ url_for('static', filename='images/tj.png') }}">Virtual TJ
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
+                aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarToggle">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" style="color: black" href="{{ url_for('home') }}">About</a>
+                    <a class="nav-item nav-link" style="color: black" href="{{ url_for('home') }}">Contact</a>
+                </div>
+                <!-- Navbar Right Side -->
+                <div class="navbar-nav ml-auto">
+                    <a class="nav-item nav-link" style="color: black" href="{{ url_for('home') }}">Register</a>
+                    <a class="nav-item nav-link" style="color: black" href="{{ url_for('home') }}">Log In</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main role="main">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %} 
+            {% endif %} 
+        {% endwith %} 
+    {% block content %}{% endblock content %}
+    </main>
+    <footer class="mcontainer">
+        <p>
+            <small style="text-align: center">
+                <p>Created by Ron Nachum, Shrey Gupta, and Nicholas Britto</p>
+            </small>
+        </p>
+    </footer>
+
+    <!-- React -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+    <!-- My JS -->
+    {% block scripts %}{% endblock scripts %}
+</body>
+
+</html>
