@@ -4,6 +4,7 @@ from flask_mail import Message
 
 from application import app, bcrypt, db, mail, login_manager
 from application.models import User, Class
+from application.forms.forms import ClassForm
 
 import os 
 
@@ -22,6 +23,15 @@ def login():
     login_user(user)
     print(current_user)
     return redirect(url_for('home'))
+
+@app.route("/add_class")
+@login_required
+def add_class():
+    form = ClassForm()
+    if form.validate_on_submit():
+        flash('Class Added Succsesfully!')
+        redirect(url_for('home'))
+    return render_template('add_class.html', form=form)
 
 @app.route("/logout")
 def logout():

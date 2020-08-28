@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextField, TextAreaField, PasswordField, BooleanField, ColorField
+from wtforms import StringField, SubmitField, TextField, TextAreaField, PasswordField, BooleanField, RadioField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 
 class RegisterForm(FlaskForm):
@@ -16,8 +16,9 @@ class LoginForm(FlaskForm):
 class ClassForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     link = StringField('Link', validators=[DataRequired()])
-    color = ColorFIeld('Color', validators=[DataRequired()])
-    times = StringField('Times', validators=[DataRequired()])
+    color = RadioField('Color', validators=[DataRequired()], 
+        choices=[('blue', 'Blue'), ('red'), ('Red'), ('green', 'Green')])
+    times = RadioField('Times', validators=[DataRequired()])
     teacher = StringField('Teacher', validators=[])
     notes = TextAreaField('Notes', validators=[])
     submit = SubmitField('Add Class')

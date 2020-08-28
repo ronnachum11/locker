@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block page_styles %}
+<link rel="stylesheet" href="../static/css/add_class.css">
+{% endblock page_styles %}
+
+{% block content %}
+<h1>Add A Class</h1>
+
+<div id="content-div">
+    <form>
+        {{ form.csrf_token() }}
+        <fieldset>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    {% if form.name.errors %}
+                        {{ form.name(class="form-control is-invalid", placholder="Class Name") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.name.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.name(class="form-control", placeholder="Class Name") }}
+                    {% endif %}
+                </div>
+                <div class="form-group col-md-6">
+                    {% if form.teacher.errors %}
+                        {{ form.teacher(class="form-control is-invalid", placholder="Teacher (Optional)") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.teacher.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.teacher(class="form-control", placeholder="Teacher (Optional)") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-group">
+                {% if form.link.errors %}
+                    {{ form.link(class="form-control is-invalid", placholder="Class Link") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.link.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %} 
+                    {{ form.link(class="form-control", placeholder="Class Link") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        {{ form.submit(class="btn-wide btn-color") }}
+    </form>
+</div>
+{% endblock content %}

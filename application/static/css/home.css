@@ -26,3 +26,20 @@ html {
     padding-left: 5%;
     padding-right: 5%;
 }
+
+.addition-button {
+    background-color: #cccccc;
+    border: none;
+    color: black;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 30%;
+}
+
+.addition-button:hover {
+    background-color: #b3b3b3;
+}
