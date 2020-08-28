@@ -24,7 +24,17 @@ def home():
     classes = Class.query.filter_by(user_id=current_user.id).order_by(Class.period.desc()).all()[::-1]
     classes = [(c, list(set(c.times.keys())), list(set(c.times.values()))) for c in classes]
     classes = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") for c, days, times in classes]
-    return render_template("home.html", clicked=False, classes=classes)
+    return render_template("home.html", classes=classes, name=current_user.name, current_class="")
+
+@app.route("/classroom/<string:hex_id>")
+def classroom(hex_id):
+    current_class = Class.query.filter_by(hex_id=hex_id).first()
+    if not current_user.is_authenticated or current_class.user_id != current_user.id:
+        return render_template("home.html")
+    classes = Class.query.filter_by(user_id=current_user.id).order_by(Class.period.desc()).all()[::-1]
+    classes = [(c, list(set(c.times.keys())), list(set(c.times.values()))) for c in classes]
+    classes = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") for c, days, times in classes]
+    return render_template("home.html", classes=classes, name=current_user.name, current_class=current_class.link)
 
 @app.route("/login")
 def login():

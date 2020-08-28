@@ -14,7 +14,7 @@ html {
 } 
 
 #content-container {
-    height: 70vh;
+    height: 85vh;
     padding-left: 5%;
     padding-right: 5%;
     padding-top: 2%;
@@ -59,9 +59,8 @@ html {
 
 .class-card {
     text-align: center;
-    border-radius: 5%;
     opacity: 85%;
-    /* background-color: rgb(190, 190, 190); */
+    padding: 5px;
 }
 
 .class-card:hover{
@@ -69,6 +68,16 @@ html {
     opacity: 100%;
 }
 
-.row h5 {
-    padding-left: 2px;
+.text-div:hover {
+    opacity: 100%;
+}
+
+.text-div {
+    padding: 3px;
+    color: white;
+    opacity: 50%;
+}
+
+.current-class {
+    opacity: 100%;
 }

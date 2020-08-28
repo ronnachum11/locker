@@ -5,28 +5,39 @@
 {% endblock page_styles %}
 
 {% block content %}
-<script>
-    function setURL(url){
-        document.getElementById('iframe').src = url;
-        clicked = true;
-    }
-</script>
 <!-- <iframe src="https://meet.google.com/twy-ibpj-jgs" title="Google Meets"></iframe> -->
 {% if current_user.is_authenticated %}
     <div id="content-container" class="row">
         <div class="classes col-md-3 content-column">
             <div class="row"><h3>Classes</h3></div>
             {% for class, time_string in classes %}
-                <div class="class-card" onclick='setURL("{{ class.link }}");'>
-                    <h5>{{ class.name }} - Period {{ class.period }}</h5>
-                    <p>{{ time_string }}</p>
-                </div>
+                {% if class.link == current_class %}
+                    <div class="class-card {{ class.color }} current-class">
+                        <div class="text-div current-class">
+                            <h5>{{ class.name }} - Period {{ class.period }}</h5>
+                            <p>{{ time_string }}</p>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="{{ url_for('classroom', hex_id=class.hex_id) }}"><div class="class-card {{ class.color }}">
+                        <div class="text-div">
+                            <h5>{{ class.name }} - Period {{ class.period }}</h5>
+                            <p>{{ time_string }}</p>
+                        </div>
+                    </div></a>
+                {% endif %}
             {% endfor %}
-            <div class="row"><a class="btn-light" href="{{ url_for('add_class') }}">Add Class</a></div>
+            <div class="row" style="padding-top: 5px">
+                <a class="btn-light btn-wide" href="{{ url_for('add_class') }}">Add Class</a>
+            </div>
         </div>
         <div class="col-md-9 content-column class-container">
-            <iframe id="iframe" style="width: 100%; height: 100%" allow="camera *; microphone *" 
-                    src="" title="Blackboard Collaborate"></iframe>
+            {% if current_class == "" %}
+                <h3>Hi {{name}}! <br> Select a class or add a new one to get started.</h3>
+            {% else %}
+                <iframe id="iframe" style="width: 100%; height: 100%" allow="camera *; microphone *" 
+                        src="{{ current_class }}" title="Blackboard Collaborate"></iframe>
+            {% endif %}
         </div>
     </div>
 {% else %}

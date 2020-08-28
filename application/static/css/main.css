@@ -1,6 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=B612&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Muli&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open%20Sans&display=swap");
 
 .mcontainer {
   margin: 2%;
@@ -37,9 +39,8 @@ body.fade-out {
 }
 
 .btn-light {
-  background-color: #fcfcfc;
-  color: #333;
-  color: #047db4;
+  background-color: #d1d1d1;
+  color: white;
   -webkit-transition: background 0.5s ease-in-out;
   -moz-transition: background 0.5s ease-in-out;
   -ms-transition: background 0.5s ease-in-out;
@@ -48,8 +49,7 @@ body.fade-out {
 }
 .btn-light:hover {
   background-color: #b3b3b3;
-  color: #333;
-  color: #047db4;
+  color: white;
 }
 
 .btn-wide {
@@ -77,7 +77,7 @@ body.fade-out {
 }
 
 * {
-  font-family: "Ubuntu", sans-serif;
+  font-family: "Open Sans", sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -162,4 +162,44 @@ input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, .te
 legend {
   margin: 0px auto 10px;
   letter-spacing: 0.4px;
+}
+
+.red {
+  background-color: red;
+}
+
+.orange {
+  background-color: orange;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.lime {
+  background-color: lime;
+}
+
+.green {
+  background-color: green;
+}
+
+.deepskyblue {
+  background-color: deepskyblue;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.hotpink {
+  background-color: hotpink;
+}
+
+.purple {
+  background-color: purple;
+}
+
+.black {
+  background-color: black;
 }
