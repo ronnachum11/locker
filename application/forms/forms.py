@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextField, TextAreaField, PasswordField, BooleanField, RadioField
-from wtforms.validators import DataRequired, Email, Length, EqualTo
+from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp
 
 class RegisterForm(FlaskForm):
     email = TextField('Email Address', [DataRequired()])
@@ -15,7 +15,7 @@ class LoginForm(FlaskForm):
 
 class ClassForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
-    link = StringField('Link', validators=[DataRequired()])
+    link = StringField('Link', validators=[DataRequired(), Regexp('https://us.bbcollab.com/invite/*')])
     color = RadioField('Color', validators=[DataRequired()], 
         choices=[('red', 'Red'), ('orange', 'Orange'), ('yellow', 'Yellow'), ('lime', 'Lime'), 
                  ('green', 'Green'), ('deepskyblue', 'Light Blue'), ('blue', 'Blue'),

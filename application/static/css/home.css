@@ -27,6 +27,14 @@ html {
     padding-right: 5%;
 }
 
+.class-container {
+    display: flex;
+    flex-direction: vertical;
+    align-items: center;
+    justify-content: center;
+    border: solid black 2px;
+}
+
 .addition-button {
     background-color: #cccccc;
     border: none;
@@ -42,4 +50,25 @@ html {
 
 .addition-button:hover {
     background-color: #b3b3b3;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+}
+
+.class-card {
+    text-align: center;
+    border-radius: 5%;
+    opacity: 85%;
+    /* background-color: rgb(190, 190, 190); */
+}
+
+.class-card:hover{
+    /* background-color: rgb(209, 209, 209); */
+    opacity: 100%;
+}
+
+.row h5 {
+    padding-left: 2px;
 }

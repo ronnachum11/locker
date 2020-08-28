@@ -9,6 +9,7 @@ import copy
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
 
+    name = db.Column(db.String, nullable=True)
     email = db.Column(db.String, nullable=True)
     phone = db.Column(db.String, nullable=True)
 
@@ -30,6 +31,7 @@ class Class(db.Model):
     name = db.Column(db.String, nullable=False)
     link = db.Column(db.String, nullable=False)
     color = db.Column(db.String, nullable=False)
+    period = db.Column(db.String, nullable=True)
     times = db.Column(db.JSON, nullable=False)
     teacher = db.Column(db.String, nullable=True)
     notes = db.Column(db.String, nullable=True)

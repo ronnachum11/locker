@@ -19,7 +19,12 @@ def load_user(user_id):
 @app.route("/home", methods=["GET", "POST"])
 @app.route("/", methods=["GET", "POST"])
 def home():
-    return render_template("home.html")
+    if not current_user.is_authenticated:
+        return render_template("home.html")
+    classes = Class.query.filter_by(user_id=current_user.id).order_by(Class.period.desc()).all()[::-1]
+    classes = [(c, list(set(c.times.keys())), list(set(c.times.values()))) for c in classes]
+    classes = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") for c, days, times in classes]
+    return render_template("home.html", clicked=False, classes=classes)
 
 @app.route("/login")
 def login():
@@ -40,7 +45,7 @@ def add_class():
 
     print(form.validate_on_submit())
     if form.validate_on_submit():
-        new_class = Class(name=form.name.data, link=form.link.data, color=form.color.data,
+        new_class = Class(name=form.name.data, link=form.link.data, color=form.color.data, period=form.period.data,
                           times=tj_json[form.period.data], teacher=form.teacher.data, user_id=current_user.id)
         db.session.add(new_class)
         db.session.commit()

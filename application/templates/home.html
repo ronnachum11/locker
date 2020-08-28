@@ -5,16 +5,28 @@
 {% endblock page_styles %}
 
 {% block content %}
+<script>
+    function setURL(url){
+        document.getElementById('iframe').src = url;
+        clicked = true;
+    }
+</script>
 <!-- <iframe src="https://meet.google.com/twy-ibpj-jgs" title="Google Meets"></iframe> -->
 {% if current_user.is_authenticated %}
     <div id="content-container" class="row">
-        <div class="col-md-3 content-column">
-            <h3>Classes</h3>
-            <a class="btn-light" href="{{ url_for('add_class') }}">Add Class</a>
+        <div class="classes col-md-3 content-column">
+            <div class="row"><h3>Classes</h3></div>
+            {% for class, time_string in classes %}
+                <div class="class-card" onclick='setURL("{{ class.link }}");'>
+                    <h5>{{ class.name }} - Period {{ class.period }}</h5>
+                    <p>{{ time_string }}</p>
+                </div>
+            {% endfor %}
+            <div class="row"><a class="btn-light" href="{{ url_for('add_class') }}">Add Class</a></div>
         </div>
-        <div class="col-md-9 content-column">
-            <iframe style="width: 100%; height: 100%" allow="camera *; microphone *" src="https://www.youtube.com/channel/UChloKiDmyV0T0uxc4alx81A" title="Blackboard Collaborate">
-            </iframe>
+        <div class="col-md-9 content-column class-container">
+            <iframe id="iframe" style="width: 100%; height: 100%" allow="camera *; microphone *" 
+                    src="" title="Blackboard Collaborate"></iframe>
         </div>
     </div>
 {% else %}
