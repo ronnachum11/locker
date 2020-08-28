@@ -23,7 +23,7 @@ body.fade-out {
 }
 
 .btn-color {
-  background-color: #0092d4;
+  background-color: DodgerBlue;
   color: #fff;
   -webkit-transition: background 0.5s ease-in-out;
   -moz-transition: background 0.5s ease-in-out;
@@ -62,7 +62,7 @@ body.fade-out {
 }
 
 .bg-color {
-  background-color: #0092d4;
+  background-color: DodgerBlue;
   color: #fff;
 }
 
@@ -134,7 +134,7 @@ footer {
   margin: auto 0px;
 }
 .section-color {
-  background-color: #0092d4;
+  background-color: DodgerBlue;
   color: #fff;
 }
 

@@ -8,7 +8,7 @@
 <h1>Add A Class</h1>
 
 <div id="content-div">
-    <form>
+    <form action="" method="POST">
         {{ form.csrf_token() }}
         <fieldset>
             <div class="row">
@@ -47,6 +47,46 @@
                     </div>
                 {% else %} 
                     {{ form.link(class="form-control", placeholder="Class Link") }}
+                {% endif %}
+            </div>
+            <h3>Class Period (TJ)</h3>
+            <div class="form-group">
+                <div class="color-select">
+                    {% for id, value, name in period_list %}
+                        <div>
+                            <label class="container">
+                                <td><input id="{{ id }}" name="period" type="radio" value="{{ value }}"></td>
+                                <span class="checkmark"><p class="period-label">{{ name }}</p></span>
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if form.link.errors %}
+                    <div class="invalid-feedback">
+                        {% for error in form.period.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <h3>Class Color</h3>
+            <div class="form-group">
+                <div class="color-select">
+                    {% for id, value, name in color_list %}
+                        <div>
+                            <label class="container">
+                                <td><input id="{{ id }}" name="color" type="radio" value="{{ value }}"></td>
+                                <span class="checkmark {{value}}"></span>
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if form.link.errors %}
+                    <div class="invalid-feedback">
+                        {% for error in form.color.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
                 {% endif %}
             </div>
         </fieldset>

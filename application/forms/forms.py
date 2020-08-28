@@ -17,8 +17,12 @@ class ClassForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     link = StringField('Link', validators=[DataRequired()])
     color = RadioField('Color', validators=[DataRequired()], 
-        choices=[('blue', 'Blue'), ('red'), ('Red'), ('green', 'Green')])
-    times = RadioField('Times', validators=[DataRequired()])
+        choices=[('red', 'Red'), ('orange', 'Orange'), ('yellow', 'Yellow'), ('lime', 'Lime'), 
+                 ('green', 'Green'), ('deepskyblue', 'Light Blue'), ('blue', 'Blue'),
+                 ('hotpink', 'Pink'),('purple', 'Purple')]) # , ('black', 'Black')])
+    period = RadioField('Times', validators=[DataRequired()],
+        choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'),
+                 ('5', '5'), ('6', '6'), ('7', '7'), ('8A', '8A'), ('8B', '8B')])
     teacher = StringField('Teacher', validators=[])
     notes = TextAreaField('Notes', validators=[])
     submit = SubmitField('Add Class')

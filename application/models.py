@@ -39,4 +39,4 @@ class Class(db.Model):
     text_alert_time = db.Column(db.Integer, nullable=True)
 
     def __repr__(self):
-        return f"Class('{str(self.id)}', '{self.name}')"
+        return f"Class('{str(self.id)}', '{self.name}', '{self.teacher}')"

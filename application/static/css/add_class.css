@@ -6,3 +6,110 @@
     padding-right: 25%;
     padding-left: 25%;
 }
+
+/* The container */
+.container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 15px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container input {
+    position: absolute;
+    opacity: 0%;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 45px;
+    width: 45px;
+    background-color: rgb(218, 218, 218);
+    border-radius: 50%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.period-label {
+    position: absolute;
+    top: 10px;
+}
+
+/* .period-label input:checked ~ .checkmark {
+    position: absolute;
+    top: -10px;
+} */
+
+.red {
+    background-color: red;
+}
+
+.orange {
+    background-color: orange;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+.lime {
+    background-color: lime;
+}
+
+.green {
+    background-color: green;
+}
+
+.deepskyblue {
+    background-color: deepskyblue;
+}
+
+.blue {
+    background-color: blue;
+}
+
+.hotpink {
+    background-color: hotpink;
+}
+
+.purple {
+    background-color: purple;
+}
+
+.black {
+    background-color: black;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+    opacity: 50%;
+}
+
+/* When the radio button is checked, add a blue background */
+.container input:checked ~ .checkmark {
+    border: solid rgb(134, 134, 134) 2px;
+}
+
+#col-md-1 {
+    align-items: center;
+}
+
+.color-select {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 5%;
+    align-items: center;
+}
