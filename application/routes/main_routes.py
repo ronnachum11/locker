@@ -38,7 +38,7 @@ def classroom(hex_id):
 
 @app.route("/login")
 def login():
-    user = User.query.first()
+    user = User.query.get(1)
     login_user(user)
     print(current_user)
     return redirect(url_for('home'))
@@ -53,16 +53,16 @@ def add_class():
     for i, periods in enumerate(form.period.choices):
         period_list.append((f"period-{i}", periods[0], periods[1]))
 
-    print(form.validate_on_submit())
     if form.validate_on_submit():
         new_class = Class(name=form.name.data, link=form.link.data, color=form.color.data, period=form.period.data,
-                          times=tj_json[form.period.data], teacher=form.teacher.data, user_id=current_user.id)
+                          times=tj_json[form.period.data], teacher=form.teacher.data, user_id=current_user.id,
+                          email_alert_time=form.email_reminder.data, text_alert_time=form.text_reminder.data)
         db.session.add(new_class)
         db.session.commit()
         flash('Class Added Succsesfully!', 'success')
         return redirect(url_for('home'))
 
-    return render_template('add_class.html', color_list=color_list, period_list=period_list, form=form)
+    return render_template('add_class.html', color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None, form=form)
 
 @app.route("/logout")
 def logout():

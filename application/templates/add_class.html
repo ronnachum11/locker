@@ -2,11 +2,24 @@
 
 {% block page_styles %}
 <link rel="stylesheet" href="../static/css/add_class.css">
-<link rel="stylesheet" href="../static/css/on_off_switch.css">
 {% endblock page_styles %}
 
 {% block content %}
 <h1>Add A Class</h1>
+
+<script>
+    function disable_form(to_disable){
+        console.log('here')
+        element = document.getElementById(to_disable)
+        element.disabled = !element.disabled
+        if(element.style.display == "none"){
+            element.style.display = "block"
+        }
+        else {
+            element.style.display = "none"
+        }
+    }
+</script>
 
 <div id="content-div">
     <form action="" method="POST">
@@ -91,29 +104,57 @@
                 {% endif %}
             </div>
             <div class="central row">
-                <div class="reminder-column col-md-6">
-                    <h3>Email Reminders?</h3>
-                    <div class="onoffswitch">
-                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="email-onoffswitch" tabindex="0" checked>
-                        <label class="onoffswitch-label" for="email-onoffswitch">
-                            <span class="onoffswitch-inner"></span>
-                            <span class="onoffswitch-switch"></span>
-                        </label>
+                <div id="email-reminders" class="col-md-6">
+                    <div class="reminder-column">
+                        {% if has_email %}
+                            <h3>Email Reminders?</h3>
+                            <input type="checkbox" id="switch" class="switch" onclick="disable_form('email_reminder');"/>
+                            <label class="switch-label" for="switch">Toggle</label>
+                        {% else %}
+                            <h5 style="text-align: center; color: grey;">Add Email for Email Reminders</h5>
+                        {% endif %}
                     </div>
+                    {% if has_email %}
+                        {% if form.email_reminder.errors %}
+                        {{ form.email_reminder(class="form-control is-invalid", style="display: none", disabled=True) }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email_reminder.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %} 
+                            {{ form.email_reminder(class="form-control", style="display: none", disabled=True) }}
+                        {% endif %}
+                    {% endif %}
                 </div>
-                <div class="reminder-column col-md-6">
-                    <h3>Text Reminders?</h3>
-                    <div class="onoffswitch">
-                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="text-onoffswitch" tabindex="0" checked>
-                        <label class="onoffswitch-label" for="text-onoffswitch">
-                            <span class="onoffswitch-inner"></span>
-                            <span class="onoffswitch-switch"></span>
-                        </label>
+                <div id="text-reminders" class="col-md-6">
+                    <div class="reminder-column">
+                        {% if has_phone %}
+                            <h3>Text Reminders?</h3>
+                            <input type="checkbox" id="switch2" class="switch" onclick="disable_form('text_reminder');"/>
+                            <label class="switch-label" for="switch2">Toggle</label>    
+                        {% else %}
+                            <h5 style="text-align: center; color: grey;">Add Phone for Text Reminders</h5>
+                        {% endif %}
                     </div>
+                    {% if has_phone %} 
+                        {% if form.text_reminder.errors %}
+                            {{ form.text_reminder(class="form-control is-invalid", style="display: none", disabled=True) }}
+                            <div class="invalid-feedback">
+                                {% for error in form.text_reminder.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %} 
+                            {{ form.text_reminder(class="form-control", style="display: none", disabled=True) }}
+                        {% endif %}
+                    {% endif %}
                 </div>
             </div>
         </fieldset>
-        {{ form.submit(class="btn-wide btn-color") }}
+        <div class="submit-button">
+            {{ form.submit(class="btn-wide btn-color") }}
+        </div>
     </form>
 </div>
 {% endblock content %}
