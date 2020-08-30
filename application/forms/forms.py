@@ -24,6 +24,8 @@ class ClassForm(FlaskForm):
         choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'),
                  ('5', '5'), ('6', '6'), ('7', '7'), ('8A', '8A'), ('8B', '8B')])
     teacher = StringField('Teacher', validators=[])
+    text_reminder = BooleanField('Text Reminders', [DataRequired()])
+    email_reminder = BooleanField('Email Remindeers', [DataRequired()])
     notes = TextAreaField('Notes', validators=[])
     submit = SubmitField('Add Class')
 

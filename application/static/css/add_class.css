@@ -64,9 +64,50 @@
     align-items: center;
 }
 
+.reminder-column {
+    align-items: center;
+    justify-content: center;
+}
+
 .color-select {
     display: flex;
     justify-content: space-between;
     padding-bottom: 5%;
     align-items: center;
 }
+
+.red {
+    background-color: red;
+  }
+  
+  .orange {
+    background-color: orange;
+  }
+  
+  .yellow {
+    background-color: yellow;
+  }
+  
+  .lime {
+    background-color: lime;
+  }
+  
+  .green {
+    background-color: green;
+  }
+  
+  .deepskyblue {
+    background-color: deepskyblue;
+  }
+  
+  .blue {
+    background-color: blue;
+  }
+  
+  .hotpink {
+    background-color: hotpink;
+  }
+  
+  .purple {
+    background-color: purple;
+  }
