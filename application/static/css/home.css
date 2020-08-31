@@ -21,6 +21,10 @@ html {
     padding-bottom: 0%;
 }
 
+#settings:hover {
+    opacity: 75%;
+}
+
 #content-column {
     height: 100%;
     padding-left: 5%;
@@ -29,7 +33,7 @@ html {
 
 .class-container {
     display: flex;
-    flex-direction: vertical;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     border: solid black 2px;

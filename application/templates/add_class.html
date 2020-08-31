@@ -5,7 +5,7 @@
 {% endblock page_styles %}
 
 {% block content %}
-<h1>Add A Class</h1>
+<h1>{{ header }}</h1>
 
 <script>
     function disable_form(to_disable){
@@ -67,12 +67,21 @@
             <div class="form-group">
                 <div class="color-select">
                     {% for id, value, name in period_list %}
-                        <div>
-                            <label class="container">
-                                <td><input id="{{ id }}" name="period" type="radio" value="{{ value }}"></td>
-                                <span class="checkmark"><p class="period-label">{{ name }}</p></span>
-                            </label>
-                        </div>
+                        {% if value == period %}
+                            <div>
+                                <label class="container">
+                                    <td><input id="{{ id }}" name="period" type="radio" value="{{ value }}" checked="checked"></td>
+                                    <span class="checkmark"><p class="period-label">{{ name }}</p></span>
+                                </label>
+                            </div>
+                        {% else %}
+                            <div>
+                                <label class="container">
+                                    <td><input id="{{ id }}" name="period" type="radio" value="{{ value }}"></td>
+                                    <span class="checkmark"><p class="period-label">{{ name }}</p></span>
+                                </label>
+                            </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
                 {% if form.link.errors %}
@@ -87,12 +96,21 @@
             <div class="form-group">
                 <div class="color-select">
                     {% for id, value, name in color_list %}
-                        <div>
-                            <label class="container">
-                                <td><input id="{{ id }}" name="color" type="radio" value="{{ value }}"></td>
-                                <span class="checkmark {{value}}"></span>
-                            </label>
-                        </div>
+                        {% if value == color %}
+                            <div>
+                                <label class="container">
+                                    <td><input id="{{ id }}" name="color" type="radio" value="{{ value }}" checked="checked"></td>
+                                    <span class="checkmark {{value}}"></span>
+                                </label>
+                            </div>
+                        {% else %}
+                            <div>
+                                <label class="container">
+                                    <td><input id="{{ id }}" name="color" type="radio" value="{{ value }}"></td>
+                                    <span class="checkmark {{value}}"></span>
+                                </label>
+                            </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
                 {% if form.link.errors %}

@@ -24,17 +24,36 @@ def home():
     classes = Class.query.filter_by(user_id=current_user.id).order_by(Class.period.desc()).all()[::-1]
     classes = [(c, list(set(c.times.keys())), list(set(c.times.values()))) for c in classes]
     classes = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") for c, days, times in classes]
-    return render_template("home.html", classes=classes, name=current_user.name, current_class="")
+    text = "Choose a class or add a new one to get started."
+    name=current_user.name
+    
+    return render_template("home.html", classes=classes, name=name, text=text, current_class="")
 
 @app.route("/classroom/<string:hex_id>")
 def classroom(hex_id):
-    current_class = Class.query.filter_by(hex_id=hex_id).first()
-    if not current_user.is_authenticated or current_class.user_id != current_user.id:
-        return render_template("home.html")
+    current_class = Class.query.filter_by(hex_id=hex_id).all()
+
+    current_link = ""
+    if not current_user.is_authenticated:
+        return redirect('home.html')
+    
+    if len(current_class) == 0:
+        text = "The class you selected is invalid."
+        error = "Error Code: 404"
+    else:
+        current_class = current_class[0]
+        if current_class.user_id != current_user.id:
+            text = "You are not authorized to access this class."
+            error = "Error Code: 403"
+        else:
+            current_link = current_class.link
+            text, error = "", ""
+    name = current_user.name
+
     classes = Class.query.filter_by(user_id=current_user.id).order_by(Class.period.desc()).all()[::-1]
     classes = [(c, list(set(c.times.keys())), list(set(c.times.values()))) for c in classes]
     classes = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") for c, days, times in classes]
-    return render_template("home.html", classes=classes, name=current_user.name, current_class=current_class.link)
+    return render_template("home.html", classes=classes, name=name, text=text, error=error, current_class=current_link)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -56,7 +75,7 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
-@app.route("/backdoor-login")
+@app.route("/backdoor_login")
 def backdoor_login():
     login_user(User.query.get(1))
     return redirect(url_for('home'))
@@ -100,7 +119,40 @@ def add_class():
         flash('Class Added Succsesfully!', 'success')
         return redirect(url_for('home'))
 
-    return render_template('add_class.html', color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None, form=form)
+    return render_template('add_class.html', header="Add A Class", color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None, form=form)
+
+@app.route("/update_class/<string:hex_id>", methods=["GET", "POST"])
+def update_class(hex_id):    
+    c = Class.query.filter_by(hex_id=hex_id).first_or_404()
+    if current_user.id != c.user_id:
+        abort(403)
+    
+    form = ClassForm(name=c.name, teacher=c.teacher, link=c.link, period=c.period, color=c.color,
+                     text_reminder=c.text_alert_time, email_reminder=c.email_alert_time)
+    color_list, period_list = [], []
+    for i, colors in enumerate(form.color.choices):
+        color_list.append((f"color-{i}", colors[0], colors[1]))
+    for i, periods in enumerate(form.period.choices):
+        period_list.append((f"period-{i}", periods[0], periods[1]))
+    
+    if form.validate_on_submit():
+        c.name = form.name.data 
+        c.teacher = form.teacher.data 
+        c.link = form.link.data 
+        c.period = form.period.data 
+        c.color = form.color.data 
+        c.text_alert_time = form.text_reminder.data 
+        c.email_alert_time = form.email_reminder.data 
+        c.times=tj_json[form.period.data]
+
+        db.session.add(c)
+        db.session.commit()
+        flash('Class Update Successfully!', 'success')
+        return redirect(url_for('home'))
+
+    form.submit.label.text = "Update Class"
+
+    return render_template('add_class.html', header=f"Update Class - {c.name} ({c.period})", color=c.color, period=c.period, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None, form=form)
 
 @app.route("/logout")
 def logout():
