@@ -1,6 +1,9 @@
+import phonenumbers
+
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextField, TextAreaField, BooleanField, RadioField, SelectField
-from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp
+from wtforms import StringField, SubmitField, TextField, TextAreaField, BooleanField, RadioField, SelectField, PasswordField
+from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp, ValidationError
+from application.models import User
 
 minute_choices = [(1, '1'), (2, '2'), (3, '3'), (5, '5'), (10, '10'), 
                  (15, '15'), (20, '20'), (25, '25'), (30, '30')]
@@ -22,13 +25,33 @@ class ClassForm(FlaskForm):
     notes = TextAreaField('Notes', validators=[])
     submit = SubmitField('Add Class')
 
-# class RegisterForm(FlaskForm):
-#     email = TextField('Email Address', [DataRequired()])
-#     password = PasswordField('Password', [DataRequired(), EqualTo('confirm', message='Passwords must match')])
-#     confirm = PasswordField('Confirm Password')
-#     submit = SubmitField('Register')
-#     # accept_tos = BooleanField('I accept the Terms of Service and Privacy Notice (updated Jan 22, 2015)', [validators.Required()])
+class RegistrationForm(FlaskForm):
+    name = StringField('Full Name', validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    phone = StringField('Phone')
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Sign Up')
 
-# class LoginForm(FlaskForm):
-#     email = TextField('Email Address', [DataRequired()])
-#     password = PasswordField('Password', [DataRequired()])
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user:
+            raise ValidationError('This email has already been registered with vTJ.')
+    
+    def validate_phone(self, field):
+        if len(field.data) > 16:
+            raise ValidationError('Invalid phone number.')
+        try:
+            input_number = phonenumbers.parse(field.data)
+            if not (phonenumbers.is_valid_number(input_number)):
+                raise ValidationError('Invalid phone number.')
+        except:
+            input_number = phonenumbers.parse("+1"+field.data)
+            if not (phonenumbers.is_valid_number(input_number)):
+                raise ValidationError('Invalid phone number.')
+
+class LoginForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    remember = BooleanField('Remember Me')
+    submit = SubmitField('Login')

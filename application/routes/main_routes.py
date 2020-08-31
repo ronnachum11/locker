@@ -4,7 +4,7 @@ from flask_mail import Message
 
 from application import app, bcrypt, db, mail, login_manager
 from application.models import User, Class
-from application.forms.forms import ClassForm
+from application.forms.forms import ClassForm, LoginForm, RegistrationForm
 
 import os 
 import json 
@@ -36,12 +36,45 @@ def classroom(hex_id):
     classes = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") for c, days, times in classes]
     return render_template("home.html", classes=classes, name=current_user.name, current_class=current_class.link)
 
-@app.route("/login")
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        hashed_pw = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(
+            name=form.name.data.title(), 
+            email=form.email.data,
+            phone=form.phone.data,
+            password=hashed_pw
+        )
+        db.session.add(user)
+        db.session.commit()
+        flash('Your account has been created!', 'success')
+        return redirect(url_for('login'))
+    return render_template('register.html', title='Register', form=form)
+
+
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    user = User.query.get(1)
-    login_user(user)
-    print(current_user)
-    return redirect(url_for('home'))
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
+            next_page = request.args.get('next')
+            if next_page:
+                return redirect(url_for(next_page))
+            else:
+                return redirect(url_for('home'))
+            return redirect(url_for('home'))
+        else:
+            flash('Login Unsuccessful. Please check email and password', 'danger')
+    return render_template('login.html', title='Login', form=form)
 
 @app.route("/add_class", methods=["GET", "POST"])
 @login_required
