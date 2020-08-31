@@ -108,22 +108,22 @@
                     <div class="reminder-column">
                         {% if has_email %}
                             <h3>Email Reminders?</h3>
-                            <input type="checkbox" id="switch" class="switch" onclick="disable_form('email_reminder');"/>
-                            <label class="switch-label" for="switch">Toggle</label>
+                            <!-- <input type="checkbox" id="switch" class="switch" onclick="disable_form('email_reminder');"/>
+                            <label class="switch-label" for="switch">Toggle</label> -->
                         {% else %}
                             <h5 style="text-align: center; color: grey;">Add Email for Email Reminders</h5>
                         {% endif %}
                     </div>
                     {% if has_email %}
                         {% if form.email_reminder.errors %}
-                        {{ form.email_reminder(class="form-control is-invalid", style="display: none", disabled=True) }}
+                        {{ form.email_reminder(class="form-control is-invalid") }}
                         <div class="invalid-feedback">
                             {% for error in form.email_reminder.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                         {% else %} 
-                            {{ form.email_reminder(class="form-control", style="display: none", disabled=True) }}
+                            {{ form.email_reminder(class="form-control") }}
                         {% endif %}
                     {% endif %}
                 </div>
@@ -131,22 +131,22 @@
                     <div class="reminder-column">
                         {% if has_phone %}
                             <h3>Text Reminders?</h3>
-                            <input type="checkbox" id="switch2" class="switch" onclick="disable_form('text_reminder');"/>
-                            <label class="switch-label" for="switch2">Toggle</label>    
+                            <!-- <input type="checkbox" id="switch2" class="switch" onclick="disable_form('text_reminder');"/>
+                            <label class="switch-label" for="switch2">Toggle</label>     -->
                         {% else %}
                             <h5 style="text-align: center; color: grey;">Add Phone for Text Reminders</h5>
                         {% endif %}
                     </div>
                     {% if has_phone %} 
                         {% if form.text_reminder.errors %}
-                            {{ form.text_reminder(class="form-control is-invalid", style="display: none", disabled=True) }}
+                            {{ form.text_reminder(class="form-control is-invalid") }}
                             <div class="invalid-feedback">
                                 {% for error in form.text_reminder.errors %}
                                     <span>{{ error }}</span>
                                 {% endfor %}
                             </div>
                         {% else %} 
-                            {{ form.text_reminder(class="form-control", style="display: none", disabled=True) }}
+                            {{ form.text_reminder(class="form-control") }}
                         {% endif %}
                     {% endif %}
                 </div>
