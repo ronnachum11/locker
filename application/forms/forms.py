@@ -16,10 +16,10 @@ class ClassForm(FlaskForm):
     color = RadioField('Color', validators=[DataRequired()], 
         choices=[('red', 'Red'), ('orange', 'Orange'), ('yellow', 'Yellow'), ('lime', 'Lime'), 
                  ('green', 'Green'), ('deepskyblue', 'Light Blue'), ('blue', 'Blue'),
-                 ('hotpink', 'Pink'),('purple', 'Purple')]) # , ('black', 'Black')])
+                 ('hotpink', 'Pink'),('purple', 'Purple'), ('black', 'Black')])
     period = RadioField('Times', validators=[DataRequired()],
-        choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'),
-                 ('5', '5'), ('6', '6'), ('7', '7'), ('8A', '8A'), ('8B', '8B')])
+        choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6'), 
+                 ('7', '7'), ('8A', '8A'), ('8B', '8B'), ('Homeroom', 'HR')])
     teacher = StringField('Teacher', validators=[])
     text_reminder = SelectField('Minutes Before', [], choices=minute_choices, default=-1)
     email_reminder = SelectField('Minutes Before', [], choices=minute_choices, default=-1)

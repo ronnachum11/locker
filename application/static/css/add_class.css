@@ -33,7 +33,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    opacity: 50%;
+    opacity: 75%;
     height: 45px;
     width: 45px;
     background-color: rgb(218, 218, 218);
@@ -51,7 +51,7 @@
 
 /* On mouse-over, add a grey background color */
 .container:hover input ~ .checkmark {
-    opacity: 75%;
+    opacity: 100%;
 }
 
 /* When the radio button is checked, add a blue background */
@@ -164,4 +164,8 @@
 
 .purple {
     background-color: purple;
+}
+
+.black {
+    background-color: black;
 }
