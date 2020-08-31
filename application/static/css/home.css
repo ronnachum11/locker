@@ -32,11 +32,43 @@ html {
 }
 
 .class-container {
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: solid black 2px;
+    /* border: solid black 2px; */
+    /* border-left: solid black 1px; */
+}
+
+.class-card {
+    margin-bottom: 20px;
+}
+
+.class-card p{
+    font-size: 10px;
+}
+
+.class-card h5{
+    font-size: 18px;
+}
+
+.classes {
+    /* border: solid black 2px; */
+    /* border-right: solid black 1px; */
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 62%;
+    width: 100%;
+}
+
+::-webkit-scrollbar {
+    background-color: #343a40;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #232629;
+    border-radius: 10px;
 }
 
 .addition-button {
@@ -63,6 +95,7 @@ html {
 
 .class-card {
     text-align: center;
+    background-color: rgb(37, 37, 37);
     opacity: 85%;
     padding: 5px;
 }
@@ -72,7 +105,15 @@ html {
     opacity: 100%;
 }
 
-.text-div:hover {
+.class-card:hover .text-div{
+    opacity: 100%;
+}
+
+/* .class-card:hover .settings {
+    opacity: 75%;
+} */
+
+.settings:hover {
     opacity: 100%;
 }
 
@@ -82,6 +123,50 @@ html {
     opacity: 50%;
 }
 
+.settings {
+    opacity: 50%;
+}
+
 .current-class {
     opacity: 100%;
 }
+
+.red {
+    border-top: solid 7px red;
+  }
+  
+  .orange {
+    border-top: solid 7px orange;
+  }
+  
+  .yellow {
+    border-top: solid 7px yellow;
+  }
+  
+  .lime {
+    border-top: solid 7px lime;
+  }
+  
+  .green {
+    border-top: solid 7px green;
+  }
+  
+  .deepskyblue {
+    border-top: solid 7px deepskyblue;
+  }
+  
+  .blue {
+    border-top: solid 7px blue;
+  }
+  
+  .hotpink {
+    border-top: solid 7px hotpink;
+  }
+  
+  .purple {
+    border-top: solid 7px purple;
+  }
+  
+  .black {
+    border-top: solid 7px black;
+  }

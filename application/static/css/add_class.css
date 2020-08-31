@@ -56,7 +56,7 @@
 
 /* When the radio button is checked, add a blue background */
 .container input:checked ~ .checkmark {
-    border: solid rgb(134, 134, 134) 2px;
+    border: solid white 2px;
     opacity: 100%;
 }
 

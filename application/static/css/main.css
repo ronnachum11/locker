@@ -11,6 +11,7 @@
 body {
   opacity: 1;
   transition: 1s opacity;
+  overflow-x: hidden;
 }
 
 body.fade-out {
@@ -83,8 +84,8 @@ body.fade-out {
 }
 
 body {
-  background-color: #fcfcfc;
-  color: #333;
+  background-color: rgb(46, 46, 46);
+  color: white;
   margin-top: 10vh;
 }
 
@@ -95,7 +96,7 @@ nav {
 }
 
 #logo_title {
-  color: black;
+  color: white;
   font-size: 2rem;
   letter-spacing: 1px;
   display: flex;

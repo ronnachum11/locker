@@ -23,7 +23,7 @@ def home():
         return render_template("home.html")
     classes = Class.query.filter_by(user_id=current_user.id).order_by(Class.period.desc()).all()[::-1]
     classes = [(c, list(set(c.times.keys())), list(set(c.times.values()))) for c in classes]
-    classes = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") for c, days, times in classes]
+    classes = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") if len(days) != 0 and len(times) != 0 else (c, "") for c, days, times in classes]
     text = "Choose a class or add a new one to get started."
     name=current_user.name
     
@@ -52,7 +52,7 @@ def classroom(hex_id):
 
     classes = Class.query.filter_by(user_id=current_user.id).order_by(Class.period.desc()).all()[::-1]
     classes = [(c, list(set(c.times.keys())), list(set(c.times.values()))) for c in classes]
-    classes = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") for c, days, times in classes]
+    classes = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") if len(days) != 0 and len(times) != 0 else (c, "") for c, days, times in classes]
     return render_template("home.html", classes=classes, name=name, text=text, error=error, current_class=current_link)
 
 @app.route("/register", methods=['GET', 'POST'])
