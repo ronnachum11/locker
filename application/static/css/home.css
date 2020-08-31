@@ -21,9 +21,6 @@ html {
     padding-bottom: 0%;
 }
 
-#settings:hover {
-    opacity: 75%;
-}
 
 #content-column {
     height: 100%;
@@ -58,8 +55,9 @@ html {
     /* border-right: solid black 1px; */
     overflow-y: scroll;
     overflow-x: hidden;
-    height: 62%;
+    height: 60vh;
     width: 100%;
+    margin-bottom: 10px;
 }
 
 ::-webkit-scrollbar {
@@ -70,6 +68,7 @@ html {
     background-color: #232629;
     border-radius: 10px;
 }
+
 
 .addition-button {
     background-color: #cccccc;
@@ -113,18 +112,26 @@ html {
     opacity: 75%;
 } */
 
-.settings:hover {
+.main-settings {
+    opacity: 75%;
+}
+
+.main-settings:hover {
     opacity: 100%;
 }
 
 .text-div {
-    padding: 3px;
     color: white;
     opacity: 50%;
 }
 
 .settings {
     opacity: 50%;
+    display: none;
+}
+
+.settings:hover {
+    opacity: 100%;
 }
 
 .current-class {

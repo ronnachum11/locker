@@ -1,39 +1,39 @@
 {
     "1": {
-        "Tues": "8:40",
-        "Thurs": "8:40"
+        "Tuesday": "8:40",
+        "Thursday": "8:40"
     },
     "2": {
-        "Tues": "10:25",
-        "Thurs": "10:25"
+        "Tuesday": "10:25",
+        "Thursday": "10:25"
     },
     "3": {
-        "Tues": "12:50",
-        "Thurs": "12:50"
+        "Tuesday": "12:50",
+        "Thursday": "12:50"
     },
     "4": {
-        "Tues": "2:35",
-        "Thurs": "2:35"
+        "Tuesday": "2:35",
+        "Thursday": "2:35"
     },
     "5": {
-        "Wed": "8:40",
-        "Fri": "8:40"
+        "Wednesday": "8:40",
+        "Friday": "8:40"
     },
     "6": {
-        "Wed": "10:25",
-        "Fri": "10:25"
+        "Wednesday": "10:25",
+        "Friday": "10:25"
     },
     "7": {
         "Wed": "12:50",
         "Fri": "12:50"
     },
     "8A": {
-        "Wed": "2:30",
-        "Fri": "2:30"
+        "Wednesday": "2:30",
+        "Friday": "2:30"
     },
     "8B": {
-        "Wed": "3:20",
-        "Fri": "3:20"
+        "Wednesday": "3:20",
+        "Friday": "3:20"
     },
     "Homeroom": {
 
