@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     <a id="settings" href="{{ url_for('update_class', hex_id=class.hex_id) }}">
-                        <img style="height: 25px; width: 25px" src="static/images/settings.png">
+                        <img style="height: 25px; width: 25px" src="/static/images/settings.png">
                     </a>
                 {% else %}
                     <a href="{{ url_for('classroom', hex_id=class.hex_id) }}">
@@ -31,7 +31,7 @@
                         </div>
                     </a>
                     <a id="settings" href="{{ url_for('update_class', hex_id=class.hex_id) }}">
-                        <img style="height: 25px; width: 25px" src="static/images/settings.png">
+                        <img style="height: 25px; width: 25px" src="/static/images/settings.png">
                     </a>
                 {% endif %}
             {% endfor %}
