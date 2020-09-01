@@ -119,7 +119,7 @@ def add_class():
         flash('Class Added Succsesfully!', 'success')
         return redirect(url_for('home'))
 
-    return render_template('add_class.html', header="Add A Class", color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None, form=form)
+    return render_template('add_class.html', header="Add A Class", update_class=False, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None, form=form)
 
 @app.route("/update_class/<string:hex_id>", methods=["GET", "POST"])
 def update_class(hex_id):    
@@ -152,7 +152,7 @@ def update_class(hex_id):
 
     form.submit.label.text = "Update Class"
 
-    return render_template('add_class.html', header=f"Update Class - {c.name} ({c.period})", color=c.color, period=c.period, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None, form=form)
+    return render_template('add_class.html', header=f"Update Class - {c.name} ({c.period})", update_class=True, color=c.color, period=c.period, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None, form=form)
 
 @app.route("/logout")
 def logout():
