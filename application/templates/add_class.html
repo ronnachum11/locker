@@ -19,7 +19,12 @@
     }
 </script>
 
-<h1>{{ header }}</h1>
+{% if update_class %}
+    <h1> Update Class - {{ header }}</h1>
+{% else %}
+    <h1>{{ header }}</h1>
+{% endif %}
+
 <div id="content-div">
     <form action="" method="POST">
         {{ form.csrf_token() }}
@@ -174,9 +179,29 @@
         </div>
         {% if update_class %}
             <div style="padding-top: 10px; padding-left: 35%; padding-right: 35%">
-                <btn class="btn-red btn-wide">Delete Class</btn>
+                <a class="btn-red btn-wide" data-toggle="modal" data-target="#deleteModal">Delete Class</a>
             </div>
         {% endif %}
     </form>
+
+    <!-- Modal -->
+    <div class="modal custom fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Delete {{ header }}?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <form action="{{ url_for('delete_class', hex_id=hex_id) }}" method="POST">
+                <input class="btn btn-danger" type="submit" value="Delete">
+            </form>
+            </div>
+        </div>
+        </div>
+    </div>
 </div>
 {% endblock content %}

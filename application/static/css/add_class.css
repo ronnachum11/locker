@@ -86,7 +86,17 @@
     padding-top: 10px;
 }
 
+.modal-header {
+    background-color: #343a40;
+}
 
+.modal-body {
+    background-color: #343a40;
+}
+
+.modal-footer {
+    background-color: #343a40;
+}
 
 .switch[type=checkbox]{
 	height: 0;
