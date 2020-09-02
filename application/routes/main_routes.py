@@ -2,9 +2,9 @@ from flask import render_template, flash, request, url_for, redirect, abort, ses
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 
-from application import app, bcrypt, db, mail, login_manager
+from application import app, bcrypt, db, mail, login_manager, oauth
 from application.models import User, Class
-from application.forms.forms import ClassForm, LoginForm, RegistrationForm
+from application.forms.forms import ClassForm, LoginForm, RegistrationForm, PhoneForm, RegistrationIonForm
 
 import os 
 import json 
@@ -13,8 +13,11 @@ with open(os.path.join('application', 'tj.json')) as f:
     tj_json = json.load(f)
 
 @login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
+def load_user(user_id, is_ion=False):
+    if not is_ion:
+        return User.query.get(int(user_id))
+    else:
+        return User.query.filter_by(id=user_id).first()
 
 @app.route("/home", methods=["GET", "POST"])
 @app.route("/", methods=["GET", "POST"])
@@ -59,21 +62,70 @@ def classroom(hex_id):
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        hashed_pw = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+
+    form1 = RegistrationForm()
+    if form1.submit.data and form1.validate_on_submit():
+        hashed_pw = bcrypt.generate_password_hash(form1.password.data).decode('utf-8')
         user = User(
-            name=form.name.data.title(), 
-            email=form.email.data,
-            phone=form.phone.data,
+            name=form1.name.data.title(), 
+            email=form1.email.data,
+            phone=form1.phone.data,
             password=hashed_pw
         )
         db.session.add(user)
         db.session.commit()
         flash('Your account has been created!', 'success')
         return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form)
 
+    form2 = RegistrationIonForm()
+    if form2.submit2.data and form2.validate_on_submit():
+        authorization_url, state = oauth.authorization_url("https://ion.tjhsst.edu/oauth/authorize/")
+        return redirect(authorization_url)
+
+    return render_template('register.html', title='Register', form1=form1, form2=form2)
+
+@app.route("/register/ion", methods=["GET", "POST"])
+def register_ion():
+    
+    try:
+        token = oauth.fetch_token("https://ion.tjhsst.edu/oauth/token/",
+                          code=request.args["code"],
+                          client_secret="fTM1iaOIN1yBkoXGXuB9sBplIuYI5nJZCZZP22EpZgdDWoPvtFsTkAg7DNVxS6Jqc83GH1dpPXHAu2io2SdQr4naBbL2qedJiwsRIMdS9nJKlohvb24TvlyUj04vuPfs")
+        profile = oauth.get("https://ion.tjhsst.edu/api/profile")
+        profile = profile.json()
+    except:
+
+        return redirect(url_for('home'))
+    
+    if User.query.filter_by(id=profile["id"]).first():
+        flash("This account already exists with VirtuHall")
+        return redirect(url_for("home"))
+
+    user = User(
+        id=profile["id"],
+        name=profile["display_name"], 
+        email=profile["emails"][0],
+        hasIon=True
+    )
+    login_user(user, True)
+    db.session.add(user)
+    db.session.commit()
+
+    form = PhoneForm()
+    
+    if form.validate_on_submit():
+        user = User.query.filter_by(id=user.id).first()
+        user.phone = form.phone.data
+        db.session.commit()
+        flash("Phone number added")
+        return redirect(url_for("home"))
+    
+    return render_template("register_ion.html", form=form)
+
+@app.route("/add-phone-number", methods=["GET", "POST"])
+def add_phone_number():
+    pass
+    
 
 @app.route("/backdoor_login")
 def backdoor_login():

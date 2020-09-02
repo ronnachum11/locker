@@ -11,8 +11,8 @@ class User(db.Model, UserMixin):
     hex_id = db.Column(db.String, default=lambda: urandom(32).hex(), unique=True, nullable=True)
     name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
-    phone = db.Column(db.String, nullable=False)
-    password = db.Column(db.String, nullable=False)
+    phone = db.Column(db.String, nullable=True)
+    password = db.Column(db.String, nullable=True)
 
     hasIon = db.Column(db.Boolean, nullable=False, default=False)
     hasGoogle = db.Column(db.Boolean, nullable=False, default=False)

@@ -8,75 +8,84 @@
 <h1>Register</h1>
 <div style="padding-top: 15px; padding-right: 25%; padding-left: 25%;">
     <form action="" method="POST">
-        {{ form.csrf_token() }}
+        {{ form1.csrf_token() }}
         <fieldset>
             <div class="form-group">
-                {% if form.name.errors %}
-                    {{ form.name(class="form-control is-invalid", placholder="Full Name") }}
+                {% if form1.name.errors %}
+                    {{ form1.name(class="form-control is-invalid", placholder="Full Name") }}
                     <div class="invalid-feedback">
-                        {% for error in form.name.errors %}
+                        {% for error in form1.name.errors %}
                             <span>{{ error }}</span>
                         {% endfor %}
                     </div>
                 {% else %} 
-                    {{ form.name(class="form-control", placeholder="Full Name") }}
+                    {{ form1.name(class="form-control", placeholder="Full Name") }}
                 {% endif %}
             </div>
             <div class="row">
                 <div class="form-group col-md-6">
-                    {% if form.email.errors %}
-                        {{ form.email(class="form-control is-invalid", placholder="Email") }}
+                    {% if form1.email.errors %}
+                        {{ form1.email(class="form-control is-invalid", placholder="Email") }}
                         <div class="invalid-feedback">
-                            {% for error in form.email.errors %}
+                            {% for error in form1.email.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %} 
-                        {{ form.email(class="form-control", placeholder="Email") }}
+                        {{ form1.email(class="form-control", placeholder="Email") }}
                     {% endif %}
                 </div>
                 <div class="form-group col-md-6">
-                    {% if form.phone.errors %}
-                        {{ form.phone(class="form-control is-invalid", placholder="Phone") }}
+                    {% if form1.phone.errors %}
+                        {{ form1.phone(class="form-control is-invalid", placholder="Phone") }}
                         <div class="invalid-feedback">
-                            {% for error in form.phone.errors %}
+                            {% for error in form1.phone.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %} 
-                        {{ form.phone(class="form-control", placeholder="Phone") }}
+                        {{ form1.phone(class="form-control", placeholder="Phone") }}
                     {% endif %}
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-6">
-                    {% if form.password.errors %}
-                        {{ form.password(class="form-control is-invalid", placholder="Password") }}
+                    {% if form1.password.errors %}
+                        {{ form1.password(class="form-control is-invalid", placholder="Password") }}
                         <div class="invalid-feedback">
-                            {% for error in form.password.errors %}
+                            {% for error in form1.password.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %} 
-                        {{ form.password(class="form-control", placeholder="Password") }}
+                        {{ form1.password(class="form-control", placeholder="Password") }}
                     {% endif %}
                 </div>
                 <div class="form-group col-md-6">
-                    {% if form.confirm_password.errors %}
-                        {{ form.confirm_password(class="form-control is-invalid", placholder="Confirm Password") }}
+                    {% if form1.confirm_password.errors %}
+                        {{ form1.confirm_password(class="form-control is-invalid", placholder="Confirm Password") }}
                         <div class="invalid-feedback">
-                            {% for error in form.confirm_password.errors %}
+                            {% for error in form1.confirm_password.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %} 
-                        {{ form.confirm_password(class="form-control", placeholder="Confirm Password") }}
+                        {{ form1.confirm_password(class="form-control", placeholder="Confirm Password") }}
                     {% endif %}
                 </div>
             </div>
         </fieldset>
         <div class="submit-button">
-            {{ form.submit(class="btn-wide btn-color") }}
+            {{ form1.submit(class="btn-wide btn-color") }}
+        </div>
+    </form>
+</div>
+<h4 class="text-muted" style="padding-top: 30px; padding-bottom: 20px;">OR</h4>
+<div style="padding-top: 15px; padding-right: 25%; padding-left: 25%;">
+    <form action="" method="POST">
+        {{ form2.csrf_token() }}
+        <div class="submit-button">
+            {{ form2.submit2(class="btn btn-outline-dark btn-wide ion-btn") }}
         </div>
     </form>
 </div>
