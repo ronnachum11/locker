@@ -87,7 +87,6 @@ def register():
 
 @app.route("/register/ion", methods=["GET", "POST"])
 def register_ion():
-    
     try:
         token = oauth.fetch_token("https://ion.tjhsst.edu/oauth/token/",
                           code=request.args["code"],
@@ -95,10 +94,9 @@ def register_ion():
         profile = oauth.get("https://ion.tjhsst.edu/api/profile")
         profile = profile.json()
     except:
-
-        return redirect(url_for('home'))
+        pass
     
-    if User.query.filter_by(id=profile["id"]).first():
+    if User.query.filter_by(id=profile["emails"][0]).first():
         flash("This account already exists with VirtuHall")
         return redirect(url_for("home"))
 
@@ -111,21 +109,21 @@ def register_ion():
     login_user(user, True)
     db.session.add(user)
     db.session.commit()
-
-    form = PhoneForm()
     
+    return redirect(url_for('add_phone_number'))
+    
+@login_required
+@app.route("/add-phone-number", methods=["GET", "POST"])
+def add_phone_number():
+    form = PhoneForm()
+
     if form.validate_on_submit():
-        user = User.query.filter_by(id=user.id).first()
+        user = User.query.filter_by(id=current_user.id).first()
         user.phone = form.phone.data
         db.session.commit()
         flash("Phone number added")
         return redirect(url_for("home"))
-    
     return render_template("register_ion.html", form=form)
-
-@app.route("/add-phone-number", methods=["GET", "POST"])
-def add_phone_number():
-    pass
     
 
 @app.route("/backdoor_login")
