@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=B612&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Muli&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open%20Sans&display=swap");
+
+.user-information {
+    margin-right: 20%;
+    margin-left: 20%;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: rgb(37, 37, 37);
+}

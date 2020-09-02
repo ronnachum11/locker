@@ -8,6 +8,7 @@ from application.forms.forms import ClassForm, LoginForm, RegistrationForm, Phon
 
 import os 
 import json 
+import re
 
 with open(os.path.join('application', 'tj.json')) as f:
     tj_json = json.load(f)
@@ -97,7 +98,7 @@ def register_ion():
         pass
     
     if User.query.filter_by(id=profile["emails"][0]).first():
-        flash("This account already exists with VirtuHall")
+        flash("This account already exists with Locker")
         return redirect(url_for("home"))
 
     user = User(
@@ -113,15 +114,22 @@ def register_ion():
     return redirect(url_for('add_phone_number'))
     
 @login_required
+@app.route("/account", methods=["GET", "POST"])
+def account():
+    classes = Class.query.filter_by(user_id=current_user.id).all()
+    has_phone = current_user.phone is not None
+    return render_template('account.html')
+
+@login_required
 @app.route("/add-phone-number", methods=["GET", "POST"])
 def add_phone_number():
     form = PhoneForm()
 
     if form.validate_on_submit():
         user = User.query.filter_by(id=current_user.id).first()
-        user.phone = form.phone.data
+        user.phone = re.sub("[^0-9]", "", form.phone.data)
         db.session.commit()
-        flash("Phone number added")
+        flash("Phone number added", 'success')
         return redirect(url_for("home"))
     return render_template("register_ion.html", form=form)
     
@@ -209,7 +217,6 @@ def update_class(hex_id):
 @app.route("/delete_class/<string:hex_id>", methods=["GET", "POST"])
 @login_required
 def delete_class(hex_id):
-    print('here')
     c = Class.query.filter_by(hex_id=hex_id).all()
     if len(c) == 0:
         abort(404)

@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block page_styles %}
+<link rel="stylesheet" href="../static/css/account.css">
+{% endblock page_styles %}
+
+{% block content %}
+<h1>{{current_user.name}}</h1>
+
+<div class="user-information">
+    <h3>Account Information</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Email</h3>
+            <h6>{{ current_user.email }}</h6>
+        </div>
+        <div class="col-md-6">
+            <h3>Phone</h3>
+            {% if has_phone %}
+                <h6>{{ current_user.phone }}</h6>
+            {% else %}
+                <h6>No Phone Provided. You can add one <a href="{{ url_for('add_phone_number') }}">here</a>.</h6>
+            {% endif %}
+        </div>
+    </div>
+    {% if current_user.hasIon %}
+        <h3>Account Linked to ION</h3>
+    {% else %}
+        <h3>Account Not Linked to ION</h3>
+    {% endif %}
+</div>
+<div class="user-information">
+    <h3>Class Information</h3>
+</div>
+
+{% endblock content %}
