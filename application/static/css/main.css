@@ -11,6 +11,7 @@
 body {
   opacity: 1;
   transition: 1s opacity;
+  overflow-x: hidden;
 }
 
 body.fade-out {
@@ -18,24 +19,33 @@ body.fade-out {
   transition: none;
 }
 
-.btn-light, .btn-color {
+.btn-light, .btn-color, .btn-red {
   border-radius: 50px;
   border: none;
   text-align: center;
-}
-
-.btn-color {
-  background-color: DodgerBlue;
-  color: #fff;
   -webkit-transition: background 0.5s ease-in-out;
   -moz-transition: background 0.5s ease-in-out;
   -ms-transition: background 0.5s ease-in-out;
   -o-transition: background 0.5s ease-in-out;
   transition: background 0.5s ease-in-out;
 }
+
+.btn-color {
+  background-color: DodgerBlue;
+  color: white;
+}
 .btn-color:hover {
-  background-color: #047db4;
-  color: #fff;
+  background-color: rgb(27, 112, 197);
+}
+
+.btn-red {
+  background-color: rgb(199, 33, 33);
+  color: white;
+}
+
+.btn-red:hover {
+  background-color: rgb(156, 28, 28);
+  color: white;
 }
 
 .btn-light {
@@ -83,8 +93,8 @@ body.fade-out {
 }
 
 body {
-  background-color: #fcfcfc;
-  color: #333;
+  background-color: rgb(46, 46, 46);
+  color: white;
   margin-top: 10vh;
 }
 
@@ -95,7 +105,7 @@ nav {
 }
 
 #logo_title {
-  color: black;
+  color: white;
   font-size: 2rem;
   letter-spacing: 1px;
   display: flex;

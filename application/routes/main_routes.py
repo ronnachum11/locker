@@ -26,13 +26,14 @@ def home():
         return render_template("home.html")
     classes = Class.query.filter_by(user_id=current_user.id).order_by(Class.period.desc()).all()[::-1]
     classes = [(c, list(set(c.times.keys())), list(set(c.times.values()))) for c in classes]
-    classes = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") for c, days, times in classes]
+    classes = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") if len(days) != 0 and len(times) != 0 else (c, "") for c, days, times in classes]
     text = "Choose a class or add a new one to get started."
     name=current_user.name
     
     return render_template("home.html", classes=classes, name=name, text=text, current_class="")
 
 @app.route("/classroom/<string:hex_id>")
+@login_required
 def classroom(hex_id):
     current_class = Class.query.filter_by(hex_id=hex_id).all()
 
@@ -55,7 +56,7 @@ def classroom(hex_id):
 
     classes = Class.query.filter_by(user_id=current_user.id).order_by(Class.period.desc()).all()[::-1]
     classes = [(c, list(set(c.times.keys())), list(set(c.times.values()))) for c in classes]
-    classes = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") for c, days, times in classes]
+    classes = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") if len(days) != 0 and len(times) != 0 else (c, "") for c, days, times in classes]
     return render_template("home.html", classes=classes, name=name, text=text, error=error, current_class=current_link)
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -171,9 +172,10 @@ def add_class():
         flash('Class Added Succsesfully!', 'success')
         return redirect(url_for('home'))
 
-    return render_template('add_class.html', header="Add A Class", color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None, form=form)
+    return render_template('add_class.html', header="Add A Class", update_class=False, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None, form=form)
 
 @app.route("/update_class/<string:hex_id>", methods=["GET", "POST"])
+@login_required
 def update_class(hex_id):    
     c = Class.query.filter_by(hex_id=hex_id).first_or_404()
     if current_user.id != c.user_id:
@@ -204,7 +206,24 @@ def update_class(hex_id):
 
     form.submit.label.text = "Update Class"
 
-    return render_template('add_class.html', header=f"Update Class - {c.name} ({c.period})", color=c.color, period=c.period, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None, form=form)
+    return render_template('add_class.html', header=f"{c.name} ({c.period})", hex_id=c.hex_id, update_class=True, color=c.color, period=c.period, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None, form=form)
+
+@app.route("/delete_class/<string:hex_id>", methods=["GET", "POST"])
+@login_required
+def delete_class(hex_id):
+    print('here')
+    c = Class.query.filter_by(hex_id=hex_id).all()
+    if len(c) == 0:
+        abort(404)
+    c = c[0]
+    if current_user.id != c.user_id:
+        abort(403)
+
+    c = Class.query.filter_by(hex_id=hex_id).delete()
+    db.session.commit()
+
+    flash('Class Deleted Successfully', 'success')
+    return redirect(url_for('home'))
 
 @app.route("/logout")
 def logout():

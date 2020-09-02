@@ -21,9 +21,6 @@ html {
     padding-bottom: 0%;
 }
 
-#settings:hover {
-    opacity: 75%;
-}
 
 #content-column {
     height: 100%;
@@ -32,12 +29,46 @@ html {
 }
 
 .class-container {
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: solid black 2px;
+    /* border: solid black 2px; */
+    /* border-left: solid black 1px; */
 }
+
+.class-card {
+    margin-bottom: 20px;
+}
+
+.class-card p{
+    font-size: 10px;
+}
+
+.class-card h5{
+    font-size: 18px;
+}
+
+.classes {
+    /* border: solid black 2px; */
+    /* border-right: solid black 1px; */
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 60vh;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+::-webkit-scrollbar {
+    background-color: #343a40;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #232629;
+    border-radius: 10px;
+}
+
 
 .addition-button {
     background-color: #cccccc;
@@ -63,6 +94,7 @@ html {
 
 .class-card {
     text-align: center;
+    background-color: rgb(37, 37, 37);
     opacity: 85%;
     padding: 5px;
 }
@@ -72,16 +104,76 @@ html {
     opacity: 100%;
 }
 
-.text-div:hover {
+.class-card:hover .text-div{
+    opacity: 100%;
+}
+
+/* .class-card:hover .settings {
+    opacity: 75%;
+} */
+
+.main-settings {
+    opacity: 75%;
+}
+
+.main-settings:hover {
     opacity: 100%;
 }
 
 .text-div {
-    padding: 3px;
     color: white;
     opacity: 50%;
+}
+
+.settings {
+    opacity: 50%;
+    display: none;
+}
+
+.settings:hover {
+    opacity: 100%;
 }
 
 .current-class {
     opacity: 100%;
 }
+
+.red {
+    border-top: solid 7px red;
+  }
+  
+  .orange {
+    border-top: solid 7px orange;
+  }
+  
+  .yellow {
+    border-top: solid 7px yellow;
+  }
+  
+  .lime {
+    border-top: solid 7px lime;
+  }
+  
+  .green {
+    border-top: solid 7px green;
+  }
+  
+  .deepskyblue {
+    border-top: solid 7px deepskyblue;
+  }
+  
+  .blue {
+    border-top: solid 7px blue;
+  }
+  
+  .hotpink {
+    border-top: solid 7px hotpink;
+  }
+  
+  .purple {
+    border-top: solid 7px purple;
+  }
+  
+  .black {
+    border-top: solid 7px black;
+  }
