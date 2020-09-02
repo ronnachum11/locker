@@ -106,6 +106,7 @@ nav {
 
 #logo_title {
   color: white;
+  font-family: "Ubuntu", sans-serif;
   font-size: 2rem;
   letter-spacing: 1px;
   display: flex;
