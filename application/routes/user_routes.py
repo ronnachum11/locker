@@ -2,8 +2,9 @@ from flask import render_template, flash, request, url_for, redirect, abort, ses
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 
+from application import app, bcrypt, mail, login_manager, oauth_register, oauth_login
 from application.classes.user import User
-from application import app, bcrypt, db, mail, login_manager, oauth_register, oauth_login
+from application.classes.course import Course
 from application.forms.forms import ClassForm, LoginForm, RegistrationForm, NewIonAccountForm, RegistrationIonForm, ImportClassesForm, LoginIonForm
 
 import os 
@@ -92,7 +93,7 @@ def register_ion():
 @login_required
 @app.route("/account", methods=["GET", "POST"])
 def account():
-    courses = User.get_by_id(current_user.id).courses
+    courses = current_user.courses
     courses = sorted(courses, key=lambda course: course.period)
     has_phone = current_user.phone is not None
     return render_template('account.html', classes=courses, has_phone=has_phone)

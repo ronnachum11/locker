@@ -3,7 +3,7 @@ import phonenumbers
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextField, TextAreaField, BooleanField, RadioField, SelectField, PasswordField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp, ValidationError
-from application.models import User
+from application.classes.user import User
 
 minute_choices = [(1, '1'), (2, '2'), (3, '3'), (5, '5'), (10, '10'), 
                  (15, '15'), (20, '20'), (25, '25'), (30, '30')]
@@ -37,7 +37,7 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Sign Up')
 
     def validate_email(self, email):
-        user = User.query.filter_by(email=email.data).first()
+        user = User.get_by_email(email.data)
         if user:
             if user.password:
                 raise ValidationError('This account has already been registered with Locker.')

@@ -1,11 +1,12 @@
 from os import urandom
 from bson import ObjectId
+from flask_login import UserMixin
 
 from application import db
 from application.classes.course import Course
 
 
-class User:
+class User(UserMixin):
     def __init__(self, id:ObjectId, name:str, email:str, ion_id:int=None, phone:str=None, password:str=None, hasIon:bool=False, hasGoogle:bool=False, courses: [Course]=None, data:dict=None):
         self.id = str(id)
         self.ion_id = ion_id
@@ -28,6 +29,8 @@ class User:
     
     @staticmethod
     def from_dict(dictionary:dict):
+        if dictionary == None:
+            return None
         return User(dictionary.get("id"),
                     dictionary.get('ion_id'),
                     dictionary.get('name'),
