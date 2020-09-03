@@ -39,7 +39,8 @@ class RegistrationForm(FlaskForm):
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user:
-            raise ValidationError('This email has already been registered with vTJ.')
+            if user.password:
+                raise ValidationError('This account has already been registered with Locker.')
     
     def validate_phone(self, field):
         if len(field.data) > 16:
@@ -63,7 +64,6 @@ class LoginIonForm(FlaskForm):
     submit2 = SubmitField('Login With Ion')
 
 class NewIonAccountForm(FlaskForm):
-    password = PasswordField('Password', validators=[DataRequired()])
     phone = StringField('Phone')
     submit = SubmitField('Add')
 

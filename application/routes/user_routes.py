@@ -26,14 +26,20 @@ def register():
 
     form1 = RegistrationForm()
     if form1.submit.data and form1.validate_on_submit():
-        hashed_pw = bcrypt.generate_password_hash(form1.password.data).decode('utf-8')
-        user = User(
-            name=form1.name.data.title(), 
-            email=form1.email.data,
-            phone=form1.phone.data,
-            password=hashed_pw
-        )
-        db.session.add(user)
+        user = User.query.filter_by(email=form1.email.data).first()
+        if user:
+            if user.hasIon:
+                user.password = bcrypt.generate_password_hash(form1.password.data).decode('utf-8')
+                db.commit()
+        else:
+            hashed_pw = bcrypt.generate_password_hash(form1.password.data).decode('utf-8')
+            user = User(
+                name=form1.name.data.title(), 
+                email=form1.email.data,
+                phone=form1.phone.data,
+                password=hashed_pw
+            )
+            db.session.add(user)
         db.session.commit()
         flash('Your account has been created!', 'success')
         return redirect(url_for('login'))
@@ -55,12 +61,17 @@ def register_ion():
         profile = profile.json()
     except:
         pass
+
+    if User.query.filter_by(ion_id=profile['id']).first():
+        flash('ION Account already exists with The Locker', 'danger')
+        return redirect(url_for('home'))     
     
-    temp_user = User.query.filter_by(id=profile["emails"][0]).first()
+    temp_user = User.query.filter_by(email=profile["emails"][0]).first()
     if temp_user:
-        temp_user.id = profile["id"]
+        temp_user.ion_id = profile["id"]
+        temp_user.hasIon = True
         db.session.commit()
-        flash("Account updated with ION info")
+        flash("Account updated with ION info", 'success')
         return redirect(url_for("home"))
 
     user = User(
@@ -97,7 +108,6 @@ def add_phone_number():
     if form.validate_on_submit():
         user = User.query.filter_by(id=current_user.id).first()
         user.phone = re.sub("[^0-9]", "", form.phone.data)
-        user.password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         db.session.commit()
         flash("Phone number and pasword added", 'success')
         return redirect(url_for("home"))
