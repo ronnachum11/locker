@@ -54,6 +54,11 @@ class User:
     def delete_course(self, course_id: ObjectId):
         db.users.update({"_id": self.id}, {"$pull": {"courses": course_id}})
     
+    def update_course(self, course_id, **kwargs):
+        for key, value in kwargs.items():
+            db.users.update({"_id": self.id, "courses._id":course_id}, {f"courses.{key}": value})
+
+
     def update_ion_status(self, status: bool):
         db.users.update({"_id": self.id}, {"hasIon": status})
     
