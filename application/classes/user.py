@@ -7,7 +7,7 @@ from application.classes.course import Course
 
 
 class User(UserMixin):
-    def __init__(self, id:ObjectId, name:str, email:str, ion_id:int=None, phone:str=None, password:str=None, hasIon:bool=False, hasGoogle:bool=False, courses: [Course]=None, data:dict=None):
+    def __init__(self, id:ObjectId, name:str, email:str, ion_id:int=None, phone:str=None, password:str=None, hasIon:bool=False, hasGoogle:bool=False, courses: [Course]=[], data:dict=None):
         self.id = str(id)
         self.ion_id = ion_id
         self.name = name
@@ -39,7 +39,7 @@ class User(UserMixin):
                     dictionary.get('password'),
                     dictionary.get('hasIon'),
                     dictionary.get('hasGoogle'),
-                    [Course.from_dict(course) for course in dictionary.get('courses')],
+                    [Course.from_dict(course) for course in dictionary.get('courses')] if dictionary.get('courses') else None,
                     dictionary.get('data')
             )
     

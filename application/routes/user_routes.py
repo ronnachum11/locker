@@ -7,12 +7,10 @@ from application.classes.user import User
 from application.classes.course import Course
 from application.forms.forms import ClassForm, LoginForm, RegistrationForm, NewIonAccountForm, RegistrationIonForm, ImportClassesForm, LoginIonForm
 
-from application.classes.course import Course 
-from application.classes.user import User
-
 import os 
 import json 
 import re
+from bson import ObjectId
 
 ## Routes in this file
 # /resgister
@@ -42,6 +40,7 @@ def register():
         else:
             hashed_pw = bcrypt.generate_password_hash(form1.password.data).decode('utf-8')
             user = User(
+                id=ObjectId(),
                 name=form1.name.data.title(), 
                 email=form1.email.data,
                 phone=form1.phone.data,
@@ -83,12 +82,13 @@ def register_ion():
         return redirect(url_for("home"))
 
     user = User(
-        id=profile["id"],
+        id = ObjectId(),
+        ion_id=profile["id"],
         name=profile["display_name"], 
         email=profile["emails"][0],
         hasIon=True
     )
-    login_user(user, True)
+    login_user(user, force=True)
     user.add()
     
     return redirect(url_for('add_phone_number'))
@@ -123,7 +123,7 @@ def login():
     if form.submit.data and form.validate_on_submit():
         user = User.get_by_email(form.email.data)
         if user and bcrypt.check_password_hash(user.password, form.password.data):
-            login_user(user, remember=form.remember.data)
+            login_user(user, remember=form.remember.data, force=True)
             next_page = request.args.get('next')
             if next_page:
                 return redirect(url_for(next_page))
