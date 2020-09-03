@@ -30,7 +30,7 @@ def register():
         if user:
             if user.hasIon:
                 user.password = bcrypt.generate_password_hash(form1.password.data).decode('utf-8')
-                db.commit()
+                db.session.commit()
         else:
             hashed_pw = bcrypt.generate_password_hash(form1.password.data).decode('utf-8')
             user = User(

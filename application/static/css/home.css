@@ -12,6 +12,10 @@ html {
         opacity: 1; 
      } 
 } 
+.fullScreen {
+    width: 100vw;
+    height: 90vh;
+ }
 
 #content-container {
     height: 85vh;
