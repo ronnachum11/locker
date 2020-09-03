@@ -33,8 +33,12 @@ app.config['MAIL_PASSWORD'] = None
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
-oauth = OAuth2Session("wpHYY2aXgZdm68bFj3h8QlG9mWPvb0Wwqvo2qPZF",
+oauth_register = OAuth2Session("wpHYY2aXgZdm68bFj3h8QlG9mWPvb0Wwqvo2qPZF",
                       redirect_uri='http://127.0.0.1:5000/register/ion',
+                      scope=["read","write"])
+
+oauth_login = OAuth2Session("EDdTDiVb8gTQ34WGScGELsppMjI8S8w8MsSCphWu",
+                      redirect_uri='http://127.0.0.1:5000/login/ion',
                       scope=["read","write"])
 
 mail = Mail(app)

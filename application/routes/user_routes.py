@@ -2,9 +2,9 @@ from flask import render_template, flash, request, url_for, redirect, abort, ses
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 
-from application import app, bcrypt, db, mail, login_manager, oauth
+from application import app, bcrypt, db, mail, login_manager, oauth_register, oauth_login
 from application.models import User, Class
-from application.forms.forms import ClassForm, LoginForm, RegistrationForm, PhoneForm, RegistrationIonForm, ImportClassesForm
+from application.forms.forms import ClassForm, LoginForm, RegistrationForm, NewIonAccountForm, RegistrationIonForm, ImportClassesForm, LoginIonForm
 
 import os 
 import json 
@@ -40,7 +40,7 @@ def register():
 
     form2 = RegistrationIonForm()
     if form2.submit2.data and form2.validate_on_submit():
-        authorization_url, state = oauth.authorization_url("https://ion.tjhsst.edu/oauth/authorize/")
+        authorization_url, state = oauth_register.authorization_url("https://ion.tjhsst.edu/oauth/authorize/")
         return redirect(authorization_url)
 
     return render_template('register.html', title='Register', form1=form1, form2=form2)
@@ -48,16 +48,19 @@ def register():
 @app.route("/register/ion", methods=["GET", "POST"])
 def register_ion():
     try:
-        token = oauth.fetch_token("https://ion.tjhsst.edu/oauth/token/",
+        token = oauth_register.fetch_token("https://ion.tjhsst.edu/oauth/token/",
                           code=request.args["code"],
                           client_secret="fTM1iaOIN1yBkoXGXuB9sBplIuYI5nJZCZZP22EpZgdDWoPvtFsTkAg7DNVxS6Jqc83GH1dpPXHAu2io2SdQr4naBbL2qedJiwsRIMdS9nJKlohvb24TvlyUj04vuPfs")
-        profile = oauth.get("https://ion.tjhsst.edu/api/profile")
+        profile = oauth_register.get("https://ion.tjhsst.edu/api/profile")
         profile = profile.json()
     except:
         pass
     
-    if User.query.filter_by(id=profile["emails"][0]).first():
-        flash("This account already exists with Locker")
+    temp_user = User.query.filter_by(id=profile["emails"][0]).first()
+    if temp_user:
+        temp_user.id = profile["id"]
+        db.session.commit()
+        flash("Account updated with ION info")
         return redirect(url_for("home"))
 
     user = User(
@@ -89,13 +92,14 @@ def account():
 @login_required
 @app.route("/add-phone-number", methods=["GET", "POST"])
 def add_phone_number():
-    form = PhoneForm()
+    form = NewIonAccountForm()
 
     if form.validate_on_submit():
         user = User.query.filter_by(id=current_user.id).first()
         user.phone = re.sub("[^0-9]", "", form.phone.data)
+        user.password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         db.session.commit()
-        flash("Phone number added", 'success')
+        flash("Phone number and pasword added", 'success')
         return redirect(url_for("home"))
     return render_template("register_ion.html", form=form)
 
@@ -105,7 +109,7 @@ def login():
         return redirect(url_for('home'))
     form = LoginForm()
 
-    if form.validate_on_submit():
+    if form.submit.data and form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
@@ -117,7 +121,34 @@ def login():
             return redirect(url_for('home'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
-    return render_template('login.html', title='Login', form=form)
+
+    form2 = LoginIonForm()
+
+    if form2.submit2.data and form2.validate_on_submit():
+        authorization_url, state = oauth_login.authorization_url("https://ion.tjhsst.edu/oauth/authorize/")
+        return redirect(authorization_url)
+
+    return render_template('login.html', title='Login', form=form, form2=form2)
+
+@app.route("/login/ion", methods=["GET", "POST"])
+def login_ion():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+
+    try:
+        token = oauth_login.fetch_token("https://ion.tjhsst.edu/oauth/token/",
+                          code=request.args["code"],
+                          client_secret="PBNhfEPj2N2d4johiJ0p3pDTVZUAE1gbiBZw9JpnXuAJAqvYvLmWOB6bMilEtp9udTRUm9fY5KzwfzPkg1rYCkR1LSOKLKUBfI2EcOvNmnQbat9lTxeZNcg7JGM9sEiu")
+        profile = oauth_login.get("https://ion.tjhsst.edu/api/profile")
+        profile = profile.json()
+    except:
+        pass
+
+    if User.query.filter_by(email=profile["emails"][0]).first():
+        login_user(User.query.filter_by(email=profile["emails"][0]).first())
+        return redirect(url_for('home'))
+    else:
+        return redirect(url_for('register'))
 
 @app.route("/logout")
 def logout():

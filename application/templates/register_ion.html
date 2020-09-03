@@ -11,6 +11,18 @@
         {{ form.csrf_token() }}
         <fieldset>
             <div class="form-group">
+                {% if form.password.errors %}
+                    {{ form.password(class="form-control is-invalid", placholder="Password") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.password.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %} 
+                    {{ form.password(class="form-control", placeholder="Password") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
                 {% if form.phone.errors %}
                     {{ form.phone(class="form-control is-invalid", placholder="Phone Number") }}
                     <div class="invalid-feedback">
