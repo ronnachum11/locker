@@ -2,9 +2,11 @@ from flask import render_template, flash, request, url_for, redirect, abort, ses
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 
-from application.classes.user import User
 from application import app, bcrypt, db, mail, login_manager, oauth_register, oauth_login
 from application.forms.forms import ClassForm, LoginForm, RegistrationForm, NewIonAccountForm, RegistrationIonForm, ImportClassesForm, LoginIonForm
+
+from application.classes.course import Course 
+from application.classes.user import User
 
 import os 
 import json 
