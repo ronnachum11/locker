@@ -10,6 +10,8 @@ minute_choices = [(1, '1'), (2, '2'), (3, '3'), (5, '5'), (10, '10'),
 minute_choices = [(x[0], x[1] + ' Minutes Before') if x[1] != '1' else (x[0], x[1] + ' Minute Before') for x in minute_choices]
 minute_choices = [(-1, "None")] + minute_choices
 
+# minute_choices = [(-1, "None"), (10, "10 Minutes Before")]
+
 class ClassForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     link = StringField('Link', validators=[DataRequired(), Regexp('https://us.bbcollab.com/invite/*')])
@@ -75,3 +77,7 @@ class PhoneForm(FlaskForm):
 
 class RegistrationIonForm(FlaskForm):
     submit2 = SubmitField('Register With Ion')
+
+class ImportClassesForm(FlaskForm):
+    text = TextAreaField('Email Text', validators=[DataRequired()])
+    submit = SubmitField('Process Email')

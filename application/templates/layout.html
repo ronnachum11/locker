@@ -14,9 +14,9 @@
     {% block page_styles %}{% endblock page_styles %}
     
     {% if title %}
-        <title>Virtual TJ - {{ title }}</title>
+        <title>Locker - {{ title }}</title>
     {% else %}
-        <title>Virtual TJ</title>
+        <title>Locker</title>
     {% endif %}
 
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/vTJ.ico') }}" />
@@ -36,8 +36,8 @@
 <body>
     <header class="site-header" style="padding-bottom: 10px">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-            <a id="logo_title" class="navbar-brand" href="{{ url_for('home', _anchor='home_anchor') }}">
-                <img src="{{ url_for('static', filename='images/vTJ_light.png') }}">Virtual TJ
+            <a id="logo_title" class="navbar-brand" href="{{ url_for('home') }}">
+                <img src="{{ url_for('static', filename='images/vTJ_light.png') }}">locker
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
                 aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +46,7 @@
             <div class="collapse navbar-collapse" id="navbarToggle">
                 <div class="navbar-nav">
                     <a class="nav-item nav-link" href="{{ url_for('home') }}">About</a>
-                    <a class="nav-item nav-link href="{{ url_for('home') }}">Contact</a>
+                    <a class="nav-item nav-link" href="{{ url_for('home') }}">Contact</a>
                 </div>
                 <!-- Navbar Right Side -->
                 <div class="navbar-nav ml-auto">
@@ -54,7 +54,7 @@
                         <a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
                         <a class="nav-item nav-link" href="{{ url_for('login') }}">Log In</a>
                     {% else %}
-                        <a class="nav-item nav-link" href="{{ url_for('home') }}">Account</a>
+                        <a class="nav-item nav-link" href="{{ url_for('account') }}">{{ current_user.name }}</a>
                         <a class="nav-item nav-link" href="{{ url_for('logout') }}">Log Out</a>
                     {% endif %}
                 </div>
