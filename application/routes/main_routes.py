@@ -17,13 +17,6 @@ import re
 with open(os.path.join('application', 'tj.json')) as f:
     tj_json = json.load(f)
 
-@login_manager.user_loader
-def load_user(user_id, is_ion=False):
-    if not is_ion:
-        return User.query.get(int(user_id))
-    else:
-        return User.query.filter_by(ion_id=user_id).first()
-
 @app.route("/home", methods=["GET", "POST"])
 @app.route("/", methods=["GET", "POST"])
 def home():
