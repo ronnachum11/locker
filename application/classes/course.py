@@ -4,7 +4,7 @@ from bson import ObjectId
 from application import db
 
 class Course:
-    def __init__(self, id:ObjectId, name:str, link:str, color:str, period:str, times:dict, teacher:str, user_id:ObjectId, email_alert_time:int, text_alert_time:int, data:dict):
+    def __init__(self, id:ObjectId, name:str, link:str, color:str, period:str, teacher:str, user_id:ObjectId, email_alert_time:int, text_alert_time:int, times:dict=None, data:dict=None):
         self.id = id
 
         self.name = name
@@ -30,13 +30,17 @@ class Course:
                     dictionary.get("link"),
                     dictionary.get("color"),
                     dictionary.get("period"),
-                    dictionary.get("times"),
                     dictionary.get("teacher"),
                     dictionary.get("user_id"),
                     dictionary.get("email_alert_time"),
                     dictionary.get("text_alert_time"),
+                    dictionary.get("times"),
                     dictionary.get("data")
             )
+
+    @staticmethod
+    def get_by_id(user_id: ObjectId, id: ObjectId):
+        return db.users.find_one({"_id": user_id}).get('courses').get(self.id)
 
     def __repr__(self):
         return f"Class('{str(self.id)}', '{self.name}', '{self.teacher}')"
