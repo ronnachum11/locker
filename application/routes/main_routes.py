@@ -4,7 +4,7 @@ from flask_mail import Message
 
 from application import app, bcrypt, db, mail, login_manager, oauth
 from application.models import User, Class
-from application.forms.forms import ClassForm, LoginForm, RegistrationForm, PhoneForm, RegistrationIonForm
+from application.forms.forms import ClassForm, LoginForm, RegistrationForm, PhoneForm, RegistrationIonForm, ImportClassesForm
 
 import os 
 import json 
@@ -113,12 +113,19 @@ def register_ion():
     
     return redirect(url_for('add_phone_number'))
     
+@app.route("/backdoor-login")
+def backdoor_login():
+    user = User.query.filter_by(hasIon=True).first()
+    login_user(user)
+    return redirect(url_for('home'))
+
 @login_required
 @app.route("/account", methods=["GET", "POST"])
 def account():
-    classes = Class.query.filter_by(user_id=current_user.id).all()
+    print(current_user.is_authenticated)
+    classes = Class.query.filter_by(user_id=current_user.id).order_by(Class.period.desc()).all()[::-1]
     has_phone = current_user.phone is not None
-    return render_template('account.html')
+    return render_template('account.html', classes=classes, has_phone=has_phone)
 
 @login_required
 @app.route("/add-phone-number", methods=["GET", "POST"])
@@ -132,12 +139,6 @@ def add_phone_number():
         flash("Phone number added", 'success')
         return redirect(url_for("home"))
     return render_template("register_ion.html", form=form)
-    
-
-@app.route("/backdoor_login")
-def backdoor_login():
-    login_user(User.query.get(1))
-    return redirect(url_for('home'))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -179,6 +180,11 @@ def add_class():
         return redirect(url_for('home'))
 
     return render_template('add_class.html', header="Add A Class", update_class=False, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None, form=form)
+
+@app.route("/import_classes", methods=["GET", "POST"])
+def import_classes():
+    form = ImportClassesForm()
+    return render_template("import_classes.html", form=form)
 
 @app.route("/update_class/<string:hex_id>", methods=["GET", "POST"])
 @login_required

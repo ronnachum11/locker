@@ -29,8 +29,46 @@
         <h3>Account Not Linked to ION</h3>
     {% endif %}
 </div>
-<div class="user-information">
+<div class="class-information">
     <h3>Class Information</h3>
+    <table>
+        <tr>
+            <th>Class</th>
+            <th>Teacher</th>
+            <th>Period</th>
+            <th>Link</th>
+            <th>Email?</th>
+            <th>Text?</th>
+            <th>Settings</th>
+        </tr>
+        {% for class in classes %}
+            <tr class="sortable class-table-row">
+                <td>{{ class.name }}</td>
+                <td>{{ class.teacher }}</td>
+                <td>{{ class.period }}</td>
+                <td><a class="" href="{{ class.link }}">Link</a></td>
+                {% if class.email_alert_time == -1 %}
+                    <td>None</td>
+                {% else %}
+                    <td>{{ class.email_alert_time }} min</td>
+                {% endif %}
+                {% if class.text_alert_time == -1 %}
+                    <td>None</td>
+                {% else %}
+                    <td>{{ class.text_alert_time }} min</td>
+                {% endif %}
+                <td>
+                    <a class="settings" href="{{ url_for('update_class', hex_id=class.hex_id) }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z"/>
+                            <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <circle cx="12" cy="12" r="3" />
+                        </svg>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
 </div>
 
 {% endblock content %}

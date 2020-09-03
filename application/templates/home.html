@@ -60,8 +60,12 @@
             </div>
             <div class="button">
                 <div class="row" style="padding-top: 5px">
-                    <a class="btn-color btn-wide" href="{{ url_for('add_class') }}">Add Class</a>
-                    <!-- <button class="btn-light btn-wide" id="fullscreen">Full Screen</button> -->
+                    <div class="col-md-6">
+                        <a class="btn-color btn-wide" href="{{ url_for('add_class') }}">Add Class</a>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn-light btn-wide" href="{{ url_for('import_classes') }}">Import All</a>
+                    </div>
                 </div>
             </div>
         </div>

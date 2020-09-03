@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block page_styles %}
+<link rel="stylesheet" href="../static/css/import_classes.css">
+{% endblock page_styles %}
+
+{% block content %}
+<h1>Import Classes From Email</h1>
+
+<div class="instructions-div">
+    <h4>Step 1: Find your email with BBCU links</h4>
+    <img src="{{ url_for('static', filename='images/import1.png') }}">   
+
+    <h4>Step 2: Press the print button in the top right corner</h4>
+    <img src="{{ url_for('static', filename='images/import2.png') }}">   
+
+    <h4>Step 3: Copy the entire email into the box below (ctrl + A on Windows, cmd + A on Mac)</h4>
+    <form action="" method="POST">
+        {{ form.csrf_token() }}
+        <fieldset>
+            <div class="form-group">
+                {% if form.text.errors %}
+                    {{ form.text(class="form-control is-invalid", cols=100, rows=5, placholder="Email Text") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.text.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %} 
+                    {{ form.text(class="form-control", cols=100, rows=5, placeholder="Email Text") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="submit-button">
+            {{ form.submit(class="btn-wide btn-color", disabled=True) }}
+        </div>
+    </form>
+</div>
+
+{% endblock content %}

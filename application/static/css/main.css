@@ -49,8 +49,8 @@ body.fade-out {
 }
 
 .btn-light {
-  background-color: #d1d1d1;
-  color: white;
+  background-color: white;
+  color: rgb(46, 46, 46);
   -webkit-transition: background 0.5s ease-in-out;
   -moz-transition: background 0.5s ease-in-out;
   -ms-transition: background 0.5s ease-in-out;
@@ -58,8 +58,8 @@ body.fade-out {
   transition: background 0.5s ease-in-out;
 }
 .btn-light:hover {
-  background-color: #b3b3b3;
-  color: white;
+  background-color: rgb(199, 199, 199);
+  color: rgb(39, 39, 39);
 }
 
 .btn-wide {
@@ -102,6 +102,15 @@ nav {
   height: 60px;
   display: flex;
   align-items: center;
+}
+
+.navbar-collapse {
+  background-color: #343a40;
+  text-align: center;
+}
+
+.navbar-collapse a {
+  margin-right: 10px;
 }
 
 #logo_title {

@@ -77,3 +77,7 @@ class PhoneForm(FlaskForm):
 
 class RegistrationIonForm(FlaskForm):
     submit2 = SubmitField('Register With Ion')
+
+class ImportClassesForm(FlaskForm):
+    text = TextAreaField('Email Text', validators=[DataRequired()])
+    submit = SubmitField('Process Email')

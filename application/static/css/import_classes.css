@@ -1,0 +1,14 @@
+
+.instructions-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.instructions-div img {
+    width: 75%;
+}
+
+.instructions-div h4 {
+    margin-top: 10px;
+}

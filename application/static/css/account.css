@@ -5,10 +5,31 @@
 @import url("https://fonts.googleapis.com/css2?family=Open%20Sans&display=swap");
 
 .user-information {
-    margin-right: 20%;
-    margin-left: 20%;
+    margin-right: 10%;
+    margin-left: 10%;
     margin-bottom: 10px;
     padding: 5px;
     border-radius: 10px;
     background-color: rgb(37, 37, 37);
 }
+
+.class-information {
+    margin-right: 10%;
+    margin-left: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: rgb(37, 37, 37);
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 50px 0;
+}
+
+/* .class-table-row {
+    background-color: #2e2e2e;
+    margin-top: 5px;
+} */
