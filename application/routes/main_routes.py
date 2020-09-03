@@ -6,6 +6,9 @@ from application.classes.user import User
 from application.classes.course import Course
 from application.forms.forms import ClassForm, LoginForm, RegistrationForm, RegistrationIonForm, ImportClassesForm
 
+from application.classes.course import Course 
+from application.classes.user import User
+
 import os 
 import json 
 import re
@@ -22,37 +25,33 @@ with open(os.path.join('application', 'tj.json')) as f:
 def home():
     if not current_user.is_authenticated:
         return render_template("home.html")
-    classes = Class.query.filter_by(user_id=current_user.id).order_by(Class.period.desc()).all()[::-1]
-    classes = [(c, list(set(c.times.keys())), list(set(c.times.values()))) for c in classes]
-    classes = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") if len(days) != 0 and len(times) != 0 else (c, "") for c, days, times in classes]
+    courses = current_user.courses
+    courses = sorted(courses, key=lambda course: course.period)
+    courses = [(c, list(set(c.times.keys())), list(set(c.times.values()))) for c in courses]
+    courses = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") if len(days) != 0 and len(times) != 0 else (c, "") for c, days, times in courses]
     text = "Choose a class or add a new one to get started."
     name=current_user.name
     
-    return render_template("home.html", classes=classes, name=name, text=text, current_class="")
+    return render_template("home.html", classes=courses, name=name, text=text, current_class="")
 
-@app.route("/classroom/<string:hex_id>")
+@app.route("/classroom/<string:course_id>")
 @login_required
-def classroom(hex_id):
-    current_class = Class.query.filter_by(hex_id=hex_id).all()
-
-    current_link = ""
+def classroom(course_id):
     if not current_user.is_authenticated:
-        return redirect('home.html')
+        abort(403)
+
+    current_course = current_user.courses.get(course_id)
     
-    if len(current_class) == 0:
+    if current_course is None:
         text = "The class you selected is invalid."
         error = "Error Code: 404"
     else:
-        current_class = current_class[0]
-        if current_class.user_id != current_user.id:
-            text = "You are not authorized to access this class."
-            error = "Error Code: 403"
-        else:
-            current_link = current_class.link
-            text, error = "", ""
+        current_link = current_course.link
+        text, error = "", ""
     name = current_user.name
 
-    classes = Class.query.filter_by(user_id=current_user.id).order_by(Class.period.desc()).all()[::-1]
-    classes = [(c, list(set(c.times.keys())), list(set(c.times.values()))) for c in classes]
-    classes = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") if len(days) != 0 and len(times) != 0 else (c, "") for c, days, times in classes]
-    return render_template("home.html", classes=classes, name=name, text=text, error=error, current_class=current_link)
+    courses = current_user.courses
+    courses = sorted(courses, key=lambda course: course.period)
+    courses = [(c, list(set(c.times.keys())), list(set(c.times.values()))) for c in courses]
+    courses = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") if len(days) != 0 and len(times) != 0 else (c, "") for c, days, times in courses]
+    return render_template("home.html", classes=courses, name=name, text=text, error=error, current_class=current_link)

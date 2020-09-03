@@ -7,6 +7,9 @@ from application.classes.user import User
 from application.classes.course import Course
 from application.forms.forms import ClassForm, LoginForm, RegistrationForm, RegistrationIonForm, ImportClassesForm
 
+from application.classes.course import Course 
+from application.classes.user import User
+
 import os 
 import json 
 import re
@@ -31,11 +34,10 @@ def add_class():
         period_list.append((f"period-{i}", periods[0], periods[1]))
 
     if form.validate_on_submit():
-        new_class = Class(name=form.name.data, link=form.link.data, color=form.color.data, period=form.period.data,
+        course = Course(name=form.name.data, link=form.link.data, color=form.color.data, period=form.period.data,
                           times=tj_json[form.period.data], teacher=form.teacher.data, user_id=current_user.id,
                           email_alert_time=form.email_reminder.data, text_alert_time=form.text_reminder.data)
-        db.session.add(new_class)
-        db.session.commit()
+        current_user.add_course(course)
         flash('Class Added Succsesfully!', 'success')
         return redirect(url_for('home'))
 
@@ -46,12 +48,12 @@ def import_classes():
     form = ImportClassesForm()
     return render_template("import_classes.html", form=form)
 
-@app.route("/update_class/<string:hex_id>", methods=["GET", "POST"])
+@app.route("/update_class/<string:course_id>", methods=["GET", "POST"])
 @login_required
-def update_class(hex_id):    
-    c = Class.query.filter_by(hex_id=hex_id).first_or_404()
-    if current_user.id != c.user_id:
-        abort(403)
+def update_class(course_id):    
+    course = current_user.courses.get(course_id)
+    if course is None:
+        abort(404)
     
     form = ClassForm(name=c.name, teacher=c.teacher, link=c.link, period=c.period, color=c.color,
                      text_reminder=c.text_alert_time, email_reminder=c.email_alert_time)
@@ -62,36 +64,25 @@ def update_class(hex_id):
         period_list.append((f"period-{i}", periods[0], periods[1]))
     
     if form.validate_on_submit():
-        c.name = form.name.data 
-        c.teacher = form.teacher.data 
-        c.link = form.link.data 
-        c.period = form.period.data 
-        c.color = form.color.data 
-        c.text_alert_time = form.text_reminder.data 
-        c.email_alert_time = form.email_reminder.data 
-        c.times=tj_json[form.period.data]
+        current_user.update_course(course_id, name=form.name.data, teacher=form.teacher.data,
+                    link=form.link.data, period=form.period.data, color=form.color.data, 
+                    text_alert_time=form.text_reminder.data, email_alert_time=form.email_reminder.data, 
+                    times=dict(tj_json[form.period.data]))
 
-        db.session.add(c)
-        db.session.commit()
         flash('Class Update Successfully!', 'success')
         return redirect(url_for('home'))
 
     form.submit.label.text = "Update Class"
 
-    return render_template('add_class.html', header=f"{c.name} ({c.period})", hex_id=c.hex_id, update_class=True, color=c.color, period=c.period, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None, form=form)
+    return render_template('add_class.html', header=f"{c.name} ({c.period})", course_id=course.id, update_class=True, color=course.color, period=course.period, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None, form=form)
 
-@app.route("/delete_class/<string:hex_id>", methods=["GET", "POST"])
+@app.route("/delete_class/<string:course_id>", methods=["GET", "POST"])
 @login_required
-def delete_class(hex_id):
-    c = Class.query.filter_by(hex_id=hex_id).all()
-    if len(c) == 0:
+def delete_class(course_id):
+    course = current_user.courses.get(course_id)
+    if course is None:
         abort(404)
-    c = c[0]
-    if current_user.id != c.user_id:
-        abort(403)
 
-    c = Class.query.filter_by(hex_id=hex_id).delete()
-    db.session.commit()
-
+    current_user.delete_course(course.id)
     flash('Class Deleted Successfully', 'success')
     return redirect(url_for('home'))

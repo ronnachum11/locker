@@ -7,6 +7,9 @@ from application.classes.user import User
 from application.classes.course import Course
 from application.forms.forms import ClassForm, LoginForm, RegistrationForm, NewIonAccountForm, RegistrationIonForm, ImportClassesForm, LoginIonForm
 
+from application.classes.course import Course 
+from application.classes.user import User
+
 import os 
 import json 
 import re
