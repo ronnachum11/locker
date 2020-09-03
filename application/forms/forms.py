@@ -59,7 +59,11 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
-class PhoneForm(FlaskForm):
+class LoginIonForm(FlaskForm):
+    submit2 = SubmitField('Login With Ion')
+
+class NewIonAccountForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
     phone = StringField('Phone')
     submit = SubmitField('Add')
 
