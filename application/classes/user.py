@@ -17,7 +17,7 @@ class User:
         self.hasIon = hasIon
         self.hasGoogle = hasGoogle
 
-        self.classes = classes
+        self.courses = courses
         self.data = data
 
     def __repr__(self):
@@ -40,13 +40,20 @@ class User:
                     dictionary.get('data')
             )
     
+    def add(self):
+        db.users.insert(self.to_dict())
+    
     @staticmethod
     def get_by_id(id: ObjectId):
-        return db.users.find({"_id": id})
+        return db.users.find_one({"_id": id})
+    
+    @staticmethod
+    def get_by_ion_id(ion_id: str):
+        return db.users.find_one({"ion_id": ion_id})
 
     @staticmethod
     def get_by_email(email: str):
-        return db.users.find({"email": email})
+        return User.from_dict(db.users.find_one({"email": email}))
 
     def add_course(self, course: Course):
         db.users.update({"_id": self.id}, {"$push": {"courses": course.to_dict()}})
@@ -59,4 +66,7 @@ class User:
     
     def update_password(self, password: str):
         db.users.update({"_id": self.id}, {"password": password})
+    
+    def update_ion_id(self, ion_id:str):
+        db.users.update({"_id": self.id}, {"ion_id": ion_id})
 

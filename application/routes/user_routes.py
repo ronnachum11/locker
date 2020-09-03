@@ -2,8 +2,8 @@ from flask import render_template, flash, request, url_for, redirect, abort, ses
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 
+from application.classes.user import User
 from application import app, bcrypt, db, mail, login_manager, oauth_register, oauth_login
-from application.models import User, Class
 from application.forms.forms import ClassForm, LoginForm, RegistrationForm, NewIonAccountForm, RegistrationIonForm, ImportClassesForm, LoginIonForm
 
 import os 
@@ -19,6 +19,10 @@ import re
 # /login
 # /logout
 
+@login_manager.user_loader
+def load_user(user_id, is_ion=False):
+    return User.get_by_id(user_id)
+
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -26,11 +30,11 @@ def register():
 
     form1 = RegistrationForm()
     if form1.submit.data and form1.validate_on_submit():
-        user = User.query.filter_by(email=form1.email.data).first()
+        user = User.get_by_email(form1.email.data)
         if user:
             if user.hasIon:
                 user.password = bcrypt.generate_password_hash(form1.password.data).decode('utf-8')
-                db.session.commit()
+                user.update_password(user.password)
         else:
             hashed_pw = bcrypt.generate_password_hash(form1.password.data).decode('utf-8')
             user = User(
@@ -39,8 +43,7 @@ def register():
                 phone=form1.phone.data,
                 password=hashed_pw
             )
-            db.session.add(user)
-        db.session.commit()
+            user.add()
         flash('Your account has been created!', 'success')
         return redirect(url_for('login'))
 
@@ -62,11 +65,11 @@ def register_ion():
     except:
         pass
 
-    if User.query.filter_by(ion_id=profile['id']).first():
+    if User.get_by_ion_id(profile['ion_id']):
         flash('ION Account already exists with The Locker', 'danger')
         return redirect(url_for('home'))     
     
-    temp_user = User.query.filter_by(email=profile["emails"][0]).first()
+    temp_user = User.get_by_email(profile['emails'][0])
     if temp_user:
         temp_user.ion_id = profile["id"]
         temp_user.hasIon = True
