@@ -7,8 +7,15 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from requests_oauthlib import OAuth2Session
+from dotenv import load_dotenv
+
+from application.classes.db import DB
+
+load_dotenv(".env")
 
 app = Flask(__name__)
+
+db = DB(os.environ["MONGO_CONNECTION_STRING"])
 
 Bootstrap(app)
 
