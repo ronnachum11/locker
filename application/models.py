@@ -9,6 +9,7 @@ import copy
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     hex_id = db.Column(db.String, default=lambda: urandom(32).hex(), unique=True, nullable=True)
+    ion_id = db.Column(db.Integer)
     name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
     phone = db.Column(db.String, nullable=True)
@@ -16,9 +17,6 @@ class User(db.Model, UserMixin):
 
     hasIon = db.Column(db.Boolean, nullable=False, default=False)
     hasGoogle = db.Column(db.Boolean, nullable=False, default=False)
-
-    ion_oauth = db.Column(db.String, nullable=True)
-    google_oauth = db.Column(db.String, nullable=True)
 
     classes = db.relationship('Class', backref='user', lazy=True)
     data = db.Column(db.JSON, nullable=True)
