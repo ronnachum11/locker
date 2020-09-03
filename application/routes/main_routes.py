@@ -8,6 +8,7 @@ from application.forms.forms import ClassForm, LoginForm, RegistrationForm, Phon
 
 import os 
 import json 
+import re
 
 with open(os.path.join('application', 'tj.json')) as f:
     tj_json = json.load(f)
@@ -119,7 +120,7 @@ def add_phone_number():
 
     if form.validate_on_submit():
         user = User.query.filter_by(id=current_user.id).first()
-        user.phone = form.phone.data
+        user.phone = re.sub("[^0-9]", "", form.phone.data)
         db.session.commit()
         flash("Phone number added")
         return redirect(url_for("home"))
