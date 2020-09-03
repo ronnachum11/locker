@@ -67,15 +67,16 @@ def register_ion():
     except:
         pass
 
-    if User.get_by_ion_id(profile['ion_id']):
+    if User.get_by_ion_id(profile['id']):
         flash('ION Account already exists with The Locker', 'danger')
         return redirect(url_for('home'))     
     
     temp_user = User.get_by_email(profile['emails'][0])
     if temp_user:
         temp_user.ion_id = profile["id"]
+        temp_user.update_ion_id(temp_user.ion_id)
         temp_user.hasIon = True
-        db.session.commit()
+        temp_user.update_ion_status(temp_user.hasIon)
         flash("Account updated with ION info", 'success')
         return redirect(url_for("home"))
 
@@ -86,24 +87,17 @@ def register_ion():
         hasIon=True
     )
     login_user(user, True)
-    db.session.add(user)
-    db.session.commit()
+    user.add()
     
     return redirect(url_for('add_phone_number'))
-    
-@app.route("/backdoor-login")
-def backdoor_login():
-    user = User.query.filter_by(hasIon=True).first()
-    login_user(user)
-    return redirect(url_for('home'))
 
 @login_required
 @app.route("/account", methods=["GET", "POST"])
 def account():
-    print(current_user.is_authenticated)
-    classes = Class.query.filter_by(user_id=current_user.id).order_by(Class.period.desc()).all()[::-1]
+    courses = User.get_by_id(current_user.id).courses
+    courses = sorted(courses, key=lambda course: course.period)
     has_phone = current_user.phone is not None
-    return render_template('account.html', classes=classes, has_phone=has_phone)
+    return render_template('account.html', classes=courses, has_phone=has_phone)
 
 @login_required
 @app.route("/add-phone-number", methods=["GET", "POST"])
@@ -111,9 +105,9 @@ def add_phone_number():
     form = NewIonAccountForm()
 
     if form.validate_on_submit():
-        user = User.query.filter_by(id=current_user.id).first()
+        user = User.get_by_id(current_user.id)
         user.phone = re.sub("[^0-9]", "", form.phone.data)
-        db.session.commit()
+        user.update_phone(user.phone)
         flash("Phone number and pasword added", 'success')
         return redirect(url_for("home"))
     return render_template("register_ion.html", form=form)
@@ -125,7 +119,7 @@ def login():
     form = LoginForm()
 
     if form.submit.data and form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        user = User.get_by_email(form.email.data)
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
@@ -159,8 +153,8 @@ def login_ion():
     except:
         pass
 
-    if User.query.filter_by(email=profile["emails"][0]).first():
-        login_user(User.query.filter_by(email=profile["emails"][0]).first())
+    if User.get_by_email(profile['emails'][0]):
+        login_user(User.get_by_email(profile['emails'][0]))
         return redirect(url_for('home'))
     else:
         return redirect(url_for('register'))

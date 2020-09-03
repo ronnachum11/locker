@@ -45,11 +45,11 @@ class User:
     
     @staticmethod
     def get_by_id(id: ObjectId):
-        return db.users.find_one({"_id": id})
+        return User.from_dict(db.users.find_one({"_id": id}))
     
     @staticmethod
     def get_by_ion_id(ion_id: str):
-        return db.users.find_one({"ion_id": ion_id})
+        return User.from_dict(db.users.find_one({"ion_id": ion_id}))
 
     @staticmethod
     def get_by_email(email: str):
@@ -73,4 +73,7 @@ class User:
     
     def update_ion_id(self, ion_id:str):
         db.users.update({"_id": self.id}, {"ion_id": ion_id})
+    
+    def update_phone(self, phone:str):
+        db.users.update({"_id": self.id}, {"phone": phone})
 
