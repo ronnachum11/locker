@@ -6,14 +6,14 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_bootstrap import Bootstrap
-from requests_oauthlib import OAuth2Session
 from dotenv import load_dotenv
 
 from application.classes.db import DB
+from config import load_config
 
-load_dotenv(".env")
+oauth_register, oauth_login = load_config("PRODUCTION")
 
-app = Flask(__name__)
+app = Flask(__name__)   
 
 db = DB(os.environ["MONGO_CONNECTION_STRING"])
 
@@ -36,15 +36,9 @@ else:
 app.config['MAIL_USERNAME'] = None
 app.config['MAIL_PASSWORD'] = None
 
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
-oauth_register = OAuth2Session("wpHYY2aXgZdm68bFj3h8QlG9mWPvb0Wwqvo2qPZF",
-                      redirect_uri='http://127.0.0.1:5000/register/ion',
-                      scope=["read","write"])
 
-oauth_login = OAuth2Session("EDdTDiVb8gTQ34WGScGELsppMjI8S8w8MsSCphWu",
-                      redirect_uri='http://127.0.0.1:5000/login/ion',
-                      scope=["read","write"])
+
 
 mail = Mail(app)
 
