@@ -64,7 +64,7 @@ def register_ion():
     try:
         token = oauth_register.fetch_token("https://ion.tjhsst.edu/oauth/token/",
                           code=request.args["code"],
-                          client_secret="fTM1iaOIN1yBkoXGXuB9sBplIuYI5nJZCZZP22EpZgdDWoPvtFsTkAg7DNVxS6Jqc83GH1dpPXHAu2io2SdQr4naBbL2qedJiwsRIMdS9nJKlohvb24TvlyUj04vuPfs")
+                          client_secret=os.environ['REGISTER_CLIENT_SECRET'])
         profile = oauth_register.get("https://ion.tjhsst.edu/api/profile")
         profile = profile.json()
     except:
@@ -154,7 +154,7 @@ def login_ion():
     try:
         token = oauth_login.fetch_token("https://ion.tjhsst.edu/oauth/token/",
                           code=request.args["code"],
-                          client_secret="PBNhfEPj2N2d4johiJ0p3pDTVZUAE1gbiBZw9JpnXuAJAqvYvLmWOB6bMilEtp9udTRUm9fY5KzwfzPkg1rYCkR1LSOKLKUBfI2EcOvNmnQbat9lTxeZNcg7JGM9sEiu")
+                          client_secret=os.environ['LOGIN_CLIENT_SECRET'])
         profile = oauth_login.get("https://ion.tjhsst.edu/api/profile")
         profile = profile.json()
     except:

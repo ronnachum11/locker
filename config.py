@@ -5,22 +5,22 @@ from dotenv import load_dotenv
 def load_config(mode:str):
     if mode == 'PRODUCTION':
         print("PRODUCTION MODE ACTIVATED")
-        oauth_register = OAuth2Session("GoUtPaQPdHOMDRVgh4DDXRjXKDOh0DCcSR084oVG",
+        oauth_register = OAuth2Session(os.environ['REGISTER_CLIENT_ID'],
                       redirect_uri='https://thelocker.io/register/ion',
                       scope=["read","write"])
 
-        oauth_login = OAuth2Session("9aREwccz0FMYNx94QJl8SlUd6usCw1LeCWdnh824",
+        oauth_login = OAuth2Session(os.environ['LOGIN_CLIENT_ID'],
                             redirect_uri='https://thelocker.io/login/ion',
                             scope=["read","write"])
         load_dotenv("production.env")
         return oauth_register, oauth_login
     elif mode == 'DEBUG':
         print("DEBUG MODE ACTIVATED")
-        oauth_register = OAuth2Session("wpHYY2aXgZdm68bFj3h8QlG9mWPvb0Wwqvo2qPZF",
+        oauth_register = OAuth2Session(os.environ['REGISTER_CLIENT_ID'],
                       redirect_uri='http://127.0.0.1:5000/register/ion',
                       scope=["read","write"])
 
-        oauth_login = OAuth2Session("EDdTDiVb8gTQ34WGScGELsppMjI8S8w8MsSCphWu",
+        oauth_login = OAuth2Session(os.environ['REGISTER_CLIENT_ID'],
                             redirect_uri='http://127.0.0.1:5000/login/ion',
                             scope=["read","write"])
         load_dotenv("debug.env")
