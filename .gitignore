@@ -2,4 +2,4 @@ venv/
 .vscode/'
 *.pyc
 application/site.db
-.env
+*.env
