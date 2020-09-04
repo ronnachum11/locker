@@ -12,7 +12,6 @@ def load_config(mode:str):
         oauth_login = OAuth2Session(os.environ['LOGIN_CLIENT_ID'],
                             redirect_uri='https://thelocker.io/login/ion',
                             scope=["read","write"])
-        load_dotenv("production.env")
         return oauth_register, oauth_login
     elif mode == 'DEBUG':
         print("DEBUG MODE ACTIVATED")
@@ -23,7 +22,7 @@ def load_config(mode:str):
         oauth_login = OAuth2Session(os.environ['REGISTER_CLIENT_ID'],
                             redirect_uri='http://127.0.0.1:5000/login/ion',
                             scope=["read","write"])
-        load_dotenv("debug.env")
+        load_dotenv(".env")
 
         os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
