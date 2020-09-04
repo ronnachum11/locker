@@ -1,183 +1,91 @@
-@import url("https://fonts.googleapis.com/css2?family=Ubuntu&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Muli&display=swap");
-html {
-  scroll-behavior: smooth;
+/* Google Fonts */
+@import url(https://fonts.googleapis.com/css?family=Anonymous+Pro);
+
+.home-div {
+    background-image: url('../images/lockers.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
-@keyframes fadeInAnimation { 
-    0% { 
-        opacity: 0;
-    } 
-    100% { 
-        opacity: 1; 
-     } 
-} 
-.fullScreen {
-    width: 100vw;
-    height: 90vh;
- }
-
-#content-container {
-    height: 85vh;
-    padding-left: 5%;
-    padding-right: 5%;
-    padding-top: 2%;
-    padding-bottom: 0%;
-}
-
-
-#content-column {
-    height: 100%;
-    padding-left: 5%;
-    padding-right: 5%;
-}
-
-.class-container {
-    height: 100%;
+.home-div-content {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; 
     align-items: center;
     justify-content: center;
-    /* border: solid black 2px; */
-    /* border-left: solid black 1px; */
+    height: 90vh;
+    width: 100vw;
+    backdrop-filter: blur(8px);
 }
 
-.class-card {
-    margin-bottom: 20px;
+.home-image {
+    width: 100px;
+    height: 100px;
 }
 
-.class-card p{
-    font-size: 10px;
+.home-div h1{
+    font-size: 50px;
+    font-family: "Anonymous Pro";
 }
 
-.class-card h5{
-    font-size: 18px;
-}
-
-.classes {
-    /* border: solid black 2px; */
-    /* border-right: solid black 1px; */
-    overflow-y: scroll;
-    overflow-x: hidden;
-    height: 60vh;
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-::-webkit-scrollbar {
-    background-color: #343a40;
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: #232629;
-    border-radius: 10px;
-}
-
-
-.addition-button {
-    background-color: #cccccc;
-    border: none;
-    color: black;
-    padding: 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    border-radius: 30%;
-}
-
-.addition-button:hover {
-    background-color: #b3b3b3;
-}
-
-.row {
+.about-div {
     display: flex;
-    justify-content: center;
+    flex-direction: column; 
+    align-items: center;
+    height: 90vh;
+    width: 100vw;
 }
 
-.class-card {
+.about-div h1 {
+    margin-top: 20px;
+}
+
+.contact-div {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    height: 90vh;
+    width: 100vw;
+}
+
+.contact-div h1 {
+    margin-top: 20px;
+}
+
+.fade-in {
+    animation: fadeIn ease 6.5s;
+}
+
+.anchor {
+    display: block;
+    padding-top: 10vh;
+    margin-top: -10vh;
+}
+
+@keyframes fadeIn {
+    0% {opacity: 0;}
+    50% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+.line-1{
+    width: 24em;
+    margin: 0 auto;
+    border-right: 2px solid rgba(255,255,255,.75);
     text-align: center;
-    background-color: rgb(37, 37, 37);
-    opacity: 85%;
-    padding: 5px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
-.class-card:hover{
-    /* background-color: rgb(209, 209, 209); */
-    opacity: 100%;
+/* Animation */
+.anim-typewriter{
+  animation: typewriter 2s steps(20) 1s 1 normal both,
+             blinkTextCursor 700ms steps(20) infinite normal;
 }
-
-.class-card:hover .text-div{
-    opacity: 100%;
+@keyframes typewriter{
+  from{width: 0;}
+  to{width: 6em;}
 }
-
-/* .class-card:hover .settings {
-    opacity: 75%;
-} */
-
-.main-settings {
-    opacity: 75%;
+@keyframes blinkTextCursor{
+  from{border-right-color: rgba(255,255,255,.75);}
+  to{border-right-color: transparent;}
 }
-
-.main-settings:hover {
-    opacity: 100%;
-}
-
-.text-div {
-    color: white;
-    opacity: 50%;
-}
-
-.settings {
-    opacity: 50%;
-    display: none;
-}
-
-.settings:hover {
-    opacity: 100%;
-}
-
-.current-class {
-    opacity: 100%;
-}
-
-.red {
-    border-top: solid 7px red;
-  }
-  
-  .orange {
-    border-top: solid 7px orange;
-  }
-  
-  .yellow {
-    border-top: solid 7px yellow;
-  }
-  
-  .lime {
-    border-top: solid 7px lime;
-  }
-  
-  .green {
-    border-top: solid 7px green;
-  }
-  
-  .deepskyblue {
-    border-top: solid 7px deepskyblue;
-  }
-  
-  .blue {
-    border-top: solid 7px blue;
-  }
-  
-  .hotpink {
-    border-top: solid 7px hotpink;
-  }
-  
-  .purple {
-    border-top: solid 7px purple;
-  }
-  
-  .black {
-    border-top: solid 7px black;
-  }

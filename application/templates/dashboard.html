@@ -1,0 +1,106 @@
+{% extends "layout.html" %}
+
+{% block page_styles %}
+<link rel="stylesheet" href="../static/css/dashboard.css">
+{% endblock page_styles %}
+
+{% block content %}
+<!-- <iframe src="https://meet.google.com/twy-ibpj-jgs" title="Google Meets"></iframe> -->
+<script>
+    val = 0
+    function makeSettingsVisible() {
+        var elementsArray = document.getElementsByClassName("settings");
+        for (var i = 0; i < elementsArray.length; i++) {
+            console.log(elementsArray[i])
+            if(elementsArray[i].style.display == "none"){
+                elementsArray[i].style.display = "block";
+            }
+            else if(elementsArray[i].style.display == "block"){
+                elementsArray[i].style.display = "none";
+            }
+        }
+    }
+
+    function fullScreen(){
+        console.log(val)
+        if(val == 1){
+            document.getElementsByClassName("class-container")[0].className = "fullScreen";
+            document.getElementsByClassName("classes-column")[0].style.display = "none";
+            val = 0;
+        }
+        else {
+            // document.getElementsByClassName("class-container")[0].classList.remove("fullScreen");
+            document.getElementsByClassName("classes-column")[0].style.display == "inline";
+            val = 1;
+        }
+    }
+</script>
+
+{% if current_user.is_authenticated %}
+    <div id="content-container" class="row">
+        <div class="col-md-3 content-column classes-column">
+            <div class="row">
+                <h3>Classes</h3>
+                <div class="main-settings" style="padding-left: 10px" onclick="makeSettingsVisible();">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z"/>
+                        <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <circle cx="12" cy="12" r="3" />
+                    </svg>
+                </div>
+            </div>
+            <div class="classes">
+                {% for class, time_string in classes %}
+                    {% if class.link == current_class %}
+                        <div class="class-card {{ class.color }} current-class">
+                            <div class="text-div current-class">
+                    {% else %}
+                        <div class="class-card {{ class.color }}">
+                            <a href="{{ url_for('classroom', course_id=class.id) }}">
+                                <div class="text-div">
+                    {% endif %}
+                                <h5>{{ class.name }} - Period {{ class.period }}</h5>
+                                <p>{{ time_string }}</p>
+                            </div>
+                            {% if class.link == current_class %}</a>{% endif %}
+                            <a class="settings" style="display: none;" href="{{ url_for('update_class', course_id=class.id) }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z"/>
+                                    <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                    <circle cx="12" cy="12" r="3" />
+                                </svg>
+                            </a>
+                        </div>
+                {% endfor %}
+            </div>
+            <div class="button">
+                <div class="row" style="padding-top: 5px">
+                    <!-- <div class="col-md-6"> -->
+                        <a class="btn-color btn-wide" href="{{ url_for('add_class') }}">Add Class</a>
+                    <!-- </div>
+                    <div class="col-md-6">
+                        <a class="btn-light btn-wide" href="{{ url_for('import_classes') }}">Import All</a>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 content-column class-container">
+            {% if current_class == "" %}
+                <h3>Hi {{ name }}! <br> {{ text }}</h3>
+                {% if error %}
+                    <p>{{ error }}</p>
+                {% endif %}
+            {% else %}
+                <iframe id="iframe" style="width: 100%; height: 100%" allow="camera *; microphone *" 
+                        src="{{ current_class }}" title="Blackboard Collaborate">
+                    Your browser doesn't support this feature. Try a different browser for a better experience.    
+                </iframe>
+            {% endif %}
+        </div>
+        <!-- <a class="btn-light btn-wide" onClick="fullScreen();">Full Screen</a> -->
+    </div>
+{% else %}
+    <h1>Please Log In</h1>
+{% endif %}
+
+{% endblock content %}

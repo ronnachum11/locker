@@ -5,102 +5,101 @@
 {% endblock page_styles %}
 
 {% block content %}
-<!-- <iframe src="https://meet.google.com/twy-ibpj-jgs" title="Google Meets"></iframe> -->
-<script>
-    val = 0
-    function makeSettingsVisible() {
-        var elementsArray = document.getElementsByClassName("settings");
-        for (var i = 0; i < elementsArray.length; i++) {
-            console.log(elementsArray[i])
-            if(elementsArray[i].style.display == "none"){
-                elementsArray[i].style.display = "block";
-            }
-            else if(elementsArray[i].style.display == "block"){
-                elementsArray[i].style.display = "none";
-            }
-        }
-    }
+<a id="home" class="anchor"></a>
+<div class="home-div">
+    <div class="home-div-content">
+        <img class="home-image fade-in" src="{{ url_for('static', filename='images/vTJ_light.png') }}">
+        <h1 class="line-1 anim-typewriter">The Locker</h1>
+        <h3 class="fade-in" style="margin-bottom: 30px">Virtual School Dashboard</h3>
 
-    function fullScreen(){
-        console.log(val)
-        if(val == 1){
-            document.getElementsByClassName("class-container")[0].className = "fullScreen";
-            document.getElementsByClassName("classes-column")[0].style.display = "none";
-            val = 0;
-        }
-        else {
-            // document.getElementsByClassName("class-container")[0].classList.remove("fullScreen");
-            document.getElementsByClassName("classes-column")[0].style.display == "inline";
-            val = 1;
-        }
-    }
-</script>
-
-{% if current_user.is_authenticated %}
-    <div id="content-container" class="row">
-        <div class="col-md-3 content-column classes-column">
-            <div class="row">
-                <h3>Classes</h3>
-                <div class="main-settings" style="padding-left: 10px" onclick="makeSettingsVisible();">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z"/>
-                        <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                        <circle cx="12" cy="12" r="3" />
-                    </svg>
+        {% if current_user.is_authenticated %}
+            <h4 class="fade-in" style="margin-bottom: 20px">Hi {{current_user.name}},</h4>
+            <div class="row fade-in" style="width: 50%">
+                <div class="col-md-6">
+                    <a class="btn-light btn-wide" href="{{ url_for('dashboard') }}">Go to your dashboard</a>
+                </div>
+                <div class="col-md-6">
+                    <a class="btn-light btn-wide" href="{{ url_for('account') }}">Manage account settings</a>
                 </div>
             </div>
-            <div class="classes">
-                {% for class, time_string in classes %}
-                    {% if class.link == current_class %}
-                        <div class="class-card {{ class.color }} current-class">
-                            <div class="text-div current-class">
-                    {% else %}
-                        <div class="class-card {{ class.color }}">
-                            <a href="{{ url_for('classroom', course_id=class.id) }}">
-                                <div class="text-div">
-                    {% endif %}
-                                <h5>{{ class.name }} - Period {{ class.period }}</h5>
-                                <p>{{ time_string }}</p>
-                            </div>
-                            {% if class.link == current_class %}</a>{% endif %}
-                            <a class="settings" style="display: none;" href="{{ url_for('update_class', course_id=class.id) }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z"/>
-                                    <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                    <circle cx="12" cy="12" r="3" />
-                                </svg>
-                            </a>
-                        </div>
-                {% endfor %}
-            </div>
-            <div class="button">
-                <div class="row" style="padding-top: 5px">
-                    <!-- <div class="col-md-6"> -->
-                        <a class="btn-color btn-wide" href="{{ url_for('add_class') }}">Add Class</a>
-                    <!-- </div>
-                    <div class="col-md-6">
-                        <a class="btn-light btn-wide" href="{{ url_for('import_classes') }}">Import All</a>
-                    </div> -->
+        {% else %}
+            <div class="row fade-in" style="width: 50%">
+                <div class="col-md-6">
+                    <a class="btn-light btn-wide" href="{{ url_for('register') }}">Sign Up</a>
+                </div>
+                <div class="col-md-6">
+                    <a class="btn-light btn-wide" href="{{ url_for('login') }}">Log In</a>
                 </div>
             </div>
-        </div>
-        <div class="col-md-9 content-column class-container">
-            {% if current_class == "" %}
-                <h3>Hi {{ name }}! <br> {{ text }}</h3>
-                {% if error %}
-                    <p>{{ error }}</p>
-                {% endif %}
-            {% else %}
-                <iframe id="iframe" style="width: 100%; height: 100%" allow="camera *; microphone *" 
-                        src="{{ current_class }}" title="Blackboard Collaborate">
-                    Your browser doesn't support this feature. Try a different browser for a better experience.    
-                </iframe>
-            {% endif %}
-        </div>
-        <!-- <a class="btn-light btn-wide" onClick="fullScreen();">Full Screen</a> -->
+        {% endif %}
     </div>
-{% else %}
-    <h1>Please Log In</h1>
-{% endif %}
-
+</div>
+<a id="about" class="anchor"></a>
+<div class="about-div">
+    <h1>About</h1>
+</div>
+<a id="contact" class="anchor"></a>
+<div class="contact-div">
+    <h1>Contact Us</h1>
+    <h5 style="padding-bottom: 5px;">We're always looking for feedback to improve The Locker, <br> so please don't hestitate to submit your thoughts here!</h5>
+    <form method="POST" style="width: 50%" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <!-- <legend class="border-bottom mb-4">Contact Us</legend> -->
+            <div class="row">
+                <div class="form-group col-md-6">
+                    {% if form.name.errors %} {{ form.name(class="form-control is-invalid", placeholder="Name") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.name.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.name(class="form-control", placeholder="Name") }}
+                    {% endif %}
+                </div>
+                <div class="form-group col-md-6">
+                    {% if form.email.errors %} {{ form.email(class="form-control is-invalid", placeholder="Email") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class="form-control", placeholder="Email") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    {% if form.subject.errors %} {{ form.subject(class="form-control is-invalid", placeholder="Subject") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.subject.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.subject(class="form-control", placeholder="Subject") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    {% if form.message.errors %} {{ form.message(class="form-control is-invalid textareas", rows=6, placeholder="Message") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.message.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.message(class="form-control textareas", rows=6, placeholder="Message") }}
+                    {% endif %}
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn-light btn-wide") }}
+        </div>
+    </form>
+</div>
 {% endblock content %}

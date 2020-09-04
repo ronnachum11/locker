@@ -4,10 +4,11 @@ from flask_mail import Message
 from application import app, bcrypt, mail, login_manager
 from application.classes.user import User
 from application.classes.course import Course
-from application.forms.forms import ClassForm, LoginForm, RegistrationForm, RegistrationIonForm, ImportClassesForm
+from application.forms.forms import ContactForm, ClassForm, LoginForm, RegistrationForm, RegistrationIonForm, ImportClassesForm
 
 from application.classes.course import Course 
 from application.classes.user import User
+from application.utils import send_contact_email
 
 import os 
 import json 
@@ -23,6 +24,19 @@ with open(os.path.join('application', 'tj.json')) as f:
 @app.route("/home", methods=["GET", "POST"])
 @app.route("/", methods=["GET", "POST"])
 def home():
+    form = ContactForm()
+    if current_user.is_authenticated:
+        form.name.data = current_user.name
+        form.email.data = current_user.email
+
+    if form.validate_on_submit():
+        send_contact_email(form.name.data, form.email.data, form.subject.data, form.message.data)
+        flash('Contact form submitted successfully, we appreciate your thoughts!', 'success')
+    return render_template("home.html", form=form)
+
+@app.route("/dashboard", methods=["GET", "POST"])
+@login_required
+def dashboard():
     if not current_user.is_authenticated:
         return render_template("home.html")
     courses = current_user.courses
@@ -35,7 +49,7 @@ def home():
     text = "Choose a class or add a new one to get started."
     name=current_user.name
     
-    return render_template("home.html", classes=courses, name=name, text=text, current_class="")
+    return render_template("dashboard.html", classes=courses, name=name, text=text, current_class="")
 
 @app.route("/classroom/<string:course_id>")
 @login_required

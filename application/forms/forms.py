@@ -90,3 +90,10 @@ class RegistrationIonForm(FlaskForm):
 class ImportClassesForm(FlaskForm):
     text = TextAreaField('Email Text', validators=[DataRequired()])
     submit = SubmitField('Process Email')
+
+class ContactForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    subject = StringField('Subject', validators=[DataRequired()])
+    message = TextAreaField('Message', validators=[DataRequired()])
+    submit = SubmitField('Send Email')

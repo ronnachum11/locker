@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from application.classes.db import DB
 from config import load_config
 
-oauth_register, oauth_login = load_config("PRODUCTION")
+oauth_register, oauth_login = load_config("DEBUG")
 
 app = Flask(__name__)   
 
@@ -28,17 +28,8 @@ app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 
-if path.exists(os.path.join('Website', 'application', 'environment_variables.txt')):
-    f = open(os.path.join('Website', 'application', 'environment_variables.txt'), 'r')
-else:
-    pass 
-
-app.config['MAIL_USERNAME'] = None
-app.config['MAIL_PASSWORD'] = None
-
-
-
-
+app.config['MAIL_USERNAME'] = os.environ["EMAIL_USER"]
+app.config['MAIL_PASSWORD'] = os.environ["EMAIL_PASS"]
 
 mail = Mail(app)
 

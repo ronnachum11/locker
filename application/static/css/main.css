@@ -3,6 +3,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open%20Sans&display=swap");
+@import url(https://fonts.googleapis.com/css?family=Anonymous+Pro);
+html {
+  scroll-behavior: smooth;
+}
 
 .mcontainer {
   margin: 2%;
@@ -99,7 +103,7 @@ body {
 }
 
 nav {
-  height: 60px;
+  height: 10vh;
   display: flex;
   align-items: center;
 }
@@ -115,7 +119,7 @@ nav {
 
 #logo_title {
   color: white;
-  font-family: "Ubuntu", sans-serif;
+  font-family: "Anonymous Pro", sans-serif;
   font-size: 2rem;
   letter-spacing: 1px;
   display: flex;
