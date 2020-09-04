@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from application.classes.db import DB
 from config import load_config
 
-oauth_register, oauth_login = load_config()
+oauth_login = load_config()
 
 app = Flask(__name__)   
 

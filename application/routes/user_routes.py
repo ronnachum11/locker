@@ -2,10 +2,10 @@ from flask import render_template, flash, request, url_for, redirect, abort, ses
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 
-from application import app, bcrypt, mail, login_manager, oauth_register, oauth_login
+from application import app, bcrypt, mail, login_manager, oauth_login
 from application.classes.user import User
 from application.classes.course import Course
-from application.forms.forms import ClassForm, LoginForm, RegistrationForm, NewIonAccountForm, RegistrationIonForm, ImportClassesForm, LoginIonForm
+from application.forms.forms import ClassForm, LoginForm, RegistrationForm, NewIonAccountForm, LoginIonForm, ImportClassesForm, LoginIonForm
 
 import os 
 import json 
@@ -52,48 +52,12 @@ def register():
         flash('Your account has been created!', 'success')
         return redirect(url_for('login'))
 
-    form2 = RegistrationIonForm()
+    form2 = LoginIonForm()
     if form2.submit2.data and form2.validate_on_submit():
-        authorization_url, state = oauth_register.authorization_url("https://ion.tjhsst.edu/oauth/authorize/")
+        authorization_url, state = oauth_login.authorization_url("https://ion.tjhsst.edu/oauth/authorize/")
         return redirect(authorization_url)
 
     return render_template('register.html', title='Register', form1=form1, form2=form2)
-
-@app.route("/register/ion", methods=["GET", "POST"])
-def register_ion():
-    try:
-        token = oauth_register.fetch_token("https://ion.tjhsst.edu/oauth/token/",
-                          code=request.args["code"],
-                          client_secret=os.environ['REGISTER_CLIENT_SECRET'])
-        profile = oauth_register.get("https://ion.tjhsst.edu/api/profile")
-        profile = profile.json()
-    except:
-        pass
-
-    if User.get_by_ion_id(profile['id']):
-        flash('This ION Account already exists with The Locker', 'danger')
-        return redirect(url_for('home'))     
-    
-    temp_user = User.get_by_email(profile['emails'][0])
-    if temp_user:
-        temp_user.ion_id = profile["id"]
-        temp_user.update_ion_id(temp_user.ion_id)
-        temp_user.hasIon = True
-        temp_user.update_ion_status(temp_user.hasIon)
-        flash("Your account has been updated with your ION info", 'success')
-        return redirect(url_for("home"))
-
-    user = User(
-        id=str(ObjectId()),
-        ion_id=profile["id"],
-        name=profile["display_name"], 
-        email=profile["emails"][0],
-        hasIon=True
-    )
-    user.add()
-    login_user(user, True)
-    
-    return redirect(url_for('add_phone_number'))
 
 @login_required
 @app.route("/account", methods=["GET", "POST"])
@@ -116,7 +80,7 @@ def add_phone_number():
     if form.validate_on_submit():
         current_user.update_phone(re.sub("[^0-9]", "", form.phone.data))
         flash("Phone number added", 'success')
-        return redirect(url_for("home"))
+        return redirect(url_for("dashboard"))
     return render_template("register_ion.html", form=form)
 
 @app.route("/login", methods=["GET", "POST"])
@@ -146,7 +110,7 @@ def login():
 
     return render_template('login.html', title='Login', form=form, form2=form2)
 
-@app.route("/login/ion", methods=["GET", "POST"])
+@app.route("/ion", methods=["GET", "POST"])
 def login_ion():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
@@ -162,9 +126,18 @@ def login_ion():
 
     if User.get_by_email(profile['emails'][0]):
         login_user(User.get_by_email(profile['emails'][0]), True)
-        return redirect(url_for('home'))
+        return redirect(url_for('dashboard'))
     else:
-        return redirect(url_for('register'))
+        user = User(
+            id=str(ObjectId()),
+            ion_id=profile["id"],
+            name=profile["display_name"], 
+            email=profile["emails"][0],
+            hasIon=True
+        )
+        user.add()
+        login_user(user, True)
+        return redirect(url_for('add_phone_number'))
 
 @app.route("/logout")
 def logout():

@@ -4,7 +4,7 @@ from flask_mail import Message
 from application import app, bcrypt, mail, login_manager
 from application.classes.user import User
 from application.classes.course import Course
-from application.forms.forms import ContactForm, ClassForm, LoginForm, RegistrationForm, RegistrationIonForm, ImportClassesForm
+from application.forms.forms import ContactForm, ClassForm, LoginForm, RegistrationForm, LoginIonForm, ImportClassesForm
 
 from application.classes.course import Course 
 from application.classes.user import User

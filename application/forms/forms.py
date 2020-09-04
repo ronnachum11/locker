@@ -84,9 +84,6 @@ class NewIonAccountForm(FlaskForm):
             if not (phonenumbers.is_valid_number(input_number)):
                 raise ValidationError('Invalid phone number.')
 
-class RegistrationIonForm(FlaskForm):
-    submit2 = SubmitField('Register With Ion')
-
 class ImportClassesForm(FlaskForm):
     text = TextAreaField('Email Text', validators=[DataRequired()])
     submit = SubmitField('Process Email')
