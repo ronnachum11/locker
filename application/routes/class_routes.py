@@ -39,7 +39,7 @@ def add_class():
                           times=tj_json[form.period.data], teacher=form.teacher.data, user_id=current_user.id,
                           email_alert_time=form.email_reminder.data, text_alert_time=form.text_reminder.data)
         current_user.add_course(course)
-        flash('Class Added Succsesfully!', 'success')
+        flash('Class Added Successfully!', 'success')
         return redirect(url_for('home'))
 
     return render_template('add_class.html', header="Add A Class", update_class=False, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None, form=form)
@@ -71,7 +71,7 @@ def update_class(course_id):
                     text_alert_time=form.text_reminder.data, email_alert_time=form.email_reminder.data, 
                     times=dict(tj_json[form.period.data]))
 
-        flash('Class Update Successfully!', 'success')
+        flash('Class Updated Successfully!', 'success')
         return redirect(url_for('home'))
 
     form.submit.label.text = "Update Class"

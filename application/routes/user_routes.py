@@ -71,7 +71,7 @@ def register_ion():
         pass
 
     if User.get_by_ion_id(profile['id']):
-        flash('ION Account already exists with The Locker', 'danger')
+        flash('This ION Account already exists with The Locker', 'danger')
         return redirect(url_for('home'))     
     
     temp_user = User.get_by_email(profile['emails'][0])
@@ -80,7 +80,7 @@ def register_ion():
         temp_user.update_ion_id(temp_user.ion_id)
         temp_user.hasIon = True
         temp_user.update_ion_status(temp_user.hasIon)
-        flash("Account updated with ION info", 'success')
+        flash("Your account has been updated with your ION info", 'success')
         return redirect(url_for("home"))
 
     user = User(
@@ -115,7 +115,7 @@ def add_phone_number():
 
     if form.validate_on_submit():
         current_user.update_phone(re.sub("[^0-9]", "", form.phone.data))
-        flash("Phone number and pasword added", 'success')
+        flash("Phone number added", 'success')
         return redirect(url_for("home"))
     return render_template("register_ion.html", form=form)
 

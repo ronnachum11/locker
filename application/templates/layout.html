@@ -14,9 +14,9 @@
     {% block page_styles %}{% endblock page_styles %}
     
     {% if title %}
-        <title>Locker - {{ title }}</title>
+        <title>The Locker - {{ title }}</title>
     {% else %}
-        <title>Locker</title>
+        <title>The Locker</title>
     {% endif %}
 
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/vTJ.ico') }}" />
@@ -37,7 +37,7 @@
     <header class="site-header" style="padding-bottom: 10px">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
             <a id="logo_title" class="navbar-brand" href="{{ url_for('home') }}">
-                <img src="{{ url_for('static', filename='images/vTJ_light.png') }}">locker
+                <img src="{{ url_for('static', filename='images/vTJ_light.png') }}">the locker
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
                 aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
