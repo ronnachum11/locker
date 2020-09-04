@@ -4,8 +4,8 @@ from bson import ObjectId
 from application import db
 
 class Course:
-    def __init__(self, id:str, name:str, link:str, color:str, period:str, teacher:str, user_id:ObjectId, email_alert_time:int, text_alert_time:int, times:dict=None, data:dict=None):
-        self.id = id
+    def __init__(self, id:str, name:str, link:str, color:str, period:str, teacher:str, user_id:str, email_alert_time:int, text_alert_time:int, times:dict=None, data:dict=None):
+        self.id = str(id)
 
         self.name = name
         self.link = link
@@ -15,8 +15,8 @@ class Course:
         self.teacher = teacher
         self.user_id = user_id
 
-        self.email_alert_time = email_alert_time
-        self.text_alert_time = text_alert_time
+        self.email_alert_time = int(email_alert_time)
+        self.text_alert_time = int(text_alert_time)
 
         self.data = data
 
@@ -25,22 +25,21 @@ class Course:
 
     @staticmethod
     def from_dict(dictionary:dict):
-        return Course(dictionary.get("id"),
+        alert = dictionary.get('email_alert_time')
+        if alert is None:
+            print(dictionary)
+        return Course(str(dictionary.get("id")),
                     dictionary.get("name"),
                     dictionary.get("link"),
                     dictionary.get("color"),
                     dictionary.get("period"),
                     dictionary.get("teacher"),
                     dictionary.get("user_id"),
-                    dictionary.get("email_alert_time"),
-                    dictionary.get("text_alert_time"),
+                    int(dictionary.get("email_alert_time")),
+                    int(dictionary.get("text_alert_time")),
                     dictionary.get("times"),
                     dictionary.get("data")
             )
 
-    @staticmethod
-    def get_by_id(user_id: ObjectId, id: ObjectId):
-        return db.users.find_one({"id": user_id}).get('courses').get(id)
-
     def __repr__(self):
-        return f"Class('{str(self.id)}', '{self.name}', '{self.teacher}')"
+        return f"Course('{str(self.id)}', '{self.name}', '{self.teacher}')"

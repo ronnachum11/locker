@@ -35,7 +35,7 @@ def add_class():
         period_list.append((f"period-{i}", periods[0], periods[1]))
 
     if form.validate_on_submit():
-        course = Course(id=str(ObjectId), name=form.name.data, link=form.link.data, color=form.color.data, period=form.period.data,
+        course = Course(id=str(ObjectId()), name=form.name.data, link=form.link.data, color=form.color.data, period=form.period.data,
                           times=tj_json[form.period.data], teacher=form.teacher.data, user_id=current_user.id,
                           email_alert_time=form.email_reminder.data, text_alert_time=form.text_reminder.data)
         current_user.add_course(course)
@@ -52,12 +52,13 @@ def import_classes():
 @app.route("/update_class/<string:course_id>", methods=["GET", "POST"])
 @login_required
 def update_class(course_id):    
-    course = current_user.courses.get(course_id)
+    course = current_user.get_course_by_id(course_id)
     if course is None:
         abort(404)
     
-    form = ClassForm(name=c.name, teacher=c.teacher, link=c.link, period=c.period, color=c.color,
-                     text_reminder=c.text_alert_time, email_reminder=c.email_alert_time)
+    form = ClassForm(name=course.name, teacher=course.teacher, link=course.link,
+                     period=course.period, color=course.color, text_reminder=course.text_alert_time, 
+                     email_reminder=course.email_alert_time)
     color_list, period_list = [], []
     for i, colors in enumerate(form.color.choices):
         color_list.append((f"color-{i}", colors[0], colors[1]))
@@ -75,12 +76,12 @@ def update_class(course_id):
 
     form.submit.label.text = "Update Class"
 
-    return render_template('add_class.html', header=f"{c.name} ({c.period})", course_id=course.id, update_class=True, color=course.color, period=course.period, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None, form=form)
+    return render_template('add_class.html', header=f"{course.name} ({course.period})", course_id=course.id, update_class=True, color=course.color, period=course.period, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None, form=form)
 
 @app.route("/delete_class/<string:course_id>", methods=["GET", "POST"])
 @login_required
 def delete_class(course_id):
-    course = current_user.courses.get(course_id)
+    course = current_user.get_course_by_id(course_id)
     if course is None:
         abort(404)
 

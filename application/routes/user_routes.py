@@ -101,10 +101,10 @@ def account():
     courses = current_user.courses
     if courses:
         courses = sorted(courses, key=lambda course: course.period)
-        courses = [(c, list(set(c.times.keys())), list(set(c.times.values()))) for c in courses]
-        courses = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") if len(days) != 0 and len(times) != 0 else (c, "") for c, days, times in courses]
     else:
         courses = []
+    # course = courses[0]
+    # print(course.email_alert_time, course.text_alert_time)
     has_phone = current_user.phone is not None
     return render_template('account.html', classes=courses, has_phone=has_phone)
 

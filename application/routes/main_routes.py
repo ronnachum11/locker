@@ -43,11 +43,7 @@ def classroom(course_id):
     if not current_user.is_authenticated:
         abort(403)
 
-    current_course = None
-    for course in current_user.courses:
-        if course.id == course_id:
-            current_course = course
-            break
+    current_course = current_user.get_course_by_id(course_id)
     
     if current_course is None:
         text = "The class you selected is invalid."

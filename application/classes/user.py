@@ -70,21 +70,26 @@ class User(UserMixin):
     
     @staticmethod
     def get_by_ion_id(ion_id: str):
+        print(ion_id)
         return User.from_dict(db.users.find_one({"ion_id": ion_id}))
 
     @staticmethod
     def get_by_email(email: str):
         return User.from_dict(db.users.find_one({"email": email}))
 
+    def get_course_by_id(self, course_id: str):
+        courses = [c for c in self.courses if c.id == course_id]
+        return courses[0]
+
     def add_course(self, course: Course):
         db.users.update({"id": self.id}, {"$push": {"courses": course.to_dict()}})
     
     def delete_course(self, course_id: str):
-        db.users.update({"id": self.id}, {"$pull": {"courses": ObjectId(course_id)}})
+        db.users.update({"id": self.id}, {"$pull": {"courses": {"id": course_id}}})
     
     def update_course(self, course_id, **kwargs):
         for key, value in kwargs.items():
-            db.users.update({"id": self.id, "courses.id":ObjectId(course_id)}, {f"courses.{key}": value})
+            db.users.update({"id": self.id, "courses.id": course_id}, {"$set": {f"courses.$.{key}": value}})
 
     def update_ion_status(self, status: bool):
         db.users.update({"id": self.id}, {'$set' : {"hasIon":status}})
