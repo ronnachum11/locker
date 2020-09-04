@@ -7,8 +7,8 @@ from application.classes.course import Course
 
 
 class User(UserMixin):
-    def __init__(self, id:str=None, name:str=None, email:str=None, ion_id:int=None, phone:str=None, password:str=None, hasIon:bool=False, hasGoogle:bool=False, courses: [Course]=[], data:dict=None):
-        self.id = id
+    def __init__(self, id:ObjectId=None, name:str=None, email:str=None, ion_id:int=None, phone:str=None, password:str=None, hasIon:bool=False, hasGoogle:bool=False, courses: [Course]=[], data:dict=None):
+        self.id = str(id)
         self.ion_id = ion_id
         self.name = name
         self.email = email
@@ -29,14 +29,25 @@ class User(UserMixin):
         return self.id
     
     def to_dict(self):
-        dictionary = self.__dict__
+        dictionary = {
+            "id": self.id,
+            "name": self.name,
+            "email": self.email,
+            "ion_id": self.ion_id,
+            "phone": self.phone,
+            "password": self.password,
+            "hasIon": self.hasIon,
+            "hasGoogle": self.hasGoogle,
+            "courses": [course.to_dict() for course in self.courses],
+            "data": self.data
+        }
         return dictionary
 
     @staticmethod
     def from_dict(dictionary:dict):
         if dictionary == None:
             return None
-        return User(str(dictionary.get("_id")),
+        user = User(str(dictionary.get("id")),
                     dictionary.get('name'),
                     dictionary.get('email'),
                     dictionary.get('ion_id'),
@@ -47,13 +58,15 @@ class User(UserMixin):
                     [Course.from_dict(course) for course in dictionary.get('courses')] if dictionary.get('courses') else None,
                     dictionary.get('data')
             )
+        print(user)
+        return user
     
     def add(self):
         db.users.insert(self.to_dict())
     
     @staticmethod
     def get_by_id(id: str):
-        return User.from_dict(db.users.find_one({"_id": ObjectId(id)}))
+        return User.from_dict(db.users.find_one({"id": ObjectId(id)}))
     
     @staticmethod
     def get_by_ion_id(ion_id: str):
@@ -64,24 +77,24 @@ class User(UserMixin):
         return User.from_dict(db.users.find_one({"email": email}))
 
     def add_course(self, course: Course):
-        db.users.update({"_id": self.id}, {"$push": {"courses": course.to_dict()}})
+        db.users.update({"id": self.id}, {"$push": {"courses": course.to_dict()}})
     
     def delete_course(self, course_id: str):
-        db.users.update({"_id": self.id}, {"$pull": {"courses": ObjectId(course_id)}})
+        db.users.update({"id": self.id}, {"$pull": {"courses": ObjectId(course_id)}})
     
     def update_course(self, course_id, **kwargs):
         for key, value in kwargs.items():
-            db.users.update({"_id": self.id, "courses._id":ObjectId(course_id)}, {f"courses.{key}": value})
+            db.users.update({"id": self.id, "courses.id":ObjectId(course_id)}, {f"courses.{key}": value})
 
     def update_ion_status(self, status: bool):
-        db.users.update({"_id": self.id}, {"hasIon": status})
+        db.users.update({"id": self.id}, {"hasIon": status})
     
     def update_password(self, password: str):
-        db.users.update({"_id": self.id}, {"password": password})
+        db.users.update({"id": self.id}, {"password": password})
     
     def update_ion_id(self, ion_id:str):
-        db.users.update({"_id": self.id}, {"ion_id": ion_id})
+        db.users.update({"id": self.id}, {"ion_id": ion_id})
     
     def update_phone(self, phone:str):
-        db.users.update({"_id": self.id}, {"phone": phone})
+        db.users.update({"id": self.id}, {"phone": phone})
 

@@ -82,6 +82,7 @@ def register_ion():
         return redirect(url_for("home"))
 
     user = User(
+        id=ObjectId(),
         ion_id=profile["id"],
         name=profile["display_name"], 
         email=profile["emails"][0],
