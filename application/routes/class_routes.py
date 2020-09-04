@@ -40,7 +40,7 @@ def add_class():
                           email_alert_time=form.email_reminder.data, text_alert_time=form.text_reminder.data)
         current_user.add_course(course)
         flash('Class Added Successfully!', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('dashboard'))
 
     return render_template('add_class.html', header="Add A Class", update_class=False, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None, form=form)
 
@@ -72,7 +72,7 @@ def update_class(course_id):
                     times=dict(tj_json[form.period.data]))
 
         flash('Class Updated Successfully!', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('dashboard'))
 
     form.submit.label.text = "Update Class"
 
@@ -87,4 +87,4 @@ def delete_class(course_id):
 
     current_user.delete_course(course.id)
     flash('Class Deleted Successfully', 'success')
-    return redirect(url_for('home'))
+    return redirect(url_for('dashboard'))

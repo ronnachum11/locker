@@ -30,7 +30,7 @@ def load_user(user_id):
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('dashboard'))
 
     form1 = RegistrationForm()
     if form1.submit.data and form1.validate_on_submit():
@@ -122,7 +122,7 @@ def add_phone_number():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('dashboard'))
     form = LoginForm()
 
     if form.submit.data and form.validate_on_submit():
@@ -133,8 +133,8 @@ def login():
             if next_page:
                 return redirect(url_for(next_page))
             else:
-                return redirect(url_for('home'))
-            return redirect(url_for('home'))
+                return redirect(url_for('dashboard'))
+            return redirect(url_for('dashboard'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
 
@@ -149,7 +149,7 @@ def login():
 @app.route("/login/ion", methods=["GET", "POST"])
 def login_ion():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('dashboard'))
 
     try:
         token = oauth_login.fetch_token("https://ion.tjhsst.edu/oauth/token/",
@@ -162,7 +162,7 @@ def login_ion():
 
     if User.get_by_email(profile['emails'][0]):
         login_user(User.get_by_email(profile['emails'][0]), True)
-        return redirect(url_for('home'))
+        return redirect(url_for('dashboard'))
     else:
         return redirect(url_for('register'))
 
