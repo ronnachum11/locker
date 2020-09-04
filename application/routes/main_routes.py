@@ -26,9 +26,12 @@ def home():
     if not current_user.is_authenticated:
         return render_template("home.html")
     courses = current_user.courses
-    courses = sorted(courses, key=lambda course: course.period)
-    courses = [(c, list(set(c.times.keys())), list(set(c.times.values()))) for c in courses]
-    courses = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") if len(days) != 0 and len(times) != 0 else (c, "") for c, days, times in courses]
+    if courses:
+        courses = sorted(courses, key=lambda course: course.period)
+        courses = [(c, list(set(c.times.keys())), list(set(c.times.values()))) for c in courses]
+        courses = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") if len(days) != 0 and len(times) != 0 else (c, "") for c, days, times in courses]
+    else:
+        courses = []
     text = "Choose a class or add a new one to get started."
     name=current_user.name
     
@@ -40,7 +43,11 @@ def classroom(course_id):
     if not current_user.is_authenticated:
         abort(403)
 
-    current_course = current_user.courses.get(course_id)
+    current_course = None
+    for course in current_user.courses:
+        if course.id == course_id:
+            current_course = course
+            break
     
     if current_course is None:
         text = "The class you selected is invalid."
@@ -51,7 +58,10 @@ def classroom(course_id):
     name = current_user.name
 
     courses = current_user.courses
-    courses = sorted(courses, key=lambda course: course.period)
-    courses = [(c, list(set(c.times.keys())), list(set(c.times.values()))) for c in courses]
-    courses = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") if len(days) != 0 and len(times) != 0 else (c, "") for c, days, times in courses]
+    if courses:
+        courses = sorted(courses, key=lambda course: course.period)
+        courses = [(c, list(set(c.times.keys())), list(set(c.times.values()))) for c in courses]
+        courses = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") if len(days) != 0 and len(times) != 0 else (c, "") for c, days, times in courses]
+    else:
+        courses = []
     return render_template("home.html", classes=courses, name=name, text=text, error=error, current_class=current_link)

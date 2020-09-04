@@ -13,6 +13,7 @@ from application.classes.user import User
 import os 
 import json 
 import re
+from bson import ObjectId
 
 ## Routesin this file
 # /add_class
@@ -34,7 +35,7 @@ def add_class():
         period_list.append((f"period-{i}", periods[0], periods[1]))
 
     if form.validate_on_submit():
-        course = Course(name=form.name.data, link=form.link.data, color=form.color.data, period=form.period.data,
+        course = Course(id=str(ObjectId), name=form.name.data, link=form.link.data, color=form.color.data, period=form.period.data,
                           times=tj_json[form.period.data], teacher=form.teacher.data, user_id=current_user.id,
                           email_alert_time=form.email_reminder.data, text_alert_time=form.text_reminder.data)
         current_user.add_course(course)

@@ -23,6 +23,8 @@ from bson import ObjectId
 
 @login_manager.user_loader
 def load_user(user_id):
+    user_id = str(user_id)
+    print(user_id, User.get_by_id(user_id))
     return User.get_by_id(user_id)
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -40,7 +42,7 @@ def register():
         else:
             hashed_pw = bcrypt.generate_password_hash(form1.password.data).decode('utf-8')
             user = User(
-                id=ObjectId(),
+                id=str(ObjectId()),
                 name=form1.name.data.title(), 
                 email=form1.email.data,
                 phone=form1.phone.data,
@@ -82,14 +84,14 @@ def register_ion():
         return redirect(url_for("home"))
 
     user = User(
-        id=ObjectId(),
+        id=str(ObjectId()),
         ion_id=profile["id"],
         name=profile["display_name"], 
         email=profile["emails"][0],
         hasIon=True
     )
-    login_user(user, True)
     user.add()
+    login_user(user, True)
     
     return redirect(url_for('add_phone_number'))
 
@@ -97,7 +99,12 @@ def register_ion():
 @app.route("/account", methods=["GET", "POST"])
 def account():
     courses = current_user.courses
-    courses = sorted(courses, key=lambda course: course.period)
+    if courses:
+        courses = sorted(courses, key=lambda course: course.period)
+        courses = [(c, list(set(c.times.keys())), list(set(c.times.values()))) for c in courses]
+        courses = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") if len(days) != 0 and len(times) != 0 else (c, "") for c, days, times in courses]
+    else:
+        courses = []
     has_phone = current_user.phone is not None
     return render_template('account.html', classes=courses, has_phone=has_phone)
 
@@ -107,9 +114,7 @@ def add_phone_number():
     form = NewIonAccountForm()
 
     if form.validate_on_submit():
-        user = User.get_by_id(current_user.id)
-        user.phone = re.sub("[^0-9]", "", form.phone.data)
-        user.update_phone(user.phone)
+        current_user.update_phone(re.sub("[^0-9]", "", form.phone.data))
         flash("Phone number and pasword added", 'success')
         return redirect(url_for("home"))
     return render_template("register_ion.html", form=form)

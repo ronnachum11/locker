@@ -7,7 +7,7 @@ from application.classes.course import Course
 
 
 class User(UserMixin):
-    def __init__(self, id:ObjectId=None, name:str=None, email:str=None, ion_id:int=None, phone:str=None, password:str=None, hasIon:bool=False, hasGoogle:bool=False, courses: [Course]=[], data:dict=None):
+    def __init__(self, id:str=None, name:str=None, email:str=None, ion_id:int=None, phone:str=None, password:str=None, hasIon:bool=False, hasGoogle:bool=False, courses: [Course]=[], data:dict=None):
         self.id = str(id)
         self.ion_id = ion_id
         self.name = name
@@ -30,7 +30,7 @@ class User(UserMixin):
     
     def to_dict(self):
         dictionary = {
-            "id": self.id,
+            "id": str(self.id),
             "name": self.name,
             "email": self.email,
             "ion_id": self.ion_id,
@@ -66,7 +66,7 @@ class User(UserMixin):
     
     @staticmethod
     def get_by_id(id: str):
-        return User.from_dict(db.users.find_one({"id": ObjectId(id)}))
+        return User.from_dict(db.users.find_one({"id": str(id)}))
     
     @staticmethod
     def get_by_ion_id(ion_id: str):
@@ -87,14 +87,14 @@ class User(UserMixin):
             db.users.update({"id": self.id, "courses.id":ObjectId(course_id)}, {f"courses.{key}": value})
 
     def update_ion_status(self, status: bool):
-        db.users.update({"id": self.id}, {"hasIon": status})
+        db.users.update({"id": self.id}, {'$set' : {"hasIon":status}})
     
     def update_password(self, password: str):
-        db.users.update({"id": self.id}, {"password": password})
+        db.users.update({"id": self.id}, {'$set' : {"password":password}})
     
     def update_ion_id(self, ion_id:str):
-        db.users.update({"id": self.id}, {"ion_id": ion_id})
+        db.users.update({"id": self.id}, {'$set' : {"ion_id":ion_id}})
     
     def update_phone(self, phone:str):
-        db.users.update({"id": self.id}, {"phone": phone})
+        db.users.update({"id": self.id}, {'$set' : {"phone":phone}})
 
