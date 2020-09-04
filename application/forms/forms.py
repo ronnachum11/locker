@@ -40,7 +40,12 @@ class RegistrationForm(FlaskForm):
         user = User.get_by_email(email.data)
         if user:
             if user.password:
-                raise ValidationError('This account has already been registered with Locker.')
+                raise ValidationError('This account has already been registered with The Locker.')
+    
+    def validate_password(self, email, password):
+        user = User.get_by_email(email.data)
+        if user.password is None:
+            raise ValidationError('This account was created with ION, please register again to add a password.')
     
     def validate_phone(self, field):
         if len(field.data) > 16:

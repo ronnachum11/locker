@@ -22,7 +22,7 @@ from bson import ObjectId
 # /logout
 
 @login_manager.user_loader
-def load_user(user_id, is_ion=False):
+def load_user(user_id):
     return User.get_by_id(user_id)
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -82,13 +82,12 @@ def register_ion():
         return redirect(url_for("home"))
 
     user = User(
-        id = ObjectId(),
         ion_id=profile["id"],
         name=profile["display_name"], 
         email=profile["emails"][0],
         hasIon=True
     )
-    login_user(user, force=True)
+    login_user(user, True)
     user.add()
     
     return redirect(url_for('add_phone_number'))
@@ -156,7 +155,7 @@ def login_ion():
         pass
 
     if User.get_by_email(profile['emails'][0]):
-        login_user(User.get_by_email(profile['emails'][0]))
+        login_user(User.get_by_email(profile['emails'][0]), True)
         return redirect(url_for('home'))
     else:
         return redirect(url_for('register'))
