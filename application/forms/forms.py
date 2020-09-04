@@ -42,9 +42,9 @@ class RegistrationForm(FlaskForm):
             if user.password:
                 raise ValidationError('This account has already been registered with The Locker.')
     
-    def validate_password(self, email, password):
+    def validate_password(self, email):
         user = User.get_by_email(email.data)
-        if user.password is None:
+        if user and user.password is None:
             raise ValidationError('This account was created with ION, please register again to add a password.')
     
     def validate_phone(self, field):
