@@ -74,4 +74,4 @@ def classroom(course_id):
         courses = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") if len(days) != 0 and len(times) != 0 else (c, "") for c, days, times in courses]
     else:
         courses = []
-    return render_template("home.html", classes=courses, name=name, text=text, error=error, current_class=current_link)
+    return render_template("dashboard.html", classes=courses, name=name, text=text, error=error, current_class=current_link)
