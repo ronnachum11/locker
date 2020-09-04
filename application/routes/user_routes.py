@@ -127,7 +127,7 @@ def login():
 
     if form.submit.data and form.validate_on_submit():
         user = User.get_by_email(form.email.data)
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
+        if user and user.password and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data, force=True)
             next_page = request.args.get('next')
             if next_page:
