@@ -48,9 +48,9 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('This account was created with ION, please register again to add a password.')
     
     def validate_phone(self, field):
-        if len(field.data) > 16:
-            raise ValidationError('Invalid phone number.')
-        elif len(field.data) > 0:
+        if field.data:
+            if len(field.data) > 16:
+                raise ValidationError('Invalid phone number.')
             try:
                 input_number = phonenumbers.parse(field.data)
                 if not (phonenumbers.is_valid_number(input_number)):
