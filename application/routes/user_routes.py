@@ -154,7 +154,7 @@ def login_ion():
         )
         user.add()
         login_user(user, True)
-        return redirect(url_for('update_phone_number'))
+        return redirect(url_for('account'))
 
 @app.route("/logout")
 def logout():
