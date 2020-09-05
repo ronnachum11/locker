@@ -125,15 +125,19 @@ def login_ion():
         flash('We had a problem authenticating your ion account. Please try again', 'danger')
         return redirect(url_for('home'))
 
-    if User.get_by_email(profile['emails'][0]):
+    if profile['emails'] and len(profile['emails']) > 0 and User.get_by_email(profile['emails'][0]):
         login_user(User.get_by_email(profile['emails'][0]), True)
         return redirect(url_for('dashboard'))
+    elif profile['id'] and User.get_by_ion_id(profile['id']):
+        login_user(User.get_by_ion_id(profile['id']), True)
+        return redirect(url_for('dashboard'))
     else:
+        email = profile["emails"][0] if profile['emails'] and len(profile['emails']) > 0 else None
         user = User(
             id=str(ObjectId()),
             ion_id=profile["id"],
             name=profile["display_name"], 
-            email=profile["emails"][0],
+            email=email,
             hasIon=True
         )
         user.add()
