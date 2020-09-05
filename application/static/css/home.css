@@ -28,8 +28,12 @@
 }
 
 .about-div {
-    padding-top: 150px;
-    padding-bottom: 150px;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+    width: 100vw;
 }
 
 .about-div h1 {
@@ -55,7 +59,7 @@
 .anchor {
     display: block;
     padding-top: 10vh;
-    margin-top: -11vh;
+    margin-top: -10vh;
 }
 
 
