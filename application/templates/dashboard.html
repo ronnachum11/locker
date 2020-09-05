@@ -59,7 +59,11 @@
                             <a href="{{ url_for('classroom', course_id=class.id) }}">
                                 <div class="text-div">
                     {% endif %}
+                            {% if class.period == "Homeroom" %}
+                                <h5>{{ class.name }}</h5>
+                            {% else %}
                                 <h5>{{ class.name }} - Period {{ class.period }}</h5>
+                            {% endif %}
                                 <p>{{ time_string }}</p>
                             </div>
                             {% if class.link == current_class %}</a>{% endif %}
