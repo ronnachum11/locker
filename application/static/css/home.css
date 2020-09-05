@@ -32,7 +32,6 @@
     flex-direction: column; 
     align-items: center;
     justify-content: center;
-    height: 90vh;
     width: 100vw;
 }
 
@@ -44,8 +43,8 @@
     display: flex;
     flex-direction: column; 
     align-items: center;
-    height: 90vh;
-    width: 100vw;
+    padding-left: 20%;
+    padding-right: 20%;
 }
 
 .contact-div h1 {
@@ -58,30 +57,25 @@
 
 .anchor {
     display: block;
-    padding-top: 10vh;
-    margin-top: -10vh;
+    padding-top: 65px;
+    margin-top: -65px;
 }
-
-
-.team-directory {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
   
-  .img-cell {
+  .img-col {
     padding: 20px;
     text-align: center;
   }
 
-  .img-cell img {
-    height: 200px;
-    width: 200px;
+  .individual-img {
     border-radius: 50%;
     margin-bottom: 5px;
+    max-width:150px;
+    max-height:150px;
+    width: auto;
+    height: auto;
   }
 
-  .img-cell img:hover{
+  .individual-img:hover{
       opacity: 70%
   }
 

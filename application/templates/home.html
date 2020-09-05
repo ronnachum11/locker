@@ -13,13 +13,13 @@
         <h3 class="fade-in" style="margin-bottom: 30px">Virtual School Dashboard</h3>
 
         {% if current_user.is_authenticated %}
-            <h4 class="fade-in" style="margin-bottom: 20px">Hi {{current_user.name}},</h4>
+            <h4 class="fade-in">Hi {{current_user.name}},</h4>
             <div class="row fade-in" style="width: 50%">
-                <div class="col-md-6">
-                    <a class="btn-light btn-wide" href="{{ url_for('dashboard') }}">Go to your dashboard</a>
+                <div class="column">
+                    <a class="btn-light btn-wide" style="margin-top: 20px" href="{{ url_for('dashboard') }}">Go to your dashboard</a>
                 </div>
-                <div class="col-md-6">
-                    <a class="btn-light btn-wide" href="{{ url_for('account') }}">Manage account settings</a>
+                <div class="column">
+                    <a class="btn-light btn-wide" style="margin-top: 20px" href="{{ url_for('account') }}">Manage your account</a>
                 </div>
             </div>
         {% else %}
@@ -42,12 +42,12 @@
         you don't have to go through emails and calendar events to find your meetings.
     </p>
     <h3>Our Team</h3>
-    <div class="team-directory">
-        <div class="img-cell">
+    <div class="row">
+        <div class="col-md-6 col-xs-6 img-col">
             <img class="individual-img" src="{{ url_for('static', filename='images/ron.JPG') }}">
             <h5>Ron Nachum</h5>
         </div>
-        <div class="img-cell">
+        <div class="col-md-6 col-xs-6 img-col">
             <img class="individual-img" src="{{ url_for('static', filename='images/shrey.jpg') }}">
             <h5>Shrey Gupta</h5>
         </div>
@@ -60,8 +60,8 @@
 <a id="contact" class="anchor"></a>
 <div class="contact-div">
     <h1 style="margin-bottom: 20px;">Contact Us</h1>
-    <h5 style="margin-bottom: 20px;">We're always looking for feedback to improve The Locker, <br> so please don't hestitate to submit your thoughts here!</h5>
-    <form method="POST" style="width: 50%" action="">
+    <h5 style="margin-bottom: 20px; width: 166%">We're always looking for feedback to improve The Locker, so please don't hestitate to submit your thoughts here!</h5>
+    <form method="POST" action="">
         {{ form.hidden_tag() }}
         <fieldset class="form-group">
             <!-- <legend class="border-bottom mb-4">Contact Us</legend> -->

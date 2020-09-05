@@ -85,8 +85,6 @@ body.fade-out {
 }
 
 .form-container {
-  margin: 10% auto;
-  padding: 0 4%;
   max-width: 800px;
 }
 
@@ -99,11 +97,11 @@ body.fade-out {
 body {
   background-color: rgb(46, 46, 46);
   color: white;
-  margin-top: 10vh;
+  margin-top: 65px;
 }
 
 nav {
-  height: 10vh;
+  height: 65px;
   display: flex;
   align-items: center;
 }

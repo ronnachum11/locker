@@ -1,12 +1,12 @@
 {% extends "layout.html" %}
 
 {% block page_styles %}
-
+<link rel="stylesheet" href="../static/css/login.css">
 {% endblock page_styles %}
 
 {% block content %}
 <h1>Login</h1>
-    <div style="padding-top: 15px; padding-right: 35%; padding-left: 35%">
+    <div class="form-div" style="padding-top: 15px;">
         <form action="" method="POST">
             {{ form.csrf_token() }}
             <fieldset>
@@ -53,12 +53,12 @@
         </form>
     </div>
     <h4 class="text-muted" style="padding-top: 10px; padding-bottom: 10px;">OR</h4>
-<div style="padding-right: 25%; padding-left: 25%;">
-    <form action="" method="POST">
-        {{ form2.csrf_token() }}
-        <div class="submit-button">
-            {{ form2.submit2(class="btn-light btn-wide ") }}
-        </div>
-    </form>
-</div>
+    <div class="form-div">
+        <form action="" method="POST">
+            {{ form2.csrf_token() }}
+            <div class="submit-button">
+                {{ form2.submit2(class="btn-light btn-wide ") }}
+            </div>
+        </form>
+    </div>
 {% endblock content %}

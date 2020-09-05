@@ -1,0 +1,11 @@
+.form-div {
+    padding-right: 25%;
+    padding-left: 25%;
+}
+
+@media only screen and (max-width: 600px) {
+    .form-div {
+       padding-left: 5%;
+       padding-right: 5%;
+    }
+ }
