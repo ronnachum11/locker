@@ -29,7 +29,7 @@ class ClassForm(FlaskForm):
     submit = SubmitField('Add Class')
 
 class RegistrationForm(FlaskForm):
-    name = StringField('Full Name', validators=[DataRequired(), Length(min=2, max=20)])
+    name = StringField('Full Name', validators=[DataRequired(), Length(min=1, max=50)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     phone = StringField('Phone')
     password = PasswordField('Password', validators=[DataRequired()])
