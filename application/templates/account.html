@@ -12,14 +12,18 @@
     <div class="row">
         <div class="col-md-6">
             <h3>Email</h3>
-            <h6>{{ current_user.email }}</h6>
+            {% if has_email %}
+                <h6>{{ current_user.email }}</h6>
+            {% else %}
+                <h6>No Email Provided. You can add one <a href="{{ url_for('update_email') }}">here</a>.</h6>
+            {% endif %}
         </div>
         <div class="col-md-6">
             <h3>Phone</h3>
             {% if has_phone %}
                 <h6>{{ current_user.phone }}</h6>
             {% else %}
-                <h6>No Phone Provided. You can add one <a href="{{ url_for('add_phone_number') }}">here</a>.</h6>
+                <h6>No Phone Provided. You can add one <a href="{{ url_for('update_phone_number') }}">here</a>.</h6>
             {% endif %}
         </div>
     </div>

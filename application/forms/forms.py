@@ -69,21 +69,27 @@ class LoginForm(FlaskForm):
 class LoginIonForm(FlaskForm):
     submit2 = SubmitField('Login With Ion')
 
-class NewIonAccountForm(FlaskForm):
+class UpdatePhoneForm(FlaskForm):
     phone = StringField('Phone')
-    submit = SubmitField('Add')
+    submit = SubmitField('Add Phone')
 
     def validate_phone(self, field):
-        if len(field.data) > 16:
-            raise ValidationError('Invalid phone number.')
-        try:
-            input_number = phonenumbers.parse(field.data)
-            if not (phonenumbers.is_valid_number(input_number)):
+        if field:
+            if len(field.data) > 16:
                 raise ValidationError('Invalid phone number.')
-        except:
-            input_number = phonenumbers.parse("+1"+field.data)
-            if not (phonenumbers.is_valid_number(input_number)):
-                raise ValidationError('Invalid phone number.')
+            try:
+                input_number = phonenumbers.parse(field.data)
+                if not (phonenumbers.is_valid_number(input_number)):
+                    raise ValidationError('Invalid phone number.')
+            except:
+                input_number = phonenumbers.parse("+1"+field.data)
+                if not (phonenumbers.is_valid_number(input_number)):
+                    raise ValidationError('Invalid phone number.')
+
+class UpdateEmailForm(FlaskForm):
+    email = StringField('Phone', validators=[Email()])
+    submit = SubmitField('Add Email')
+
 
 class ImportClassesForm(FlaskForm):
     text = TextAreaField('Email Text', validators=[DataRequired()])

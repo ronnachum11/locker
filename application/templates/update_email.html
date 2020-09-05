@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block page_styles %}
+
+{% endblock page_styles %}
+
+{% block content %}
+<h1>Register</h1>
+<div style="padding-top: 15px; padding-right: 25%; padding-left: 25%;">
+    <form action="" method="POST">
+        {{ form.csrf_token() }}
+        <fieldset>
+            <div class="form-group">
+                {% if form.email.errors %}
+                    {{ form.email(class="form-control is-invalid", placholder="Email") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.email.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %} 
+                    {{ form.email(class="form-control", placeholder="Email") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="submit-button">
+            {{ form.submit(class="btn-wide btn-color") }}
+        </div>
+    </form>
+</div>
+
+{% endblock content %}

@@ -99,7 +99,10 @@ class User(UserMixin):
     
     def update_ion_id(self, ion_id:str):
         db.users.update({"id": self.id}, {'$set' : {"ion_id":ion_id}})
-    
+
+    def update_email(self, email:str):
+        db.users.update({"id": self.id}, {'$set' : {"email":email}})
+
     def update_phone(self, phone:str):
         db.users.update({"id": self.id}, {'$set' : {"phone":phone}})
 

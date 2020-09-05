@@ -5,7 +5,7 @@ from flask_mail import Message
 from application import app, bcrypt, mail, login_manager, oauth_login
 from application.classes.user import User
 from application.classes.course import Course
-from application.forms.forms import ClassForm, LoginForm, RegistrationForm, NewIonAccountForm, LoginIonForm, ImportClassesForm, LoginIonForm
+from application.forms.forms import ClassForm, LoginForm, RegistrationForm, UpdatePhoneForm, UpdateEmailForm, LoginIonForm, ImportClassesForm, LoginIonForm
 
 import os 
 import json 
@@ -70,18 +70,30 @@ def account():
     # course = courses[0]
     # print(course.email_alert_time, course.text_alert_time)
     has_phone = current_user.phone is not None
-    return render_template('account.html', classes=courses, has_phone=has_phone)
+    return render_template('account.html', classes=courses, has_phone=has_phone, has_email=current_user.email is not None)
 
 @login_required
-@app.route("/add-phone-number", methods=["GET", "POST"])
-def add_phone_number():
-    form = NewIonAccountForm()
+@app.route("/update-phone-number", methods=["GET", "POST"])
+def update_phone_number():
+    form = UpdatePhoneForm()
 
     if form.validate_on_submit():
         current_user.update_phone(re.sub("[^0-9]", "", form.phone.data))
         flash("Phone number added", 'success')
-        return redirect(url_for("dashboard"))
-    return render_template("register_ion.html", form=form)
+        return redirect(url_for("account"))
+    return render_template("update_phone.html", form=form)
+
+@login_required
+@app.route("/update-email", methods=["GET", "POST"])
+def update_email():
+    form = UpdateEmailForm()
+
+    if form.validate_on_submit():
+        current_user.update_email(form.email.data)
+        flash("Email added", 'success')
+        return redirect(url_for("account"))
+    return render_template("update_email.html", form=form)
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -142,7 +154,7 @@ def login_ion():
         )
         user.add()
         login_user(user, True)
-        return redirect(url_for('add_phone_number'))
+        return redirect(url_for('update_phone_number'))
 
 @app.route("/logout")
 def logout():
