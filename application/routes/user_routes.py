@@ -122,7 +122,8 @@ def login_ion():
         profile = oauth_login.get("https://ion.tjhsst.edu/api/profile")
         profile = profile.json()
     except:
-        pass
+        flash('We had a problem authenticating your ion account. Please try again', 'danger')
+        return redirect(url_for('home'))
 
     if User.get_by_email(profile['emails'][0]):
         login_user(User.get_by_email(profile['emails'][0]), True)
