@@ -9,7 +9,7 @@
 <div class="home-div">
     <div class="home-div-content">
         <img class="home-image fade-in" src="{{ url_for('static', filename='images/vTJ_light.png') }}">
-        <h1 class="line-1 anim-typewriter">The Locker</h1>
+        <h1 class="line-1 anim-typewriter" style="margin-bottom: 20px;">The Locker</h1>
         <h3 class="fade-in" style="margin-bottom: 30px">Virtual School Dashboard</h3>
 
         {% if current_user.is_authenticated %}
@@ -36,12 +36,35 @@
 </div>
 <a id="about" class="anchor"></a>
 <div class="about-div">
-    <h1>About</h1>
+    <h1 style="margin-bottom: 20px;">About</h1>
+    <div class="container" style="display: flex; align-items: center; justify-content: space-around;">
+        <div style="width: 75%;">
+            <p style="margin-bottom: 20px;">Online school has been drastically different for all students across the world and having different links from different places 
+                can be a hassle to manage. The Locker is a virtual class management system that stores your online meeting links in one place so 
+                you don't have to go through emails and calendar events to find your meetings.
+            </p>
+        </div>
+    </div>
+    <h3>Our Team</h3>
+    <div class="team-directory">
+        <div class="img-cell">
+            <img class="individual-img" src="{{ url_for('static', filename='images/ron.jpg') }}">
+            <p>Ron Nachum</p>
+        </div>
+        <div class="img-cell">
+            <img class="individual-img" src="{{ url_for('static', filename='images/shrey.jpg') }}">
+            <p>Shrey Gupta</p>
+        </div>
+        <!-- <div class="img-cell">
+            <img class="individual-img" src="{{ url_for('static', filename='images/vik.jpg') }}">
+            <p>Nicholas Britto</p>
+        </div> -->
+    </div>
 </div>
 <a id="contact" class="anchor"></a>
 <div class="contact-div">
-    <h1>Contact Us</h1>
-    <h5 style="padding-bottom: 5px;">We're always looking for feedback to improve The Locker, <br> so please don't hestitate to submit your thoughts here!</h5>
+    <h1 style="margin-bottom: 20px;">Contact Us</h1>
+    <h5 style="margin-bottom: 20px;">We're always looking for feedback to improve The Locker, <br> so please don't hestitate to submit your thoughts here!</h5>
     <form method="POST" style="width: 50%" action="">
         {{ form.hidden_tag() }}
         <fieldset class="form-group">

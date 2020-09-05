@@ -28,11 +28,8 @@
 }
 
 .about-div {
-    display: flex;
-    flex-direction: column; 
-    align-items: center;
-    height: 90vh;
-    width: 100vw;
+    padding-top: 150px;
+    padding-bottom: 150px;
 }
 
 .about-div h1 {
@@ -58,8 +55,27 @@
 .anchor {
     display: block;
     padding-top: 10vh;
-    margin-top: -10vh;
+    margin-top: -11vh;
 }
+
+
+.team-directory {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .img-cell {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .individual-img {
+    width:  250px;
+    height: 250px;
+    object-fit: cover;
+    padding-bottom: 20px;
+  }
 
 @keyframes fadeIn {
     0% {opacity: 0;}
