@@ -10,19 +10,19 @@
     <form action="" method="POST">
         {{ form1.csrf_token() }}
         <fieldset>
-            <div class="form-group">
-                {% if form1.name.errors %}
-                    {{ form1.name(class="form-control is-invalid", placholder="Full Name") }}
-                    <div class="invalid-feedback">
-                        {% for error in form1.name.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% else %} 
-                    {{ form1.name(class="form-control", placeholder="Full Name") }}
-                {% endif %}
-            </div>
             <div class="row">
+                <div class="form-group col-md-6">
+                    {% if form1.name.errors %}
+                        {{ form1.name(class="form-control is-invalid", placholder="Full Name") }}
+                        <div class="invalid-feedback">
+                            {% for error in form1.name.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form1.name(class="form-control", placeholder="Full Name") }}
+                    {% endif %}
+                </div>
                 <div class="form-group col-md-6">
                     {% if form1.email.errors %}
                         {{ form1.email(class="form-control is-invalid", placholder="Email") }}
@@ -35,6 +35,8 @@
                         {{ form1.email(class="form-control", placeholder="Email") }}
                     {% endif %}
                 </div>
+            </div>
+            <div class="row">
                 <div class="form-group col-md-6">
                     {% if form1.phone.errors %}
                         {{ form1.phone(class="form-control is-invalid", placholder="Phone") }}
@@ -45,6 +47,18 @@
                         </div>
                     {% else %} 
                         {{ form1.phone(class="form-control", placeholder="Phone") }}
+                    {% endif %}
+                </div>
+                <div class="form-group col-md-6">
+                    {% if form1.carrier.errors %}
+                        {{ form1.carrier(class="form-control is-invalid", placholder="Carrier") }}
+                        <div class="invalid-feedback">
+                            {% for error in form1.carrier.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form1.carrier(class="form-control", placeholder="Carrier") }}
                     {% endif %}
                 </div>
             </div>

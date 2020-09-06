@@ -34,11 +34,14 @@ def register():
 
     form1 = RegistrationForm()
     if form1.submit.data and form1.validate_on_submit():
+        if form1.carrier.data == "-1":
+            form1.carrier.data = None
         user = User.get_by_email(form1.email.data)
         if user:
             if user.hasIon:
-                user.password = bcrypt.generate_password_hash(form1.password.data).decode('utf-8')
-                user.update_password(user.password)
+                user.update_password(bcrypt.generate_password_hash(form1.password.data).decode('utf-8'))
+                user.update_phone(form1.phone.data)
+                user.update_carrier(form1.carrier.data)
         else:
             hashed_pw = bcrypt.generate_password_hash(form1.password.data).decode('utf-8')
             user = User(
@@ -46,6 +49,7 @@ def register():
                 name=form1.name.data.title(), 
                 email=form1.email.data,
                 phone=form1.phone.data,
+                carrier=form1.carrier.data,
                 password=hashed_pw
             )
             user.add()
@@ -59,8 +63,8 @@ def register():
 
     return render_template('register.html', title='Register', form1=form1, form2=form2)
 
-@login_required
 @app.route("/account", methods=["GET", "POST"])
+@login_required
 def account():
     courses = current_user.courses
     if courses:
@@ -76,17 +80,22 @@ def account():
 @app.route("/update-phone", methods=["GET", "POST"])
 def update_phone():
     form = UpdatePhoneForm()
-    if current_user.phone:
-        form.phone.data = current_user.phone
 
     if form.validate_on_submit():
         current_user.update_phone(re.sub("[^0-9]", "", form.phone.data))
-        flash("Phone number added", 'success')
+        current_user.update_carrier(form.carrier.data)
+        flash("Phone number updated", 'success')
         return redirect(url_for("account"))
+
+    if current_user.phone:
+        form.phone.data = current_user.phone
+    if current_user.carrier:
+        form.carrier.data = current_user.carrier
+
     return render_template("update_phone.html", form=form)
 
-@login_required
 @app.route("/update-email", methods=["GET", "POST"])
+@login_required
 def update_email():
     form = UpdateEmailForm()
     if current_user.email:
@@ -94,7 +103,7 @@ def update_email():
 
     if form.validate_on_submit():
         current_user.update_email(form.email.data)
-        flash("Email added", 'success')
+        flash("Email updated", 'success')
         return redirect(url_for("account"))
     return render_template("update_email.html", form=form)
 
@@ -111,7 +120,7 @@ def login():
             login_user(user, remember=form.remember.data, force=True)
             next_page = request.args.get('next')
             if next_page:
-                return redirect(url_for(next_page))
+                return redirect(next_page)
             else:
                 return redirect(url_for('dashboard'))
             return redirect(url_for('dashboard'))
@@ -161,6 +170,7 @@ def login_ion():
         return redirect(url_for('account'))
 
 @app.route("/logout")
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('home'))

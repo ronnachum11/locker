@@ -133,7 +133,7 @@
                             <!-- <input type="checkbox" id="switch" class="switch" onclick="disable_form('email_reminder');"/>
                             <label class="switch-label" for="switch">Toggle</label> -->
                         {% else %}
-                            <h5 style="text-align: center; color: grey;">Add Email for Email Reminders</h5>
+                            <h5 style="text-align: center; color: grey;">Add Email for Email Reminders<br><a href="{{ url_for('update_email') }}">Here</a></h5>
                         {% endif %}
                     </div>
                     {% if has_email %}
@@ -156,7 +156,7 @@
                             <!-- <input type="checkbox" id="switch2" class="switch" onclick="disable_form('text_reminder');"/>
                             <label class="switch-label" for="switch2">Toggle</label>     -->
                         {% else %}
-                            <h5 style="text-align: center; color: grey;">Add Phone for Text Reminders</h5>
+                            <h5 style="text-align: center; color: grey;">Add Phone for Text Reminders<br><a href="{{ url_for('update_phone') }}">Here</a></h5>
                         {% endif %}
                     </div>
                     {% if has_phone %} 

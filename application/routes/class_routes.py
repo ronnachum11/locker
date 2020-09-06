@@ -42,7 +42,7 @@ def add_class():
         flash('Class Added Successfully!', 'success')
         return redirect(url_for('dashboard'))
 
-    return render_template('add_class.html', header="Add A Class", update_class=False, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None, form=form)
+    return render_template('add_class.html', header="Add A Class", update_class=False, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None and current_user.carrier is not None, form=form)
 
 @app.route("/import_classes", methods=["GET", "POST"])
 def import_classes():
@@ -76,7 +76,7 @@ def update_class(course_id):
 
     form.submit.label.text = "Update Class"
 
-    return render_template('add_class.html', header=f"{course.name} ({course.period})", course_id=course.id, update_class=True, color=course.color, period=course.period, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None, form=form)
+    return render_template('add_class.html', header=f"{course.name} ({course.period})", course_id=course.id, update_class=True, color=course.color, period=course.period, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None and current_user.carrier is not None, form=form)
 
 @app.route("/delete_class/<string:course_id>", methods=["GET", "POST"])
 @login_required

@@ -12,6 +12,12 @@ minute_choices = [('-1', "None")] + minute_choices
 
 # minute_choices = [('-1', "None"), ('10', "10 Minutes Before")]
 
+carriers = [('@mms.att.net', 'AT&T'), ('@tmomail.net', 'T-Mobile'), 
+            ('@vtext.com', 'Verizon'), ('@page.nextel.com', 'Sprint')]
+
+carriers = [('-1', 'No Carrier (Required for Text Reminders)'), ('AT&T', 'AT&T'),
+            ('T-Mobile', 'T-Mobile'), ('Verizon', 'Verizon'), ('Sprint', 'Sprint')]
+
 class ClassForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     link = StringField('Link', validators=[DataRequired(), Regexp('https://us.bbcollab.com/invite/*')])
@@ -37,6 +43,7 @@ class RegistrationForm(FlaskForm):
     name = StringField('Full Name', validators=[DataRequired(), Length(min=1, max=50)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     phone = StringField('Phone')
+    carrier = SelectField('Carrier', choices=carriers, validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
@@ -76,6 +83,7 @@ class LoginIonForm(FlaskForm):
 
 class UpdatePhoneForm(FlaskForm):
     phone = StringField('Phone')
+    carrier = SelectField('Carrier', choices=carriers, validators=[DataRequired()])
     submit = SubmitField('Update Phone')
 
     def validate_phone(self, field):

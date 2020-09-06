@@ -24,8 +24,10 @@
     function updateDisplay(new_display) {
         console.log("clicked")
         iframe = document.getElementById("iframe")
+        options_div = document.getElementsByClassName("options-div")[0]
         if(new_display == "standard"){
             iframe.removeAttribute("style")
+            options_div.removeAttribute("style")
             iframe.style.width = "100%";
             iframe.style.height = "100%";
             document.getElementsByClassName("classes-column")[0].style.display = "block";
@@ -33,6 +35,7 @@
         }
         else if(new_display == "theater"){
             iframe.removeAttribute("style")
+            options_div.removeAttribute("style")
             iframe.style.width = "100%";
             iframe.style.height = "100%";
             document.getElementsByClassName("classes-column")[0].style.display = "none";
@@ -51,6 +54,10 @@
             iframe.style.padding = 0;
             iframe.style.overflow = "hidden";
             iframe.style.left = 999999;   
+
+            options_div.style.position = "fixed";
+            options_div.style.top = "65px";
+            options_div.style.right = 0;
         }
     }
 

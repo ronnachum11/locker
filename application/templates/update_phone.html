@@ -22,6 +22,18 @@
                     {{ form.phone(class="form-control", placeholder="Phone Number") }}
                 {% endif %}
             </div>
+            <div class="form-group">
+                {% if form.carrier.errors %}
+                    {{ form.carrier(class="form-control is-invalid", placholder="Carrier") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.carrier.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %} 
+                    {{ form.carrier(class="form-control", placeholder="Carrier") }}
+                {% endif %}
+            </div>
         </fieldset>
         <div class="submit-button">
             {{ form.submit(class="btn-wide btn-color") }}

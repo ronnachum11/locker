@@ -7,12 +7,13 @@ from application.classes.course import Course
 
 
 class User(UserMixin):
-    def __init__(self, id:str=None, name:str=None, email:str=None, ion_id:int=None, phone:str=None, password:str=None, hasIon:bool=False, hasGoogle:bool=False, courses: [Course]=[], data:dict=None):
+    def __init__(self, id:str=None, name:str=None, email:str=None, ion_id:int=None, phone:str=None, carrier:str=None, password:str=None, hasIon:bool=False, hasGoogle:bool=False, courses: [Course]=[], data:dict=None):
         self.id = str(id)
         self.ion_id = ion_id
         self.name = name
         self.email = email
         self.phone = phone
+        self.carrier = carrier
         self.password = password
 
         self.hasIon = hasIon
@@ -35,6 +36,7 @@ class User(UserMixin):
             "email": self.email,
             "ion_id": self.ion_id,
             "phone": self.phone,
+            "carrier": self.carrier,
             "password": self.password,
             "hasIon": self.hasIon,
             "hasGoogle": self.hasGoogle,
@@ -52,6 +54,7 @@ class User(UserMixin):
                     dictionary.get('email'),
                     dictionary.get('ion_id'),
                     dictionary.get('phone'),
+                    dictionary.get('carrier'),
                     dictionary.get('password'),
                     dictionary.get('hasIon'),
                     dictionary.get('hasGoogle'),
@@ -102,6 +105,11 @@ class User(UserMixin):
 
     def update_email(self, email:str):
         db.users.update({"id": self.id}, {'$set' : {"email":email}})
+
+    def update_carrier(self, carrier:str):
+        if carrier == "-1":
+            carrier = None
+        db.users.update({"id": self.id}, {'$set' : {"carrier":carrier}})
 
     def update_phone(self, phone:str):
         db.users.update({"id": self.id}, {'$set' : {"phone":phone}})
