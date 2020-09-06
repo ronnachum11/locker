@@ -73,9 +73,11 @@ def account():
     return render_template('account.html', classes=courses, has_phone=has_phone, has_email=current_user.email is not None)
 
 @login_required
-@app.route("/update-phone-number", methods=["GET", "POST"])
-def update_phone_number():
+@app.route("/update-phone", methods=["GET", "POST"])
+def update_phone():
     form = UpdatePhoneForm()
+    if current_user.phone:
+        form.phone.data = current_user.phone
 
     if form.validate_on_submit():
         current_user.update_phone(re.sub("[^0-9]", "", form.phone.data))
@@ -87,6 +89,8 @@ def update_phone_number():
 @app.route("/update-email", methods=["GET", "POST"])
 def update_email():
     form = UpdateEmailForm()
+    if current_user.email:
+        form.email.data = current_user.email
 
     if form.validate_on_submit():
         current_user.update_email(form.email.data)

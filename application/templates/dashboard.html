@@ -21,6 +21,39 @@
         }
     }
 
+    function updateDisplay(new_display) {
+        console.log("clicked")
+        iframe = document.getElementById("iframe")
+        if(new_display == "standard"){
+            iframe.removeAttribute("style")
+            iframe.style.width = "100%";
+            iframe.style.height = "100%";
+            document.getElementsByClassName("classes-column")[0].style.display = "block";
+            document.getElementsByClassName("class-container")[0].classList.remove("col-md-12"); 
+        }
+        else if(new_display == "theater"){
+            iframe.removeAttribute("style")
+            iframe.style.width = "100%";
+            iframe.style.height = "100%";
+            document.getElementsByClassName("classes-column")[0].style.display = "none";
+            document.getElementsByClassName("class-container")[0].classList.add("col-md-12");
+        }
+        else if(new_display == "full-screen"){
+            iframe.style.position = "fixed";
+            iframe.style.top = 0;
+            iframe.style.left = 0;
+            iframe.style.right = 0;
+            iframe.style.bottom = 0;
+            iframe.style.width = "100%";
+            iframe.style.height = "calc(100% - 60px)";
+            iframe.style.border = "none";
+            iframe.style.margin = '65px 0 0 0';
+            iframe.style.padding = 0;
+            iframe.style.overflow = "hidden";
+            iframe.style.left = 999999;   
+        }
+    }
+
     function fullScreen(){
         console.log(val)
         if(val == 1){
@@ -80,7 +113,7 @@
             <div class="button">
                 <div class="row" style="padding-top: 5px">
                     <!-- <div class="col-md-6"> -->
-                        <a class="btn-color btn-wide" href="{{ url_for('add_class') }}">Add Class</a>
+                    <a class="btn-color btn-wide" href="{{ url_for('add_class') }}">Add Class</a>
                     <!-- </div>
                     <div class="col-md-6">
                         <a class="btn-light btn-wide" href="{{ url_for('import_classes') }}">Import All</a>
@@ -96,13 +129,23 @@
                 {% endif %}
             {% else %}
                 <iframe id="iframe" style="width: 100%; height: 100%" allow="camera *; microphone *" 
-                        src="{{ current_class }}" title="Blackboard Collaborate">
+                        src="{{ current_class }}" title="Classroom">
                     Your browser doesn't support this feature. Try a different browser for a better experience.    
                 </iframe>
             {% endif %}
         </div>
         <!-- <a class="btn-light btn-wide" onClick="fullScreen();">Full Screen</a> -->
     </div>
+    {% if current_class != "" %}
+        <div class="row options-div">
+            <input class="select-display-button" type="radio" id="standard" name="display" value="standard" checked="checked" onclick="updateDisplay('standard');">
+            <label for="standard">Standard</label><br>
+            <input class="select-display-button" type="radio" id="theater" name="display" value="theater" onclick="updateDisplay('theater');">
+            <label for="theater">Theater</label><br>
+            <input class="select-display-button" type="radio" id="full-screen" name="display" value="full-screen" onclick="updateDisplay('full-screen');">
+            <label for="full-screen">Full Screen</label>
+        </div>
+    {% endif %}
 {% else %}
     <h1>Please Log In</h1>
 {% endif %}

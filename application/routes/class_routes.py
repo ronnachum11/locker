@@ -37,7 +37,7 @@ def add_class():
     if form.validate_on_submit():
         course = Course(id=str(ObjectId()), name=form.name.data, link=form.link.data, color=form.color.data, period=form.period.data,
                           times=tj_json[form.period.data], teacher=form.teacher.data, user_id=current_user.id,
-                          email_alert_time=form.email_reminder.data, text_alert_time=form.text_reminder.data)
+                          email_alert_time=int(form.email_reminder.data), text_alert_time=int(form.text_reminder.data))
         current_user.add_course(course)
         flash('Class Added Successfully!', 'success')
         return redirect(url_for('dashboard'))
@@ -68,7 +68,7 @@ def update_class(course_id):
     if form.validate_on_submit():
         current_user.update_course(course_id, name=form.name.data, teacher=form.teacher.data,
                     link=form.link.data, period=form.period.data, color=form.color.data, 
-                    text_alert_time=form.text_reminder.data, email_alert_time=form.email_reminder.data, 
+                    text_alert_time=int(form.text_reminder.data), email_alert_time=int(form.email_reminder.data), 
                     times=dict(tj_json[form.period.data]))
 
         flash('Class Updated Successfully!', 'success')

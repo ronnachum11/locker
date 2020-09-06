@@ -5,12 +5,12 @@ from wtforms import StringField, SubmitField, TextField, TextAreaField, BooleanF
 from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp, ValidationError
 from application.classes.user import User
 
-minute_choices = [(1, '1'), (2, '2'), (3, '3'), (5, '5'), (10, '10'), 
-                 (15, '15'), (20, '20'), (25, '25'), (30, '30')]
+minute_choices = [('1', '1'), ('2', '2'), ('3', '3'), ('5', '5'), ('10', '10'), 
+                 ('15', '15'), ('20', '20'), ('25', '25'), ('30', '30')]
 minute_choices = [(x[0], x[1] + ' Minutes Before') if x[1] != '1' else (x[0], x[1] + ' Minute Before') for x in minute_choices]
-minute_choices = [(-1, "None")] + minute_choices
+minute_choices = [('-1', "None")] + minute_choices
 
-# minute_choices = [(-1, "None"), (10, "10 Minutes Before")]
+# minute_choices = [('-1', "None"), ('10', "10 Minutes Before")]
 
 class ClassForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
@@ -23,10 +23,15 @@ class ClassForm(FlaskForm):
         choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6'), 
                  ('7', '7'), ('8A', '8A'), ('8B', '8B'), ('Homeroom', 'HR')])
     teacher = StringField('Teacher', validators=[])
-    text_reminder = SelectField('Minutes Before', [], choices=minute_choices, default=-1)
-    email_reminder = SelectField('Minutes Before', [], choices=minute_choices, default=-1)
+    text_reminder = SelectField('Minutes Before', validators=[DataRequired()], choices=minute_choices, default=-1)
+    email_reminder = SelectField('Minutes Before', validators=[DataRequired()], choices=minute_choices, default=-1)
     notes = TextAreaField('Notes', validators=[])
     submit = SubmitField('Add Class')
+
+    def validate_link(self, link):
+        if not 'https://us.bbcollab.com/invite/' in link.data:
+            raise ValidationError('Invalid Link. Try right clicking the email link and then clicking "Copy Link Address"')
+
 
 class RegistrationForm(FlaskForm):
     name = StringField('Full Name', validators=[DataRequired(), Length(min=1, max=50)])
@@ -47,16 +52,16 @@ class RegistrationForm(FlaskForm):
         if user and user.password is None:
             raise ValidationError('This account was created with ION, please register again to add a password.')
     
-    def validate_phone(self, field):
-        if field.data:
-            if len(field.data) > 16:
+    def validate_phone(self, phone):
+        if phone.data:
+            if len(phone.data) > 16:
                 raise ValidationError('Invalid phone number.')
             try:
-                input_number = phonenumbers.parse(field.data)
+                input_number = phonenumbers.parse(phone.data)
                 if not (phonenumbers.is_valid_number(input_number)):
                     raise ValidationError('Invalid phone number.')
             except:
-                input_number = phonenumbers.parse("+1"+field.data)
+                input_number = phonenumbers.parse("+1"+phone.data)
                 if not (phonenumbers.is_valid_number(input_number)):
                     raise ValidationError('Invalid phone number.')
 
@@ -71,7 +76,7 @@ class LoginIonForm(FlaskForm):
 
 class UpdatePhoneForm(FlaskForm):
     phone = StringField('Phone')
-    submit = SubmitField('Add Phone')
+    submit = SubmitField('Update Phone')
 
     def validate_phone(self, field):
         if field:
@@ -88,7 +93,7 @@ class UpdatePhoneForm(FlaskForm):
 
 class UpdateEmailForm(FlaskForm):
     email = StringField('Phone', validators=[Email()])
-    submit = SubmitField('Add Email')
+    submit = SubmitField('Update Email')
 
 
 class ImportClassesForm(FlaskForm):
