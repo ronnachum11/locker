@@ -15,7 +15,7 @@ minute_choices = [('-1', "None")] + minute_choices
 carriers = [('@mms.att.net', 'AT&T'), ('@tmomail.net', 'T-Mobile'), 
             ('@vtext.com', 'Verizon'), ('@page.nextel.com', 'Sprint')]
 
-carriers = [('-1', 'No Carrier (Required for Text Reminders)'), ('AT&T', 'AT&T'),
+carriers = [('-1', 'Carrier: None'), ('AT&T', 'AT&T'),
             ('T-Mobile', 'T-Mobile'), ('Verizon', 'Verizon'), ('Sprint', 'Sprint')]
 
 class ClassForm(FlaskForm):
