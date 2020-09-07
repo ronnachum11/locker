@@ -27,15 +27,10 @@
         "Wednesday": "12:50",
         "Friday": "12:50"
     },
-    "8A": {
-        "Wednesday": "2:30",
-        "Friday": "2:30"
-    },
-    "8B": {
-        "Wednesday": "3:20",
-        "Friday": "3:20"
-    },
+    "8A": {},
+    "8B": {},
     "Homeroom": {
-
+        "Wednesday": "2:35",
+        "Friday": "2:35"
     }
 }

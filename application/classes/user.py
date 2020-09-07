@@ -7,7 +7,7 @@ from application.classes.course import Course
 
 
 class User(UserMixin):
-    def __init__(self, id:str=None, name:str=None, email:str=None, ion_id:int=None, phone:str=None, carrier:str=None, password:str=None, hasIon:bool=False, hasGoogle:bool=False, courses: [Course]=[], data:dict=None):
+    def __init__(self, id:str=None, name:str=None, email:str=None, ion_id:int=None, phone:str=None, carrier:str=None, password:str=None, school:str="TJ", hasIon:bool=False, hasGoogle:bool=False, courses: [Course]=[], data:dict=None):
         self.id = str(id)
         self.ion_id = ion_id
         self.name = name
@@ -15,6 +15,7 @@ class User(UserMixin):
         self.phone = phone
         self.carrier = carrier
         self.password = password
+        self.school = school
 
         self.hasIon = hasIon
         self.hasGoogle = hasGoogle
@@ -38,6 +39,7 @@ class User(UserMixin):
             "phone": self.phone,
             "carrier": self.carrier,
             "password": self.password,
+            "school": self.school,
             "hasIon": self.hasIon,
             "hasGoogle": self.hasGoogle,
             "courses": [course.to_dict() for course in self.courses],
@@ -56,12 +58,12 @@ class User(UserMixin):
                     dictionary.get('phone'),
                     dictionary.get('carrier'),
                     dictionary.get('password'),
+                    dictionary.get('school'),
                     dictionary.get('hasIon'),
                     dictionary.get('hasGoogle'),
                     [Course.from_dict(course) for course in dictionary.get('courses')] if dictionary.get('courses') else None,
                     dictionary.get('data')
             )
-        print(user)
         return user
     
     def add(self):

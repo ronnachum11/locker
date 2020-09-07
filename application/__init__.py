@@ -18,7 +18,7 @@ from datetime import datetime, timedelta
 def get_tj_schedule():
     weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     periods = ["1", "2", "3", "4", "5", "6", "7", "8A", "8B", "Homeroom"]
-    class_times = {course: "None" for course in periods}
+    class_times = {course: {} for course in periods}
 
     index = datetime.today().weekday()
     current_day = weekdays[index]
@@ -39,15 +39,12 @@ def get_tj_schedule():
                 name = course['name'].replace("Period ", "")
                 start_time = course['start'].replace("13:", "1:").replace("14:", "2:").replace("15:", "3:")
                 if name in class_times:
-                    if class_times[name] == "None":
-                        class_times[name] = weekday + " @ " + start_time
-                    else:
-                        class_times[name] += ", " + weekday + " @ " + start_time
+                    class_times[name][weekday] = start_time
 
     print("Updated Class Times")
 
-    with open(os.path.join('application', 'tj_weekly_sched.json'), 'w') as f:
-        json.dump(class_times, f)
+    with open(os.path.join('application', 'tj.json'), 'w') as f:
+        json.dump(class_times, f, indent=4)
 
 from application.classes.db import DB
 from config import load_config

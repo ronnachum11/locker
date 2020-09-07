@@ -27,6 +27,11 @@
     font-family: "Anonymous Pro";
 }
 
+.home-div-buttons{
+    width: 75%;
+    max-width: 800px;
+}
+
 .about-div {
     display: flex;
     flex-direction: column; 
