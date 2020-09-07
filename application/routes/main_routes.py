@@ -92,3 +92,7 @@ def classroom(course_id):
 
     courses = get_courses_and_strings()
     return render_template("dashboard.html", classes=courses, name=name, text=text, error=error, current_class=current_link)
+
+@app.route("/privacy_policy")
+def privacy_policy():
+    return render_template("privacy_policy.html")
