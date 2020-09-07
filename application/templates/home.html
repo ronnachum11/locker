@@ -15,10 +15,10 @@
         {% if current_user.is_authenticated %}
             <h4 class="fade-in">Hi {{current_user.name}},</h4>
             <div class="row fade-in" style="width: 50%">
-                <div class="column">
+                <div class="col-md-6">
                     <a class="btn-color btn-wide" style="margin-top: 15px" href="{{ url_for('dashboard') }}">Go to your dashboard</a>
                 </div>
-                <div class="column">
+                <div class="col-md-6">
                     <a class="btn-color btn-wide" style="margin-top: 15px" href="{{ url_for('account') }}">Manage your account</a>
                 </div>
             </div>

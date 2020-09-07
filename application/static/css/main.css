@@ -40,6 +40,7 @@ body.fade-out {
 }
 .btn-color:hover {
   background-color: rgb(27, 112, 197);
+  color: white;
 }
 
 .btn-red {
