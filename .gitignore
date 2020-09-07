@@ -3,3 +3,5 @@ venv/
 *.pyc
 application/site.db
 *.env
+
+*.DS_Store

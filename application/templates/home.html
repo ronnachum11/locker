@@ -14,7 +14,7 @@
 
         {% if current_user.is_authenticated %}
             <h4 class="fade-in">Hi {{current_user.name}},</h4>
-            <div class="home-div-buttons row fade-in">
+            <div class="row fade-in" style="width: 50%">
                 <div class="column">
                     <a class="btn-light btn-wide" style="margin-top: 20px" href="{{ url_for('dashboard') }}">Go to your dashboard</a>
                 </div>
@@ -23,11 +23,11 @@
                 </div>
             </div>
         {% else %}
-            <div class="home-div-buttons row fade-in">
-                <div class="column">
+            <div class="row fade-in" style="width: 50%">
+                <div class="col-md-6">
                     <a class="btn-light btn-wide" href="{{ url_for('register') }}">Sign Up</a>
                 </div>
-                <div class="column">
+                <div class="col-md-6">
                     <a class="btn-light btn-wide" href="{{ url_for('login') }}">Log In</a>
                 </div>
             </div>
