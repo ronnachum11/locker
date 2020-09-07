@@ -34,14 +34,17 @@ def get_courses_and_strings():
         courses = sorted(courses, key=lambda course: course.period)
         strings = []
         for course in courses:
-            times = school_to_times[current_user.school][course.period]
-            string = ""
-            for i, day in enumerate(times):
-                if i == 0:
-                    string += day + " @ " + times[day]
-                else:
-                    string += ", " + day + " @ " + times[day]
-            strings.append(string)
+            if current_user.school in school_to_times:
+                times = school_to_times[current_user.school][course.period]
+                string = ""
+                for i, day in enumerate(times):
+                    if i == 0:
+                        string += day + " @ " + times[day]
+                    else:
+                        string += ", " + day + " @ " + times[day]
+                strings.append(string)
+            else:
+                strings.append("None")
         courses = [(courses[i], strings[i]) for i in range(len(courses))]
     else:
         courses = []
