@@ -9,17 +9,17 @@
 <div class="home-div">
     <div class="home-div-content">
         <img class="home-image fade-in" src="{{ url_for('static', filename='images/locker.png') }}">
-        <h1 class="line-1 anim-typewriter" style="margin-bottom: 20px;">The Locker</h1>
-        <h3 class="fade-in" style="margin-bottom: 30px">Virtual School Dashboard</h3>
+        <h1 class="line-1 anim-typewriter">The Locker</h1>
+        <h3 class="fade-in" style="margin-bottom: 40px">Your Virtual School Assistant</h3>
 
         {% if current_user.is_authenticated %}
             <h4 class="fade-in">Hi {{current_user.name}},</h4>
             <div class="home-div-buttons row fade-in">
                 <div class="column">
-                    <a class="btn-color btn-wide" style="margin-top: 20px" href="{{ url_for('dashboard') }}">Go to your dashboard</a>
+                    <a class="btn-color btn-wide" style="margin-top: 15px" href="{{ url_for('dashboard') }}">Go to your dashboard</a>
                 </div>
                 <div class="column">
-                    <a class="btn-color btn-wide" style="margin-top: 20px" href="{{ url_for('account') }}">Manage your account</a>
+                    <a class="btn-color btn-wide" style="margin-top: 15px" href="{{ url_for('account') }}">Manage your account</a>
                 </div>
             </div>
         {% else %}
