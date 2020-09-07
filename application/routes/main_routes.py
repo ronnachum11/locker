@@ -59,7 +59,7 @@ def check_recent_update():
             seen_recent_update = True
         return seen_recent_update
     return True 
-    
+
 @app.route("/home", methods=["GET", "POST"])
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -68,7 +68,7 @@ def home():
         form.name.data = current_user.name
         form.email.data = current_user.email
 
-        seen_recent_update = check_recent_update()
+    seen_recent_update = check_recent_update()
 
     if form.validate_on_submit():
         send_contact_email(form.name.data, form.email.data, form.subject.data, form.message.data)
