@@ -51,13 +51,15 @@ def get_courses_and_strings():
     return courses
 
 def check_recent_update():
-    if not current_user.seen_recent_update:
-        seen_recent_update = False
-        current_user.update_view_update(True)
-    else:
-        seen_recent_update = True
-    return seen_recent_update
-
+    if current_user.is_authenticated:
+        if not current_user.seen_recent_update:
+            seen_recent_update = False
+            current_user.update_view_update(True)
+        else:
+            seen_recent_update = True
+        return seen_recent_update
+    return True 
+    
 @app.route("/home", methods=["GET", "POST"])
 @app.route("/", methods=["GET", "POST"])
 def home():
