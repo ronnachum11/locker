@@ -9,3 +9,6 @@ class DB:
 
     def __repr__(self):
         return "<MongoDB database>"
+    
+    def update_seen_update(self):
+        self.db.users.update_many({}, {"$set": {"seen_recent_update": False}})
