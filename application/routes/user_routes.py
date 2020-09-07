@@ -24,7 +24,6 @@ from bson import ObjectId
 @login_manager.user_loader
 def load_user(user_id):
     user_id = str(user_id)
-    print(user_id, User.get_by_id(user_id))
     return User.get_by_id(user_id)
 
 @app.route("/register", methods=['GET', 'POST'])

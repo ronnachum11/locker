@@ -18,8 +18,8 @@ import re
 # /home
 # /classroom
 
-with open(os.path.join('application', 'tj.json')) as f:
-    tj_json = json.load(f)
+with open(os.path.join('application', 'tj_weekly_sched.json')) as f:
+    tj = json.load(f)
 
 @app.route("/home", methods=["GET", "POST"])
 @app.route("/", methods=["GET", "POST"])
@@ -42,8 +42,7 @@ def dashboard():
     courses = current_user.courses
     if courses:
         courses = sorted(courses, key=lambda course: course.period)
-        courses = [(c, list(set(c.times.keys())), list(set(c.times.values()))) for c in courses]
-        courses = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") if len(days) != 0 and len(times) != 0 else (c, "") for c, days, times in courses]
+        courses = [(c, tj[c.period]) for c in courses]
     else:
         courses = []
     text = "Choose a class or add a new one to get started."
@@ -70,8 +69,7 @@ def classroom(course_id):
     courses = current_user.courses
     if courses:
         courses = sorted(courses, key=lambda course: course.period)
-        courses = [(c, list(set(c.times.keys())), list(set(c.times.values()))) for c in courses]
-        courses = [(c, f"{days[0]}s and {days[1]}s, {times[0]}") if len(days) != 0 and len(times) != 0 else (c, "") for c, days, times in courses]
+        courses = [(c, tj[c.period]) for c in courses]
     else:
         courses = []
     return render_template("dashboard.html", classes=courses, name=name, text=text, error=error, current_class=current_link)
