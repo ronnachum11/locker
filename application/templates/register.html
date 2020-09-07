@@ -51,14 +51,14 @@
                 </div>
                 <div class="form-group col-md-6">
                     {% if form1.carrier.errors %}
-                        {{ form1.carrier(class="form-control is-invalid", placholder="Carrier") }}
+                        {{ form1.carrier(class="form-control is-invalid", style="height: 45px", placholder="Carrier") }}
                         <div class="invalid-feedback">
                             {% for error in form1.carrier.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %} 
-                        {{ form1.carrier(class="form-control", placeholder="Carrier") }}
+                        {{ form1.carrier(class="form-control", style="height: 45px", placeholder="Carrier") }}
                     {% endif %}
                 </div>
             </div>
@@ -87,6 +87,18 @@
                         {{ form1.confirm_password(class="form-control", placeholder="Confirm Password") }}
                     {% endif %}
                 </div>
+            </div>
+            <div class="form-group" style="display: flex; align-items: center; justify-content: center;">
+                {% if form1.school.errors %}
+                    {{ form1.school(class="form-control is-invalid", style="height: 45px; width: 50%", placholder="School") }}
+                    <div class="invalid-feedback">
+                        {% for error in form1.school.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %} 
+                    {{ form1.school(class="form-control", style="height: 45px; width: 50%", placeholder="School") }}
+                {% endif %}
             </div>
         </fieldset>
         <div class="submit-button">

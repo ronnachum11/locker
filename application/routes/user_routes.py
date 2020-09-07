@@ -49,7 +49,8 @@ def register():
                 email=form1.email.data,
                 phone=form1.phone.data,
                 carrier=form1.carrier.data,
-                password=hashed_pw
+                password=hashed_pw,
+                school=form1.school.data
             )
             user.add()
         flash('Your account has been created!', 'success')

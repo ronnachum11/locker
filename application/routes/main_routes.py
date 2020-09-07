@@ -28,20 +28,20 @@ with open(os.path.join('application', 'fcps_ms.json')) as f:
     fcps_ms = json.load(f)
 
 def get_courses_and_strings():
+    school_to_times = {"TJ": tj, "FCPS HS": fcps_hs, "FCPS MS": fcps_ms}
     courses = current_user.courses
     if courses:
         courses = sorted(courses, key=lambda course: course.period)
-        if current_user.school == "TJ":
-            strings = []
-            for course in courses:
-                times = tj[course.period]
-                string = ""
-                for i, day in enumerate(times):
-                    if i == 0:
-                        string += day + " @ " + times[day]
-                    else:
-                        string += ", " + day + " @ " + times[day]
-                strings.append(string)
+        strings = []
+        for course in courses:
+            times = school_to_times[current_user.school][course.period]
+            string = ""
+            for i, day in enumerate(times):
+                if i == 0:
+                    string += day + " @ " + times[day]
+                else:
+                    string += ", " + day + " @ " + times[day]
+            strings.append(string)
         courses = [(courses[i], strings[i]) for i in range(len(courses))]
     else:
         courses = []

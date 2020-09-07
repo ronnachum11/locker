@@ -21,22 +21,25 @@ from bson import ObjectId
 # /update_class
 # /delete_class
 
-with open(os.path.join('application', 'tj.json')) as f:
-    tj_json = json.load(f)
+def get_color_period_list(form):
+    color_list, period_list = [], []
+    for i, colors in enumerate(form.color.choices):
+        color_list.append((f"color-{i}", colors[0], colors[1]))
+    for i, periods in enumerate(form.period.choices):
+        if not (current_user.school != "TJ" and (periods[0] == "8A" or periods[0] == "8B" or periods[0] == "Homeroom")) and not(current_user.school == "TJ" and periods[0] == "8"):
+            period_list.append((f"period-{i}", periods[0], periods[1]))
+
+    return color_list, period_list
 
 @app.route("/add_class", methods=["GET", "POST"])
 @login_required
 def add_class():
     form = ClassForm()
-    color_list, period_list = [], []
-    for i, colors in enumerate(form.color.choices):
-        color_list.append((f"color-{i}", colors[0], colors[1]))
-    for i, periods in enumerate(form.period.choices):
-        period_list.append((f"period-{i}", periods[0], periods[1]))
+    color_list, period_list = get_color_period_list(form)
 
     if form.validate_on_submit():
         course = Course(id=str(ObjectId()), name=form.name.data, link=form.link.data, color=form.color.data, period=form.period.data,
-                          times=tj_json[form.period.data], teacher=form.teacher.data, user_id=current_user.id,
+                          times=None, teacher=form.teacher.data, user_id=current_user.id,
                           email_alert_time=int(form.email_reminder.data), text_alert_time=int(form.text_reminder.data))
         current_user.add_course(course)
         flash('Class Added Successfully!', 'success')
@@ -59,17 +62,12 @@ def update_class(course_id):
     form = ClassForm(name=course.name, teacher=course.teacher, link=course.link,
                      period=course.period, color=course.color, text_reminder=course.text_alert_time, 
                      email_reminder=course.email_alert_time)
-    color_list, period_list = [], []
-    for i, colors in enumerate(form.color.choices):
-        color_list.append((f"color-{i}", colors[0], colors[1]))
-    for i, periods in enumerate(form.period.choices):
-        period_list.append((f"period-{i}", periods[0], periods[1]))
+    color_list, period_list = get_color_period_list(form)
     
     if form.validate_on_submit():
         current_user.update_course(course_id, name=form.name.data, teacher=form.teacher.data,
-                    link=form.link.data, period=form.period.data, color=form.color.data, 
-                    text_alert_time=int(form.text_reminder.data), email_alert_time=int(form.email_reminder.data), 
-                    times=dict(tj_json[form.period.data]))
+                    link=form.link.data, period=form.period.data, color=form.color.data, times=None,
+                    text_alert_time=int(form.text_reminder.data), email_alert_time=int(form.email_reminder.data))
 
         flash('Class Updated Successfully!', 'success')
         return redirect(url_for('dashboard'))

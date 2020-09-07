@@ -27,7 +27,7 @@ class ClassForm(FlaskForm):
                  ('hotpink', 'Pink'),('purple', 'Purple'), ('black', 'Black')])
     period = RadioField('Times', validators=[DataRequired()],
         choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6'), 
-                 ('7', '7'), ('8A', '8A'), ('8B', '8B'), ('Homeroom', 'HR')])
+                 ('7', '7'), ('8', '8'), ('8A', '8A'), ('8B', '8B'), ('Homeroom', 'HR')])
     teacher = StringField('Teacher', validators=[])
     text_reminder = SelectField('Minutes Before', validators=[DataRequired()], choices=minute_choices, default=-1)
     email_reminder = SelectField('Minutes Before', validators=[DataRequired()], choices=minute_choices, default=-1)
@@ -46,6 +46,8 @@ class RegistrationForm(FlaskForm):
     carrier = SelectField('Carrier', choices=carriers, validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    school = SelectField('School', choices=[('TJ', 'TJ'), ('FCPS HS', 'FCPS HS'), 
+                        ('FCPS MS', 'FCPS MS'), ('Other', 'Other')], validators=[DataRequired()])
     submit = SubmitField('Sign Up')
 
     def validate_email(self, email):
