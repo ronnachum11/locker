@@ -7,7 +7,7 @@
 {% endblock page_styles %}
 
 {% block content %}
-<a id="home" class="anchor"></a>
+<a id="home" class="anchor home-div-anchor"></a>
 <div class="home-div">
     <div class="home-div-content">
         <img class="home-image fade-in" src="{{ url_for('static', filename='images/locker.png') }}">
@@ -27,10 +27,10 @@
         {% else %}
             <div class="row home-div-buttons fade-in" style="width: 50%">
                 <div class="col-md-6">
-                    <a class="btn-light btn-wide" href="{{ url_for('register') }}">Sign Up</a>
+                    <a class="btn-color btn-wide" href="{{ url_for('register') }}">Sign Up</a>
                 </div>
                 <div class="col-md-6">
-                    <a class="btn-light btn-wide" href="{{ url_for('login') }}">Log In</a>
+                    <a class="btn-color btn-wide" href="{{ url_for('login') }}">Log In</a>
                 </div>
             </div>
         {% endif %}
