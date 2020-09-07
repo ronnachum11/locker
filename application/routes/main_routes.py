@@ -50,6 +50,14 @@ def get_courses_and_strings():
         courses = []
     return courses
 
+def check_recent_update():
+    if not current_user.seen_recent_update:
+        seen_recent_update = False
+        current_user.update_view_update(True)
+    else:
+        seen_recent_update = True
+    return seen_recent_update
+
 @app.route("/home", methods=["GET", "POST"])
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -58,10 +66,12 @@ def home():
         form.name.data = current_user.name
         form.email.data = current_user.email
 
+        seen_recent_update = check_recent_update()
+
     if form.validate_on_submit():
         send_contact_email(form.name.data, form.email.data, form.subject.data, form.message.data)
         flash('Contact form submitted successfully, we appreciate your thoughts!', 'success')
-    return render_template("home.html", form=form)
+    return render_template("home.html", form=form, seen_recent_update=seen_recent_update)
 
 @app.route("/dashboard", methods=["GET", "POST"])
 @login_required
@@ -71,8 +81,10 @@ def dashboard():
     courses = get_courses_and_strings()
     text = "Choose a class or add a new one to get started."
     name=current_user.name
+
+    seen_recent_update = check_recent_update()
     
-    return render_template("dashboard.html", classes=courses, name=name, text=text, current_class="")
+    return render_template("dashboard.html", classes=courses, name=name, text=text, current_class="", seen_recent_update=seen_recent_update)
 
 @app.route("/classroom/<string:course_id>")
 @login_required

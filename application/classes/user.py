@@ -7,7 +7,7 @@ from application.classes.course import Course
 
 
 class User(UserMixin):
-    def __init__(self, id:str=None, name:str=None, email:str=None, ion_id:int=None, phone:str=None, carrier:str=None, password:str=None, school:str="TJ", hasIon:bool=False, hasGoogle:bool=False, courses: [Course]=[], data:dict=None):
+    def __init__(self, id:str=None, name:str=None, email:str=None, ion_id:int=None, phone:str=None, carrier:str=None, password:str=None, school:str="TJ", hasIon:bool=False, hasGoogle:bool=False, seen_recent_update:bool=False, courses: [Course]=[], data:dict=None):
         self.id = str(id)
         self.ion_id = ion_id
         self.name = name
@@ -19,6 +19,8 @@ class User(UserMixin):
 
         self.hasIon = hasIon
         self.hasGoogle = hasGoogle
+
+        self.seen_recent_update = seen_recent_update
 
         self.courses = courses
         self.data = data
@@ -42,6 +44,7 @@ class User(UserMixin):
             "school": self.school,
             "hasIon": self.hasIon,
             "hasGoogle": self.hasGoogle,
+            "seen_recent_update": self.seen_recent_update,
             "courses": [course.to_dict() for course in self.courses],
             "data": self.data
         }
@@ -61,6 +64,7 @@ class User(UserMixin):
                     dictionary.get('school'),
                     dictionary.get('hasIon'),
                     dictionary.get('hasGoogle'),
+                    dictionary.get('seen_recent_update'),
                     [Course.from_dict(course) for course in dictionary.get('courses')] if dictionary.get('courses') else None,
                     dictionary.get('data')
             )
@@ -115,4 +119,7 @@ class User(UserMixin):
 
     def update_phone(self, phone:str):
         db.users.update({"id": self.id}, {'$set' : {"phone":phone}})
+    
+    def update_view_update(self, seen:bool):
+        db.users.update({"id": self.id}, {'$set' : {"seen_recent_update":seen}})
 
