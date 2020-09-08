@@ -20,7 +20,7 @@ carriers = [('-1', 'Carrier: None'), ('AT&T', 'AT&T'),
 
 class ClassForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
-    link = StringField('Link', validators=[DataRequired(), Regexp('https://us.bbcollab.com/invite/*')])
+    link = StringField('Link', validators=[DataRequired()])
     color = RadioField('Color', validators=[DataRequired()], 
         choices=[('red', 'Red'), ('orange', 'Orange'), ('yellow', 'Yellow'), ('lime', 'Lime'), 
                  ('green', 'Green'), ('deepskyblue', 'Light Blue'), ('blue', 'Blue'),
@@ -35,7 +35,8 @@ class ClassForm(FlaskForm):
     submit = SubmitField('Add Class')
 
     def validate_link(self, link):
-        if not 'https://us.bbcollab.com/invite/' in link.data:
+        print('https://meet.google.com/' not in link.data)
+        if 'https://us.bbcollab.com/invite/' not in link.data and 'https://meet.google.com/' not in link.data and 'https://us04web.zoom.us' not in link.data:
             raise ValidationError('Invalid Link. Try right clicking the email link and then clicking "Copy Link Address"')
 
 
