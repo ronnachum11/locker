@@ -57,10 +57,19 @@
             <img class="individual-img" src="{{ url_for('static', filename='images/placeholder.jpg') }}">
             <h5>Nicholas Britto</h5>
         </div>
-        <!-- <div class="img-cell">
-            <img class="individual-img" src="{{ url_for('static', filename='images/vik.jpg') }}">
-            <p>Nicholas Britto</p>
-        </div> -->
+    </div>
+</div>
+<div class="stats-div">
+    <!-- <h1 style="margin-bottom: 20px;">Stats</h1> -->
+    <div class="row" style="width: 75%">
+        <div class="col-md-6 col-xs-6">
+            <h3>Total Users</h3>
+            <h1>{{ total_users }}</h1>
+        </div>
+        <div class="col-md-6 col-xs-6">
+            <h3>Total Classes</h3>
+            <h1>{{ total_courses }}</h1>
+        </div>
     </div>
 </div>
 <a id="contact" class="anchor"></a>

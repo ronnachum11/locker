@@ -123,3 +123,11 @@ class User(UserMixin):
     def update_view_update(self, seen:bool):
         db.users.update({"id": self.id}, {'$set' : {"seen_recent_update":seen}})
 
+    @staticmethod
+    def get_total_users():
+        return db.users.count() 
+
+    @staticmethod
+    def get_total_courses():
+        lst = list(db.users.aggregate([{"$unwind": "$courses"}]))
+        return len(lst)

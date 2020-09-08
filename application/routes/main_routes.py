@@ -70,10 +70,13 @@ def home():
 
     seen_recent_update = check_recent_update()
 
+    total_users = User.get_total_users()
+    total_courses = User.get_total_courses()
+
     if form.validate_on_submit():
         send_contact_email(form.name.data, form.email.data, form.subject.data, form.message.data)
         flash('Contact form submitted successfully, we appreciate your thoughts!', 'success')
-    return render_template("home.html", form=form, seen_recent_update=seen_recent_update)
+    return render_template("home.html", form=form, seen_recent_update=seen_recent_update, total_users=total_users, total_courses=total_courses)
 
 @app.route("/dashboard", methods=["GET", "POST"])
 @login_required
