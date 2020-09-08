@@ -1,13 +1,16 @@
 from os import urandom
 from bson import ObjectId
 from flask_login import UserMixin
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
-from application import db
+from application import app, db
 from application.classes.course import Course
 
 
+
+
 class User(UserMixin):
-    def __init__(self, id:str=None, name:str=None, email:str=None, ion_id:int=None, phone:str=None, carrier:str=None, password:str=None, school:str="TJ", hasIon:bool=False, hasGoogle:bool=False, seen_recent_update:bool=False, courses: [Course]=[], data:dict=None):
+    def __init__(self, id:str=None, name:str=None, email:str=None, ion_id:int=None, phone:str=None, carrier:str=None, password:str=None, school:str="TJ", hasIon:bool=False, hasGoogle:bool=False, seen_recent_update:bool=False, _is_active:bool=False, courses: [Course]=[], data:dict=None):
         self.id = str(id)
         self.ion_id = ion_id
         self.name = name
@@ -21,12 +24,21 @@ class User(UserMixin):
         self.hasGoogle = hasGoogle
 
         self.seen_recent_update = seen_recent_update
+        self._is_active = _is_active
 
         self.courses = courses
         self.data = data
 
     def __repr__(self):
         return f"User('{str(self.id)}', '{self.email}', '{self.phone}')"
+    
+    @property
+    def is_active(self):
+        return self._is_active
+
+    @is_active.setter
+    def is_active(self, value):
+        self._is_active = value
     
     def get_id(self):
         print(self.id)
@@ -45,6 +57,7 @@ class User(UserMixin):
             "hasIon": self.hasIon,
             "hasGoogle": self.hasGoogle,
             "seen_recent_update": self.seen_recent_update,
+            "is_active": self._is_active,
             "courses": [course.to_dict() for course in self.courses],
             "data": self.data
         }
@@ -65,6 +78,7 @@ class User(UserMixin):
                     dictionary.get('hasIon'),
                     dictionary.get('hasGoogle'),
                     dictionary.get('seen_recent_update'),
+                    dictionary.get('is_active'), 
                     [Course.from_dict(course) for course in dictionary.get('courses')] if dictionary.get('courses') else None,
                     dictionary.get('data')
             )
@@ -122,6 +136,22 @@ class User(UserMixin):
     
     def update_view_update(self, seen:bool):
         db.users.update({"id": self.id}, {'$set' : {"seen_recent_update":seen}})
+    
+    def update_is_active(self, active:bool):
+        db.users.update({"id": self.id}, {'$set' : {"is_active":active}})
+    
+    def get_reset_token(self, expires_sec=1800):
+        s = Serializer(app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'user_id': self.id}).decode('utf-8')
+
+    @staticmethod
+    def verify_reset_token(token):
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token)['user_id']
+        except:
+            return None
+        return User.get_by_id(user_id)
 
     @staticmethod
     def get_total_users():

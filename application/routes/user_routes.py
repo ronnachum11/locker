@@ -50,9 +50,13 @@ def register():
                 phone=form1.phone.data,
                 carrier=form1.carrier.data,
                 password=hashed_pw,
-                school=form1.school.data
+                school=form1.school.data,
+                _is_active=False
             )
+            flash("Your account has been created! Please check your email to verify your account.", "success")
+            send_reset_email(user)
             user.add()
+            return redirect(url_for('login'))
         flash('Your account has been created!', 'success')
         return redirect(url_for('login'))
 
@@ -117,13 +121,15 @@ def login():
     if form.submit.data and form.validate_on_submit():
         user = User.get_by_email(form.email.data)
         if user and user.password and bcrypt.check_password_hash(user.password, form.password.data):
-            login_user(user, remember=form.remember.data, force=True)
-            next_page = request.args.get('next')
-            if next_page:
-                return redirect(next_page)
-            else:
+            if login_user(user, remember=form.remember.data):
+                next_page = request.args.get('next')
+                if next_page:
+                    return redirect(next_page)
+                else:
+                    return redirect(url_for('dashboard'))
                 return redirect(url_for('dashboard'))
-            return redirect(url_for('dashboard'))
+            else:
+                flash(f"Verify your account by checking the email sent to {form.email.data}", "danger")
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
 
@@ -163,14 +169,36 @@ def login_ion():
             ion_id=profile["id"],
             name=profile["display_name"], 
             email=email,
-            hasIon=True
+            hasIon=True,
+            _is_active=True
         )
         user.add()
         login_user(user, True)
         return redirect(url_for('account'))
+    
+@app.route("/verify_account/<token>", methods=['GET', 'POST'])
+def reset_token(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
+    user = User.verify_reset_token(token)
+    if user is None:
+        flash('That is an invalid or expired token', 'warning')
+        return redirect(url_for('home'))
+    
+    user.update_is_active(True)
+    flash('Your account has been activated!', 'success')
+    return redirect(url_for('login'))
 
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+def send_reset_email(user: User):
+    token = user.get_reset_token()
+    msg = Message('Account Verification', sender='thelockerioapp@gmail.com', recipients=[user.email])
+    msg.body = f'''To activate your account, visit the following link:
+{url_for('reset_token', token=token, _external=True)}
+'''
+    mail.send(msg)
