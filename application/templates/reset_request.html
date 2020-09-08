@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block page_styles %}
+<link rel="stylesheet" href="../static/css/register.css?v=1.02">
+{% endblock page_styles %}
+
+{% block content %}
+<h1>Request Reset Password</h1>
+<div class="form-div" style="padding-top: 15px;">
+    <form action="" method="POST">
+        {{ form.csrf_token() }}
+        <fieldset>
+            <div class="row align justify-content-center">
+                <div class="form-group col-8">
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control is-invalid", placholder="Email") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.email(class="form-control", placeholder="Email") }}
+                    {% endif %}
+                </div>
+            </div>
+        </fieldset>
+        <div class="submit-button">
+            {{ form.submit(class="btn-wide btn-color") }}
+        </div>
+    </form>
+</div>
+
+{% endblock content %}

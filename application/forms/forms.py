@@ -84,6 +84,20 @@ class LoginForm(FlaskForm):
 class LoginIonForm(FlaskForm):
     submit2 = SubmitField('Login With Ion')
 
+class RequestResetForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Request Password Reset')
+
+    def validate_email(self, email):
+        user = User.get_by_email(email=email.data)
+        if user is None:
+            raise ValidationError('There is no account with that email. Please create an account first.')
+    
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Reset Password')
+
 class UpdatePhoneForm(FlaskForm):
     phone = StringField('Phone')
     carrier = SelectField('Carrier', choices=carriers, validators=[DataRequired()])

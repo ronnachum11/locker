@@ -92,8 +92,20 @@
     height: auto;
   }
 
-  .individual-img:hover{
-      opacity: 70%
+  .img-zoom{
+      max-height: 150px;
+      overflow: hidden;
+      border-radius: 50%;
+  }
+  .img-zoom img {
+      transition: transform .5s ease;
+  }
+
+  .img-zoom img {
+      transition: transform .5s ease;
+  }
+  .img-zoom:hover img {
+      transform: scale(1.05);
   }
 
 @keyframes fadeIn {

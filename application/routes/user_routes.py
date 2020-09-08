@@ -5,7 +5,7 @@ from flask_mail import Message
 from application import app, bcrypt, mail, login_manager, oauth_login
 from application.classes.user import User
 from application.classes.course import Course
-from application.forms.forms import ClassForm, LoginForm, RegistrationForm, UpdatePhoneForm, UpdateEmailForm, LoginIonForm, ImportClassesForm, LoginIonForm
+from application.forms.forms import ClassForm, LoginForm, RegistrationForm, UpdatePhoneForm, UpdateEmailForm, LoginIonForm, RequestResetForm, ResetPasswordForm, ImportClassesForm, LoginIonForm
 
 import os 
 import json 
@@ -54,7 +54,7 @@ def register():
                 _is_active=False
             )
             flash("Your account has been created! Please check your email to verify your account.", "success")
-            send_reset_email(user)
+            send_verification_email(user)
             user.add()
             return redirect(url_for('login'))
         flash('Your account has been created!', 'success')
@@ -111,6 +111,18 @@ def update_email():
         return redirect(url_for("account"))
     return render_template("update_email.html", form=form)
 
+
+@app.route("/reset-password", methods=["GET", "POST"])
+def reset_password():
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = User.get_by_email(form.email.data)
+        send_reset_email(user)
+        flash('An email has been sent to ' + form.email.data + ' to reset password', 'info')
+        return redirect(url_for('login'))
+    return render_template('reset_request.html', form=form)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -177,7 +189,7 @@ def login_ion():
         return redirect(url_for('account'))
     
 @app.route("/verify_account/<token>", methods=['GET', 'POST'])
-def reset_token(token):
+def verify_token(token):
     if current_user.is_authenticated:
         return redirect(url_for('dashboard'))
     user = User.verify_reset_token(token)
@@ -189,16 +201,42 @@ def reset_token(token):
     flash('Your account has been activated!', 'success')
     return redirect(url_for('login'))
 
+@app.route("/reset_password/<token>", methods=['GET', 'POST'])
+def reset_token(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
+    user = User.verify_reset_token(token)
+    if user is None:
+        flash('That is an invalid or expired token', 'warning')
+        return redirect(url_for('home'))
+    
+    form = ResetPasswordForm()
+
+    if form.validate_on_submit():
+        user.update_password(bcrypt.generate_password_hash(form.password.data))
+        flash('Your password has been reset!', 'success')
+        return redirect(url_for('login'))
+    
+    return render_template("reset_password.html", form=form)
+
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('home'))
 
-def send_reset_email(user: User):
+def send_verification_email(user: User):
     token = user.get_reset_token()
     msg = Message('Account Verification', sender='thelockerioapp@gmail.com', recipients=[user.email])
     msg.body = f'''To activate your account, visit the following link:
+{url_for('reset_token', token=token, _external=True)}
+'''
+    mail.send(msg)
+
+def send_reset_email(user: User):
+    token = user.get_reset_token()
+    msg = Message('Request Reset Password', sender='thelockerioapp@gmail.com', recipients=[user.email])
+    msg.body = f'''To reset your password, visit the following link:
 {url_for('reset_token', token=token, _external=True)}
 '''
     mail.send(msg)
