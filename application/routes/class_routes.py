@@ -36,11 +36,34 @@ def get_color_period_list(form):
 def add_class():
     form = ClassForm()
     color_list, period_list = get_color_period_list(form)
+    weekdays = ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"]
 
     if form.validate_on_submit():
-        course = Course(id=str(ObjectId()), name=form.name.data, link=form.link.data, color=form.color.data, period=form.period.data,
-                          times=None, teacher=form.teacher.data, user_id=current_user.id,
-                          email_alert_time=int(form.email_reminder.data), text_alert_time=int(form.text_reminder.data))
+        times = dict()
+        color = form.color.data 
+        if color == "custom":
+            color = form.custom_color.data.hex
+
+        if not form.custom_time.data:
+            course = Course(id=str(ObjectId()), name=form.name.data, link=form.link.data, color=color, period=form.period.data,
+                            times=None, teacher=form.teacher.data, user_id=current_user.id, desktop_alert_time=form.desktop_reminder.data)
+        else:
+            if int(form.number_of_classes.data) >= 1:
+                times[form.day1.data] = dict()
+                times[form.day1.data]["start"] = form.hour1.data + ":" + form.minute1.data
+                times[form.day1.data]["end"] = form.hour1End.data + ":" + form.minute1End.data
+            if int(form.number_of_classes.data) >= 2:
+                times[form.day2.data] = dict()
+                times[form.day2.data]["start"] = form.hour2.data + ":" + form.minute2.data
+                times[form.day2.data]["end"] = form.hour2End.data + ":" + form.minute2End.data
+            if int(form.number_of_classes.data) >= 3:
+                times[form.day3.data] = dict()
+                times[form.day3.data]["start"] = form.hour3.data + ":" + form.minute3.data
+                times[form.day3.data]["end"] = form.hour3End.data + ":" + form.minute3End.data
+
+            sorted(times, key=lambda x: weekdays.index(x))
+            course = Course(id=str(ObjectId()), name=form.name.data, link=form.link.data, color=color, period=form.period.data,
+                            times=times, teacher=form.teacher.data, user_id=current_user.id, custom_times=True, desktop_alert_time=form.desktop_reminder.data)
         current_user.add_course(course)
         flash('Class Added Successfully!', 'success')
         return redirect(url_for('dashboard'))

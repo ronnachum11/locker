@@ -34,7 +34,16 @@ def get_courses_and_strings():
         courses = sorted(courses, key=lambda course: course.period)
         strings = []
         for course in courses:
-            if current_user.school in school_to_times:
+            if course.custom_times:
+                times = course.times
+                string = ""
+                for i, day in enumerate(times):
+                    if i == 0:
+                        string += day + " " + times[day]["start"] + "-" + times[day]["end"]
+                    else:
+                        string += ", " + day + " " + times[day]["start"] + "-" + times[day]["end"]
+                strings.append(string)
+            elif current_user.school in school_to_times:
                 times = school_to_times[current_user.school][course.period]
                 string = ""
                 for i, day in enumerate(times):

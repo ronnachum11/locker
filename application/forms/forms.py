@@ -2,11 +2,11 @@ import phonenumbers
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextField, TextAreaField, BooleanField, RadioField, SelectField, PasswordField
+from wtforms_components import ColorField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp, ValidationError
 from application.classes.user import User
 
-minute_choices = [('1', '1'), ('2', '2'), ('3', '3'), ('5', '5'), ('10', '10'), 
-                 ('15', '15'), ('20', '20'), ('25', '25'), ('30', '30')]
+minute_choices = [('1', '1'), ('2', '2'), ('3', '3'), ('5', '5'), ('10', '10'), ('15', '15')]
 minute_choices = [(x[0], x[1] + ' Minutes Before') if x[1] != '1' else (x[0], x[1] + ' Minute Before') for x in minute_choices]
 minute_choices = [('-1', "None")] + minute_choices
 
@@ -18,19 +18,45 @@ carriers = [('@mms.att.net', 'AT&T'), ('@tmomail.net', 'T-Mobile'),
 carriers = [('-1', 'Carrier: None'), ('AT&T', 'AT&T'),
             ('T-Mobile', 'T-Mobile'), ('Verizon', 'Verizon'), ('Sprint', 'Sprint')]
 
+weekdays = [('Mon', 'Monday'), ('Tues', 'Tuesday'), ('Wed', 'Wednesday'), ('Thurs', 'Thursday'), ('Fri', 'Friday'), ('Sat', 'Saturday'), ('Sun', 'Sunday')]
+hours = ['6', '7', '8', '9', '10', '11', '12', '1', '2', '3', '4', '5']; hours = [(x, x) for x in hours]
+minutes = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']; minutes = [(x, x) for x in minutes]
+
 class ClassForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
+    teacher = StringField('Teacher', validators=[])
     link = StringField('Link', validators=[DataRequired()])
     color = RadioField('Color', validators=[DataRequired()], 
         choices=[('red', 'Red'), ('orange', 'Orange'), ('yellow', 'Yellow'), ('lime', 'Lime'), 
                  ('green', 'Green'), ('deepskyblue', 'Light Blue'), ('blue', 'Blue'),
-                 ('hotpink', 'Pink'),('purple', 'Purple'), ('black', 'Black')])
+                 ('hotpink', 'Pink'),('purple', 'Purple'), ('black', 'Black'), ('custom', 'Custom')])
+    custom_color = ColorField('Color', validators=[DataRequired()])
     period = RadioField('Times', validators=[DataRequired()],
         choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6'), 
                  ('7', '7'), ('8', '8'), ('8A', '8A'), ('8B', '8B'), ('Homeroom', 'HR')])
-    teacher = StringField('Teacher', validators=[])
-    text_reminder = SelectField('Minutes Before', validators=[DataRequired()], choices=minute_choices, default=-1)
-    email_reminder = SelectField('Minutes Before', validators=[DataRequired()], choices=minute_choices, default=-1)
+    
+    custom_time = BooleanField('Custom Time', default=False)
+    number_of_classes = SelectField('Number of Accounts', choices=[('1', '1'), ('2', '2'), ('3', '3')])
+
+    day1 = SelectField('First Day', choices=weekdays)
+    hour1 = SelectField('Hour', choices=hours)
+    hour1End = SelectField('Hour', choices=hours)
+    minute1 = SelectField('Minute', choices=minutes)
+    minute1End = SelectField('Minute', choices=minutes)
+
+    day2 = SelectField('First Day', choices=weekdays)
+    hour2 = SelectField('Hour', choices=hours)
+    hour2End = SelectField('Hour', choices=hours)
+    minute2 = SelectField('Minute', choices=minutes)
+    minute2End = SelectField('Minute', choices=minutes)
+
+    day3 = SelectField('First Day', choices=weekdays)
+    hour3 = SelectField('Hour', choices=hours)
+    hour3End = SelectField('Hour', choices=hours)
+    minute3 = SelectField('Minute', choices=minutes)
+    minute3End = SelectField('Minute', choices=minutes)
+
+    desktop_reminder = SelectField('Minutes Before', validators=[DataRequired()], choices=minute_choices, default='-1')
     notes = TextAreaField('Notes', validators=[])
     submit = SubmitField('Add Class')
 

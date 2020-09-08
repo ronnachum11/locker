@@ -92,14 +92,14 @@
             <div class="classes">
                 {% for class, time_string in classes %}
                     {% if class.link == current_class %}
-                        <div class="class-card {{ class.color }} current-class">
+                        <div class="class-card current-class" style="border-top: solid 7px {{ class.color }};">
                             <div class="text-div current-class">
                     {% elif "https://us.bbcollab.com/invite/" in class.link %}
-                        <div class="class-card {{ class.color }}">
+                        <div class="class-card" style="border-top: solid 7px {{ class.color }};">
                             <a href="{{ url_for('classroom', course_id=class.id) }}">
                                 <div class="text-div">
                     {% else %}
-                        <div class="class-card {{ class.color }}">
+                        <div class="class-card" style="border-top: solid 7px {{ class.color }};">
                             <a href="{{ class.link }}" target="_blank">
                                 <div class="text-div">
                     {% endif %}

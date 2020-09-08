@@ -7,6 +7,46 @@
     padding-left: 25%;
 }
 
+#custom-time-div {
+    display: none;
+}
+
+.custom-time-div-individual {
+    display: none;
+}
+
+#class1 {
+    display: block;
+}
+
+.day-field {
+    width: 140px;
+    margin-left: 25px;
+}
+
+.hour-field {
+    width: 70px;
+    margin-left: 12.5px;
+    margin-right: 5px;
+}
+
+.minute-field {
+    width: 70px;
+    margin-left: 5px;
+    margin-right: 12.5px;
+}
+
+.class-time-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-color {
+    display: none;
+}
+
 /* The container */
 .container {
     display: block;
