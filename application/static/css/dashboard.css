@@ -144,6 +144,7 @@ html {
 
 input.select-display-button {
     position: absolute;
+    background-color: #262626;
     left: -99999em;
     top: -99999em;
     opacity: 1;
@@ -153,6 +154,7 @@ input.select-display-button {
   input.select-display-button+label {
     cursor: pointer;
     float: left;
+    background-color: #262626;
     border: 1px solid #aaa;
     margin-right: -1px;
     padding: .5em 1em;
