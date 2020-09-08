@@ -16,7 +16,7 @@ import os
 from datetime import datetime, timedelta
 
 def get_tj_schedule():
-    weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    weekdays = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Saturday', 'Sunday']
     periods = ["1", "2", "3", "4", "5", "6", "7", "8A", "8B", "Homeroom"]
     class_times = {course: {} for course in periods}
 
@@ -37,9 +37,12 @@ def get_tj_schedule():
         if 'blocks' in data['day_type']:
             for course in data['day_type']['blocks']:
                 name = course['name'].replace("Period ", "")
-                start_time = course['start'].replace("13:", "1:").replace("14:", "2:").replace("15:", "3:")
+                start_time = course['start'].replace("13:", "1:").replace("14:", "2:").replace("15:", "3:").replace("16:", "4:")
+                end_time = course['end'].replace("13:", "1:").replace("14:", "2:").replace("15:", "3:").replace("16:", "4:")
                 if name in class_times:
-                    class_times[name][weekday] = start_time
+                    class_times[name][weekday] = dict()
+                    class_times[name][weekday]['start'] = start_time
+                    class_times[name][weekday]['end'] = end_time
 
     print("Updated Class Times")
 

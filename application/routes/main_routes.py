@@ -39,9 +39,9 @@ def get_courses_and_strings():
                 string = ""
                 for i, day in enumerate(times):
                     if i == 0:
-                        string += day + " @ " + times[day]
+                        string += day + " " + times[day]["start"] + "-" + times[day]["end"]
                     else:
-                        string += ", " + day + " @ " + times[day]
+                        string += ", " + day + " " + times[day]["start"] + "-" + times[day]["end"]
                 strings.append(string)
             else:
                 strings.append("None")

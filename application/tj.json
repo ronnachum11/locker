@@ -1,36 +1,84 @@
 {
     "1": {
-        "Tuesday": "8:40",
-        "Thursday": "8:40"
+        "Tues": {
+            "start": "8:40",
+            "end": "10:05"
+        },
+        "Thurs": {
+            "start": "8:40",
+            "end": "10:05"
+        }
     },
     "2": {
-        "Tuesday": "10:25",
-        "Thursday": "10:25"
+        "Tues": {
+            "start": "10:25",
+            "end": "11:50"
+        },
+        "Thurs": {
+            "start": "10:25",
+            "end": "11:50"
+        }
     },
     "3": {
-        "Tuesday": "12:50",
-        "Thursday": "12:50"
+        "Tues": {
+            "start": "12:50",
+            "end": "2:15"
+        },
+        "Thurs": {
+            "start": "12:50",
+            "end": "2:15"
+        }
     },
     "4": {
-        "Tuesday": "2:35",
-        "Thursday": "2:35"
+        "Tues": {
+            "start": "2:35",
+            "end": "4:00"
+        },
+        "Thurs": {
+            "start": "2:35",
+            "end": "4:00"
+        }
     },
     "5": {
-        "Wednesday": "8:40",
-        "Friday": "8:40"
+        "Wed": {
+            "start": "8:40",
+            "end": "10:05"
+        },
+        "Fri": {
+            "start": "8:40",
+            "end": "10:05"
+        }
     },
     "6": {
-        "Wednesday": "10:25",
-        "Friday": "10:25"
+        "Wed": {
+            "start": "10:25",
+            "end": "11:50"
+        },
+        "Fri": {
+            "start": "10:25",
+            "end": "11:50"
+        }
     },
     "7": {
-        "Wednesday": "12:50",
-        "Friday": "12:50"
+        "Wed": {
+            "start": "12:50",
+            "end": "2:15"
+        },
+        "Fri": {
+            "start": "12:50",
+            "end": "2:15"
+        }
     },
     "8A": {},
     "8B": {},
     "Homeroom": {
-        "Wednesday": "2:35",
-        "Friday": "2:35"
+        "Wed": {
+            "start": "2:35",
+            "end": "4:00"
+        },
+        "Fri": {
+            "start": "2:35",
+            "end": "4:00"
+        }
     }
 }

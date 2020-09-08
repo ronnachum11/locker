@@ -1,34 +1,82 @@
 {
     "1": {
-        "Tuesday": "8:10",
-        "Thursday": "8:10"
+        "Tues": {
+            "start": "8:10",
+            "end": "9:30"
+        },
+        "Thurs": {
+            "start": "8:10",
+            "end": "9:30"
+        }
     },
     "2": {
-        "Tuesday": "9:45",
-        "Thursday": "9:45"
+        "Tues": {
+            "start": "9:45",
+            "end": "11:05"
+        },
+        "Thurs": {
+            "start": "9:45",
+            "end": "11:05"
+        }
     },
     "3": {
-        "Tuesday": "12:00",
-        "Thursday": "12:00"
+        "Tues": {
+            "start": "12:00",
+            "end": "1:20"
+        },
+        "Thurs": {
+            "start": "12:00",
+            "end": "1:20"
+        }
     },
     "4": {
-        "Tuesday": "1:35",
-        "Thursday": "1:35"
+        "Tues": {
+            "start": "1:35",
+            "end": "2:55"
+        },
+        "Thurs": {
+            "start": "1:35",
+            "end": "2:55"
+        }
     },
     "5": {
-        "Wednesday": "8:10",
-        "Friday": "8:10"
+        "Wed": {
+            "start": "8:10",
+            "end": "9:30"
+        },
+        "Fri": {
+            "start": "8:10",
+            "end": "9:30"
+        }
     },
     "6": {
-        "Wednesday": "9:45",
-        "Friday": "9:45"
+        "Wed": {
+            "start": "9:45",
+            "end": "11:05"
+        },
+        "Fri": {
+            "start": "9:45",
+            "end": "11:05"
+        }
     },
     "7": {
-        "Wednesday": "12:00",
-        "Friday": "12:00"
+        "Wed": {
+            "start": "12:00",
+            "end": "1:20"
+        },
+        "Fri": {
+            "start": "12:00",
+            "end": "1:20"
+        }
     },
     "8": {
-        "Wednesday": "1:35",
-        "Friday": "1:35"
+        "Wed": {
+            "start": "1:35",
+            "end": "2:55"
+        },
+        "Fri": {
+            "start": "1:35",
+            "end": "2:55"
+        }
     }
 }
