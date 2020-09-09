@@ -117,6 +117,13 @@ def classroom(course_id):
     name = current_user.name
 
     courses = get_courses_and_strings()
+    for i, course in enumerate(courses):
+        if course[0] == current_course:
+            current_course_info = course 
+            courses.pop(i)
+            break
+    courses = [current_course_info] + courses
+
     return render_template("dashboard.html", classes=courses, name=name, text=text, error=error, current_class=current_link)
 
 @app.route("/privacy_policy")

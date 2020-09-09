@@ -35,6 +35,18 @@
     justify-content: center;
 }
 
+.link-name {
+    width: 30%;
+}
+
+.link {
+    width: 60%;
+}
+
+.link-row {
+    padding-top: 10px;
+}
+
 /* The container */
 .container {
     display: block;

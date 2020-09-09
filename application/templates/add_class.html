@@ -42,6 +42,51 @@
                 $(".custom-color").hide()
             }
         });
+
+        $('.num-additional-links').on('change',function(){
+            if( $(this).val()=="0" ){
+                $("#link1").hide()
+                $("#link2").hide()
+                $("#link3").hide()
+                $("#link4").hide()
+                $("#link5").hide()
+            }
+            else if( $(this).val()=="1" ){
+                $("#link1").show()
+                $("#link2").hide()
+                $("#link3").hide()
+                $("#link4").hide()
+                $("#link5").hide()
+            }
+            else if( $(this).val()=="2" ){
+                $("#link1").show()
+                $("#link2").show()
+                $("#link3").hide()
+                $("#link4").hide()
+                $("#link5").hide()
+            }
+            else if( $(this).val()=="3" ){
+                $("#link1").show()
+                $("#link2").show()
+                $("#link3").show()
+                $("#link4").hide()
+                $("#link5").hide()
+            }
+            else if( $(this).val()=="4" ){
+                $("#link1").show()
+                $("#link2").show()
+                $("#link3").show()
+                $("#link4").show()
+                $("#link5").hide()
+            }
+            else{
+                $("#link1").show()
+                $("#link2").show()
+                $("#link3").show()
+                $("#link4").show()
+                $("#link5").show()
+            }
+        });
     });
 </script>
 
@@ -160,21 +205,25 @@
                 </div>
             </div>
             <div class="form-group">
-            <div class="custom-color" style="display: {{ custom_color }}">
-                    {% if form.custom_color.errors %}
-                        {{ form.custom_color(class="form-control is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.custom_color.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %} 
-                        {{ form.custom_color(class="form-control") }}
-                    {% endif %}
+                <div class="custom-color" style="display: {{ custom_color }}">
+                    <h5>Custom Color Picker</h5>
+                        {% if form.custom_color.errors %}
+                            {{ form.custom_color(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.custom_color.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %} 
+                            {{ form.custom_color(class="form-control") }}
+                        {% endif %}
                 </div>
             </div>
+            <h5>Set Custom Time (Leave unchecked to use {{current_user.school}}'s default)</h5>
+            {% if current_user.school == "TJ" %}
+                <h6>Note: TJ class times automatically update from ION but will not if customs are set</h6>
+            {% endif %}
             <div class="form-group">
-                <h5>Set Custom Time (Leave unchecked to use {{current_user.school}}'s default)</h5>
                 {% if form.custom_time.errors %}
                     {{ form.custom_time(class="form-control is-invalid custom-time") }}
                     <div class="invalid-feedback">
@@ -186,7 +235,7 @@
                     {{ form.custom_time(class="form-control custom-time") }}
                 {% endif %}
             </div>
-        <div id="custom-time-div" style="display: {{ display_custom_div }}">
+            <div id="custom-time-div" style="display: {{ display_custom_div }}">
                 <div class="form-group">
                     <h5>How many times a week is your class?</h5>
                     {% if form.number_of_classes.errors %}
@@ -219,6 +268,134 @@
                     </div>
                 </div>
             </div>
+            <div id="additional-links-div">
+                <h5>Additional Class Links (BB, GC, Textbook, WebAssign)</h5>
+                {% if form.number_of_links.errors %}
+                    {{ form.number_of_links(class="form-control is-invalid num-additional-links") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.number_of_links.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %} 
+                    {{ form.number_of_links(class="form-control num-additional-links") }}
+                {% endif %}
+                <div id="link1" class="form-group row link-row" style="display: {{ display_link_1 }}">
+                    {% if form.link_name1.errors %}
+                        {{ form.link_name1(class="form-control is-invalid link-name", placeholder="Link 1 Name") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.link_name1.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.link_name1(class="form-control link-name", placeholder="Link 1 Name") }}
+                    {% endif %}
+
+                    {% if form.link1.errors %}
+                        {{ form.link1(class="form-control is-invalid link", placeholder="Link 1") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.link1.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.link1(class="form-control link", placeholder="Link 1") }}
+                    {% endif %}
+                </div>
+                <div id="link2" class="form-group row link-row" style="display: {{ display_link_2 }}">
+                    {% if form.link_name2.errors %}
+                        {{ form.link_name2(class="form-control is-invalid link-name", placeholder="Link 2 Name") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.link_name2.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.link_name2(class="form-control link-name", placeholder="Link 2 Name") }}
+                    {% endif %}
+
+                    {% if form.link2.errors %}
+                        {{ form.link2(class="form-control is-invalid link", placeholder="Link 2") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.link2.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.link2(class="form-control link", placeholder="Link 2") }}
+                    {% endif %}
+                </div>
+                <div id="link3" class="form-group row link-row" style="display: {{ display_link_3 }}">
+                    {% if form.link_name3.errors %}
+                        {{ form.link_name3(class="form-control is-invalid link-name", placeholder="Link 3 Name") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.link_name3.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.link_name3(class="form-control link-name", placeholder="Link 3 Name") }}
+                    {% endif %}
+
+                    {% if form.link3.errors %}
+                        {{ form.link3(class="form-control is-invalid link", placeholder="Link 3") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.link3.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.link3(class="form-control link", placeholder="Link 3") }}
+                    {% endif %}
+                </div>
+                <div id="link4" class="form-group row link-row" style="display: {{ display_link_4 }}">
+                    {% if form.link_name4.errors %}
+                        {{ form.link_name4(class="form-control is-invalid link-name", placeholder="Link 4 Name") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.link_name4.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.link_name4(class="form-control link-name", placeholder="Link 4 Name") }}
+                    {% endif %}
+
+                    {% if form.link4.errors %}
+                        {{ form.link4(class="form-control is-invalid link", placeholder="Link 4") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.link4.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.link4(class="form-control link", placeholder="Link 4") }}
+                    {% endif %}
+                </div>
+                <div id="link5" class="form-group row link-row" style="display: {{ display_link_5 }}">
+                    {% if form.link_name5.errors %}
+                        {{ form.link_name5(class="form-control is-invalid link-name", placeholder="Link 5 Name") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.link_name5.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.link_name5(class="form-control link-name", placeholder="Link 5 Name") }}
+                    {% endif %}
+
+                    {% if form.link5.errors %}
+                        {{ form.link5(class="form-control is-invalid link", placeholder="Link 5") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.link5.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.link5(class="form-control link", placeholder="Link 5") }}
+                    {% endif %}
+                </div>
+            </div>
             <div class="central">
                 <h3>Desktop Reminders?</h3>
                 <div id="email-reminders">
@@ -234,6 +411,7 @@
                     {% endif %}
                 </div>
             </div>
+
         </fieldset>
         <div class="submit-button">
             {{ form.submit(class="btn-wide btn-color") }}

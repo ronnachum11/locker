@@ -129,12 +129,11 @@ html {
     opacity: 50%;
 }
 
-.settings {
+.settings-icon {
     opacity: 50%;
-    display: none;
 }
 
-.settings:hover {
+.settings-icon:hover {
     opacity: 100%;
 }
 

@@ -36,7 +36,7 @@ class ClassForm(FlaskForm):
                  ('7', '7'), ('8', '8'), ('8A', '8A'), ('8B', '8B'), ('Homeroom', 'HR')])
     
     custom_time = BooleanField('Custom Time', default=False)
-    number_of_classes = SelectField('Number of Accounts', choices=[('1', '1'), ('2', '2'), ('3', '3')])
+    number_of_classes = SelectField('Number of Classes', choices=[('1', '1'), ('2', '2'), ('3', '3')])
 
     day1 = SelectField('First Day', choices=weekdays)
     hour1 = SelectField('Hour', choices=hours)
@@ -55,6 +55,18 @@ class ClassForm(FlaskForm):
     hour3End = SelectField('Hour', choices=hours)
     minute3 = SelectField('Minute', choices=minutes)
     minute3End = SelectField('Minute', choices=minutes)
+
+    number_of_links = SelectField('Number of Links',choices=[('0', 'None'), ('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5')])
+    link_name1 = StringField('Link Name 1')
+    link1 = StringField('Link 1')
+    link_name2 = StringField('Link Name 2')
+    link2 = StringField('Link 2')
+    link_name3 = StringField('Link Name 3')
+    link3 = StringField('Link 3')
+    link_name4 = StringField('Link Name 4')
+    link4 = StringField('Link 4')
+    link_name5 = StringField('Link Name 5')
+    link5 = StringField('Link 5')
 
     desktop_reminder = SelectField('Minutes Before', validators=[DataRequired()], choices=minute_choices, default='-1')
     notes = TextAreaField('Notes', validators=[])
