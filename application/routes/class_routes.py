@@ -80,7 +80,7 @@ def add_class():
         flash('Class Added Successfully!', 'success')
         return redirect(url_for('dashboard'))
 
-    return render_template('add_class.html', header="Add A Class", custom_time=False, update_class=False, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None and current_user.carrier is not None, display_custom_div="none", display_class_1="inline", display_class_2="none", display_class_3="none", custom_color="none", display_link_1="none", display_link_2="none", display_link_3="none", display_link_4="none", display_link_5="none", form=form)
+    return render_template('add_class.html', header="Add A Class", custom_time=False, update_class=False, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None and current_user.carrier is not None, display_custom_div="none", display_class_1="inline", display_class_2="none", display_class_3="none", custom_color="none", display_link_1="none", display_link_2="none", display_link_3="none", display_link_4="none", display_link_5="none", display_link_div="none", form=form)
 
 @app.route("/import_classes", methods=["GET", "POST"])
 def import_classes():
@@ -101,9 +101,10 @@ def update_class(course_id):
 
     data = [[None for i in range(5)] for a in range(3)]
     link_data = [[None for a in range(2)] for b in range(5)]
-    for i, name in enumerate(course.links):
-        link_data[i][0] = name
-        link_data[i][1] = course.links[name]
+    if course.links:
+        for i, name in enumerate(course.links):
+            link_data[i][0] = name
+            link_data[i][1] = course.links[name]
 
 
     if not course.times:
@@ -137,11 +138,12 @@ def update_class(course_id):
     display_class_3 = "inline" if course.custom_times and len(course.times) >= 3 else "none"
     custom_color = "none" if color != "custom" else "inline"
 
+    display_link_div = "" if course.links and len(course.links) > 0 else "none"
     display_link_1 = ""
-    display_link_2 = "" if len(course.links) >= 2 else "none"
-    display_link_3 = "" if len(course.links) >= 3 else "none"
-    display_link_4 = "" if len(course.links) >= 4 else "none"
-    display_link_5 = "" if len(course.links) >= 5 else "none"
+    display_link_2 = "" if course.links and len(course.links) >= 2 else "none"
+    display_link_3 = "" if course.links and len(course.links) >= 3 else "none"
+    display_link_4 = "" if course.links and len(course.links) >= 4 else "none"
+    display_link_5 = "" if course.links and len(course.links) >= 5 else "none"
 
     if form.validate_on_submit():
         times = dict()
@@ -187,7 +189,7 @@ def update_class(course_id):
 
     form.submit.label.text = "Update Class"
 
-    return render_template('add_class.html', header=f"{course.name} ({course.period})", custom_time=course.custom_times, course_id=course.id, update_class=True, color=course.color, period=course.period, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None and current_user.carrier is not None, display_custom_div=display_custom_div, display_class_1=display_class_1, display_class_2=display_class_2, display_class_3=display_class_3, custom_color=custom_color, display_link_1=display_link_1, display_link_2=display_link_2, display_link_3=display_link_3, display_link_4=display_link_4, display_link_5=display_link_5, form=form)
+    return render_template('add_class.html', header=f"{course.name} ({course.period})", custom_time=course.custom_times, course_id=course.id, update_class=True, color=course.color, period=course.period, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None and current_user.carrier is not None, display_custom_div=display_custom_div, display_class_1=display_class_1, display_class_2=display_class_2, display_class_3=display_class_3, custom_color=custom_color, display_link_1=display_link_1, display_link_2=display_link_2, display_link_3=display_link_3, display_link_4=display_link_4, display_link_5=display_link_5, display_link_div=display_link_div, form=form)
 
 @app.route("/delete_class/<string:course_id>", methods=["GET", "POST"])
 @login_required
