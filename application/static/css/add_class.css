@@ -7,14 +7,6 @@
     padding-left: 25%;
 }
 
-#custom-time-div {
-    display: none;
-}
-
-.custom-time-div-individual {
-    display: none;
-}
-
 #class1 {
     display: block;
 }
@@ -41,10 +33,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-}
-
-.custom-color {
-    display: none;
 }
 
 /* The container */

@@ -112,7 +112,7 @@ class User(UserMixin):
     
     def update_course(self, course_id, **kwargs):
         for key, value in kwargs.items():
-            db.users.update({"id": self.id, "courses.id": course_id}, {"$set": {f"courses.$.{key}": value}})
+            db.users.update({"id": self.id, "courses.id": course_id}, {"$set": {f"courses.$.{key}": value}}, False, True)
 
     def update_ion_status(self, status: bool):
         db.users.update({"id": self.id}, {'$set' : {"hasIon":status}})

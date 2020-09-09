@@ -7,32 +7,40 @@
 {% block content %}
 <script>
     $(document).ready(function(){
-        $('.custom-time').click(function(){
-            $("#custom-time-div").toggle();
+        $('.custom-time').change(function(){
+            if( $(this).is(':checked') ) {
+                $("#custom-time-div").show()
+            }
+            else {
+                $("#custom-time-div").hide()
+            }
         });
 
-    $('.number_of_classes').on('change',function(){
-        if( $(this).val()=="1" ){
-            $("#class1").show()
-            $("#class2").hide()
-            $("#class3").hide()
-        }
-        else if( $(this).val()=="2" ){
-            $("#class1").show()
-            $("#class2").show()
-            $("#class3").hide()
-        }
-        else{
-            $("#class1").show()
-            $("#class2").show()
-            $("#class3").show()
-        }
-    });
-});
+        $('.number_of_classes').on('change',function(){
+            if( $(this).val()=="1" ){
+                $("#class1").show()
+                $("#class2").hide()
+                $("#class3").hide()
+            }
+            else if( $(this).val()=="2" ){
+                $("#class1").show()
+                $("#class2").show()
+                $("#class3").hide()
+            }
+            else{
+                $("#class1").show()
+                $("#class2").show()
+                $("#class3").show()
+            }
+        });
 
-    $(document).ready(function(){
-        $('#color-10').click(function(){
-            $(".custom-color").toggle();
+        $('#color-10').change(function(){
+            if( $(this).is(':checked') ) {
+                $(".custom-color").show()
+            }
+            else {
+                $(".custom-color").hide()
+            }
         });
     });
 </script>
@@ -130,7 +138,7 @@
                             <div>
                                 <label class="container">
                                     <td><input id="{{ id }}" name="color" type="radio" value="{{ value }}"></td>
-                                    <span class="checkmark {{value}}" style="font-size: 8px">Custom</span>
+                                    <span id="custom-checkmark" class="checkmark {{value}}" style="font-size: 8px">Custom</span>
                                 </label>
                             </div>
                         {% else %}
@@ -152,7 +160,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="custom-color">
+            <div class="custom-color" style="display: {{ custom_color }}">
                     {% if form.custom_color.errors %}
                         {{ form.custom_color(class="form-control is-invalid") }}
                         <div class="invalid-feedback">
@@ -178,7 +186,7 @@
                     {{ form.custom_time(class="form-control custom-time") }}
                 {% endif %}
             </div>
-            <div id="custom-time-div">
+        <div id="custom-time-div" style="display: {{ display_custom_div }}">
                 <div class="form-group">
                     <h5>How many times a week is your class?</h5>
                     {% if form.number_of_classes.errors %}
@@ -192,19 +200,19 @@
                         {{ form.number_of_classes(class="form-control number_of_classes") }}
                     {% endif %}
                 </div>
-                <div id="class1" class="custom-time-div-individual">
+            <div id="class1" class="custom-time-div-individual" style="display: {{ display_class_1 }}">
                     <div class="form-group row class-time-row">
                         <h5>Class 1</h5>
                         {{ form.day1(class="form-control day-field") }} {{ form.hour1(class="form-control hour-field") }} : {{ form.minute1(class="form-control minute-field") }} - {{ form.hour1End(class="form-control hour-field") }} : {{ form.minute1End(class="form-control minute-field") }}
                     </div>
                 </div>
-                <div id="class2" class="custom-time-div-individual">
+                <div id="class2" class="custom-time-div-individual" style="display: {{ display_class_2 }}">
                     <div class="form-group row class-time-row">
                         <h5>Class 2</h5>
                         {{ form.day2(class="form-control day-field") }} {{ form.hour2(class="form-control hour-field") }} : {{ form.minute2(class="form-control minute-field") }} - {{ form.hour2End(class="form-control hour-field") }} : {{ form.minute2End(class="form-control minute-field") }}
                     </div>
                 </div>
-                <div id="class3" class="custom-time-div-individual">
+                <div id="class3" class="custom-time-div-individual" style="display: {{ display_class_3 }}">
                     <div class="form-group row class-time-row">
                         <h5>Class 3</h5>
                         {{ form.day3(class="form-control day-field") }} {{ form.hour3(class="form-control hour-field") }} : {{ form.minute3(class="form-control minute-field") }} - {{ form.hour3End(class="form-control hour-field") }} : {{ form.minute3End(class="form-control minute-field") }}
