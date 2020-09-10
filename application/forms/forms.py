@@ -30,34 +30,40 @@ class ClassForm(FlaskForm):
         choices=[('red', 'Red'), ('orange', 'Orange'), ('yellow', 'Yellow'), ('lime', 'Lime'), 
                  ('green', 'Green'), ('deepskyblue', 'Light Blue'), ('blue', 'Blue'),
                  ('hotpink', 'Pink'),('purple', 'Purple'), ('black', 'Black'), ('custom', 'Custom')])
-    custom_color = ColorField('Color', validators=[DataRequired()])
+    custom_color = ColorField('Color', validators=[])
     period = RadioField('Times', validators=[DataRequired()],
         choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6'), 
                  ('7', '7'), ('8', '8'), ('8A', '8A'), ('8B', '8B'), ('Homeroom', 'HR')])
     
     custom_time = BooleanField('Custom Time', default=False)
     number_of_classes = SelectField('Number of Classes', choices=[('1', '1'), ('2', '2'), ('3', '3')])
-
     day1 = SelectField('First Day', choices=weekdays)
-    hour1 = SelectField('Hour', choices=hours)
-    hour1End = SelectField('Hour', choices=hours)
-    minute1 = SelectField('Minute', choices=minutes)
-    minute1End = SelectField('Minute', choices=minutes)
+    hour1 = SelectField('Hour', choices=hours, default="10")
+    hour1End = SelectField('Hour', choices=hours, default="12")
+    minute1 = SelectField('Minute', choices=minutes, default="00")
+    minute1End = SelectField('Minute', choices=minutes, default="00")
+    day2 = SelectField('First Day', choices=weekdays, default="Tues")
+    hour2 = SelectField('Hour', choices=hours, default="10")
+    hour2End = SelectField('Hour', choices=hours, default="12")
+    minute2 = SelectField('Minute', choices=minutes, default="00")
+    minute2End = SelectField('Minute', choices=minutes, default="00")
+    day3 = SelectField('First Day', choices=weekdays, default="Wed")
+    hour3 = SelectField('Hour', choices=hours, default="10")
+    hour3End = SelectField('Hour', choices=hours, default="12")
+    minute3 = SelectField('Minute', choices=minutes, default="00")
+    minute3End = SelectField('Minute', choices=minutes, default="00")
 
-    day2 = SelectField('First Day', choices=weekdays)
-    hour2 = SelectField('Hour', choices=hours)
-    hour2End = SelectField('Hour', choices=hours)
-    minute2 = SelectField('Minute', choices=minutes)
-    minute2End = SelectField('Minute', choices=minutes)
+    office_hours = BooleanField('Office Hours', default=False)
+    office_day = SelectField('Office Day', choices=weekdays, default="Mon")
+    office_hour = SelectField('Hour', choices=hours, default="10")
+    office_hourEnd = SelectField('Hour', choices=hours, default="12")
+    office_minute = SelectField('Minute', choices=minutes, default="00")
+    office_minuteEnd = SelectField('Minute', choices=minutes, default="00")
 
-    day3 = SelectField('First Day', choices=weekdays)
-    hour3 = SelectField('Hour', choices=hours)
-    hour3End = SelectField('Hour', choices=hours)
-    minute3 = SelectField('Minute', choices=minutes)
-    minute3End = SelectField('Minute', choices=minutes)
+    teacher_contact = BooleanField('Teacher Contact Info', default=False)
+    teacher_email = StringField('Email')
 
-    additional_links = BooleanField('Additional Links')
-
+    additional_links = BooleanField('Additional Links', default=False)
     number_of_links = SelectField('Number of Links',choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5')])
     link_name1 = StringField('Link Name 1')
     link1 = StringField('Link 1')
@@ -70,13 +76,12 @@ class ClassForm(FlaskForm):
     link_name5 = StringField('Link Name 5')
     link5 = StringField('Link 5')
 
-    desktop_reminder = SelectField('Minutes Before', validators=[DataRequired()], choices=minute_choices, default='-1')
-    auto_load_time = SelectField('Minutes Before', validators=[DataRequired()], choices=minute_choices, default='-1')
-    notes = TextAreaField('Notes', validators=[])
+    # desktop_reminder = SelectField('Minutes Before', choices=minute_choices, default='-1')
+    # auto_load_time = SelectField('Minutes Before', choices=minute_choices, default='-1')
+    # notes = TextAreaField('Notes')
     submit = SubmitField('Add Class')
 
     def validate_link(self, link):
-        print('https://meet.google.com/' not in link.data)
         if 'https://us.bbcollab.com/invite/' not in link.data and 'https://meet.google.com/' not in link.data and 'https://us04web.zoom.us' not in link.data:
             raise ValidationError('Invalid Link. Try right clicking the email link and then clicking "Copy Link Address"')
 

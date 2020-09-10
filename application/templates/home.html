@@ -39,9 +39,10 @@
 <a id="about" class="anchor"></a>
 <div class="about-div" style="padding-left: 15%; padding-right: 15%">
     <h1 style="margin-bottom: 20px;">About</h1>
-    <p style="margin-bottom: 20px;">Online school has been drastically different for all students across the world and having different links from different places 
-        can be a hassle to manage. The Locker is a virtual class management system that stores your online meeting links in one place so 
-        you don't have to go through emails and calendar events to find your meetings.
+    <p style="margin-bottom: 20px;">The Locker is a robust virtual school assistant to help students of all ages 
+    best adjust to the drastically different style of learning presented by the COVID-19 pandemic. With the ability 
+    to store times and invitations to classrooms and other class resources, as well as the ability to take notes and 
+    keep track of assignments all in one place, The Locker is every student's one-stop-shop for virtual learning.
     </p>
     <h3>Our Team</h3>
     <div class="row">
@@ -142,21 +143,32 @@
         </div>
     </form>
 </div>
-{% if seen_recent_update == False %}
+
+{% if update %}
     <div id="home-modal" class="modal animate__animated animate__slideInDown" tabindex="-1" style="color: black;">
         <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title">Updates - v1.1</h5>
+            <h4 class="modal-title">Updates - {{ update.name }} - v{{ update.version }}</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
             </div>
             <div class="modal-body">
-            <ul style="margin-left: 20px;">
-                <li>Added support for Google Meets and Zoom meetings (they will temporarily open in another window until we figure out proper embedding).</li>
-                <li>Email and text reminders are disabled as we work to improve the system.</li>
-            </ul>
+                <h6 style="text-align: left">{{ update.headline }}</h6>
+                <h6><strong>New Changes:</strong></h6>
+                <ul style="margin-left: 20px; font-size: 15px">
+                    {% for up in update.updates %}
+                        <li>{{ up }}</li>
+                    {% endfor %}
+                </ul>
+                <hr>
+                <h6><strong>Coming Soon:</strong></h6>
+                <ul style="margin-left: 20px; font-size: 15px">
+                    {% for up in update.coming_soon %}
+                        <li>{{ up }}</li>
+                    {% endfor %}
+                </ul>
             </div>
             <div class="modal-footer">
             <button id="close-button" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

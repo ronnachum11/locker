@@ -95,7 +95,7 @@
                                 {% endif %}
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <a class="btn-dark btn-wide text-small" title="Coming Soon!">HW</a>
+                                        <a class="btn-dark btn-wide text-small" title="Coming Soon!">Planner</a>
                                     </div>
                                     <div class="col-md-6">
                                         <a class="btn-dark btn-wide text-small" title="Coming Soon!">Notes</a>
@@ -144,7 +144,7 @@
                                 {% endif %}
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <a class="btn-dark btn-wide text-small" title="Coming Soon!">HW</a>
+                                        <a class="btn-dark btn-wide text-small" title="Coming Soon!">Planner</a>
                                     </div>
                                     <div class="col-md-6">
                                         <a class="btn-dark btn-wide text-small" title="Coming Soon!">Notes</a>
@@ -225,21 +225,31 @@
     <h1>Please Log In</h1>
 {% endif %}
 
-{% if seen_recent_update == False %}
+{% if update %}
     <div id="home-modal" class="modal animate__animated animate__slideInDown" tabindex="-1" style="color: black;">
         <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title">Updates - v1.1</h5>
+            <h4 class="modal-title">Updates - {{ update.name }} - v{{ update.version }}</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
             </div>
             <div class="modal-body">
-            <ul style="margin-left: 20px;">
-                <li>Added support for Google Meets and Zoom meetings (they will temporarily open in another window until we figure out proper embedding).</li>
-                <li>Email and text reminders are disabled as we work to improve the system.</li>
-            </ul>
+                <h6 style="text-align: left">{{ update.headline }}</h6>
+                <h6><strong>New Changes:</strong></h6>
+                <ul>
+                    {% for up in update.updates %}
+                        <li>{{ up }}</li>
+                    {% endfor %}
+                </ul>
+                <hr>
+                <h6><strong>Coming Soon:</strong></h6>
+                <ul>
+                    {% for up in update.coming_soon %}
+                        <li>{{ up }}</li>
+                    {% endfor %}
+                </ul>
             </div>
             <div class="modal-footer">
             <button id="close-button" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
