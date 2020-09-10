@@ -16,6 +16,15 @@
             }
         });
 
+        $('.additional-links-checkbox').change(function(){
+            if( $(this).is(':checked') ) {
+                $("#additional-links-div").show()
+            }
+            else {
+                $("#additional-links-div").hide()
+            }
+        });
+
         $('.number_of_classes').on('change',function(){
             if( $(this).val()=="1" ){
                 $("#class1").show()
@@ -274,8 +283,21 @@
                     </div>
                 </div>
             </div>
-            <div id="additional-links-div">
-                <h5>Additional Class Links (BB, GC, Textbook, WebAssign)</h5>
+            <div>
+                <h5>Add Additional Class Links (BB, GC, Textbook, WebAssign)?</h5>
+                {% if form.additional_links.errors %}
+                    {{ form.additional_links(class="form-control is-invalid additional-links-checkbox") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.additional_links.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %} 
+                    {{ form.additional_links(class="form-control additional-links-checkbox") }}
+                {% endif %}
+            </div>
+            <div id="additional-links-div" style="display: {{ display_link_div }}">
+                <h5>How many additional links would you like to add?</h5>
                 {% if form.number_of_links.errors %}
                     {{ form.number_of_links(class="form-control is-invalid num-additional-links") }}
                     <div class="invalid-feedback">
@@ -286,137 +308,152 @@
                 {% else %} 
                     {{ form.number_of_links(class="form-control num-additional-links") }}
                 {% endif %}
-                <div id="links-div" style="display: {{ display_link_div }}">
-                    <div id="link1" class="form-group row link-row" style="display: {{ display_link_1 }}">
-                        {% if form.link_name1.errors %}
-                            {{ form.link_name1(class="form-control is-invalid link-name", placeholder="Link 1 Name") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.link_name1.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %} 
-                            {{ form.link_name1(class="form-control link-name", placeholder="Link 1 Name") }}
-                        {% endif %}
-
-                        {% if form.link1.errors %}
-                            {{ form.link1(class="form-control is-invalid link", placeholder="Link 1") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.link1.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %} 
-                            {{ form.link1(class="form-control link", placeholder="Link 1") }}
-                        {% endif %}
-                    </div>
-                    <div id="link2" class="form-group row link-row" style="display: {{ display_link_2 }}">
-                        {% if form.link_name2.errors %}
-                            {{ form.link_name2(class="form-control is-invalid link-name", placeholder="Link 2 Name") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.link_name2.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %} 
-                            {{ form.link_name2(class="form-control link-name", placeholder="Link 2 Name") }}
-                        {% endif %}
-
-                        {% if form.link2.errors %}
-                            {{ form.link2(class="form-control is-invalid link", placeholder="Link 2") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.link2.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %} 
-                            {{ form.link2(class="form-control link", placeholder="Link 2") }}
-                        {% endif %}
-                    </div>
-                    <div id="link3" class="form-group row link-row" style="display: {{ display_link_3 }}">
-                        {% if form.link_name3.errors %}
-                            {{ form.link_name3(class="form-control is-invalid link-name", placeholder="Link 3 Name") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.link_name3.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %} 
-                            {{ form.link_name3(class="form-control link-name", placeholder="Link 3 Name") }}
-                        {% endif %}
-
-                        {% if form.link3.errors %}
-                            {{ form.link3(class="form-control is-invalid link", placeholder="Link 3") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.link3.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %} 
-                            {{ form.link3(class="form-control link", placeholder="Link 3") }}
-                        {% endif %}
-                    </div>
-                    <div id="link4" class="form-group row link-row" style="display: {{ display_link_4 }}">
-                        {% if form.link_name4.errors %}
-                            {{ form.link_name4(class="form-control is-invalid link-name", placeholder="Link 4 Name") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.link_name4.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %} 
-                            {{ form.link_name4(class="form-control link-name", placeholder="Link 4 Name") }}
-                        {% endif %}
-
-                        {% if form.link4.errors %}
-                            {{ form.link4(class="form-control is-invalid link", placeholder="Link 4") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.link4.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %} 
-                            {{ form.link4(class="form-control link", placeholder="Link 4") }}
-                        {% endif %}
-                    </div>
-                    <div id="link5" class="form-group row link-row" style="display: {{ display_link_5 }}">
-                        {% if form.link_name5.errors %}
-                            {{ form.link_name5(class="form-control is-invalid link-name", placeholder="Link 5 Name") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.link_name5.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %} 
-                            {{ form.link_name5(class="form-control link-name", placeholder="Link 5 Name") }}
-                        {% endif %}
-
-                        {% if form.link5.errors %}
-                            {{ form.link5(class="form-control is-invalid link", placeholder="Link 5") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.link5.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %} 
-                            {{ form.link5(class="form-control link", placeholder="Link 5") }}
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-            <div class="central">
-                <h3>Desktop Reminders?</h3>
-                <div id="email-reminders">
-                    {% if form.desktop_reminder.errors %}
-                        {{ form.desktop_reminder(class="form-control is-invalid") }}
+                <div id="link1" class="form-group row link-row" style="display: {{ display_link_1 }}">
+                    {% if form.link_name1.errors %}
+                        {{ form.link_name1(class="form-control is-invalid link-name", placeholder="Link 1 Name") }}
                         <div class="invalid-feedback">
-                            {% for error in form.desktop_reminder.errors %}
+                            {% for error in form.link_name1.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
-                        {% else %} 
-                            {{ form.desktop_reminder(class="form-control") }}
+                    {% else %} 
+                        {{ form.link_name1(class="form-control link-name", placeholder="Link 1 Name") }}
                     {% endif %}
+
+                    {% if form.link1.errors %}
+                        {{ form.link1(class="form-control is-invalid link", placeholder="Link 1") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.link1.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.link1(class="form-control link", placeholder="Link 1") }}
+                    {% endif %}
+                </div>
+                <div id="link2" class="form-group row link-row" style="display: {{ display_link_2 }}">
+                    {% if form.link_name2.errors %}
+                        {{ form.link_name2(class="form-control is-invalid link-name", placeholder="Link 2 Name") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.link_name2.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.link_name2(class="form-control link-name", placeholder="Link 2 Name") }}
+                    {% endif %}
+
+                    {% if form.link2.errors %}
+                        {{ form.link2(class="form-control is-invalid link", placeholder="Link 2") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.link2.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.link2(class="form-control link", placeholder="Link 2") }}
+                    {% endif %}
+                </div>
+                <div id="link3" class="form-group row link-row" style="display: {{ display_link_3 }}">
+                    {% if form.link_name3.errors %}
+                        {{ form.link_name3(class="form-control is-invalid link-name", placeholder="Link 3 Name") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.link_name3.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.link_name3(class="form-control link-name", placeholder="Link 3 Name") }}
+                    {% endif %}
+
+                    {% if form.link3.errors %}
+                        {{ form.link3(class="form-control is-invalid link", placeholder="Link 3") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.link3.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.link3(class="form-control link", placeholder="Link 3") }}
+                    {% endif %}
+                </div>
+                <div id="link4" class="form-group row link-row" style="display: {{ display_link_4 }}">
+                    {% if form.link_name4.errors %}
+                        {{ form.link_name4(class="form-control is-invalid link-name", placeholder="Link 4 Name") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.link_name4.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.link_name4(class="form-control link-name", placeholder="Link 4 Name") }}
+                    {% endif %}
+
+                    {% if form.link4.errors %}
+                        {{ form.link4(class="form-control is-invalid link", placeholder="Link 4") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.link4.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.link4(class="form-control link", placeholder="Link 4") }}
+                    {% endif %}
+                </div>
+                <div id="link5" class="form-group row link-row" style="display: {{ display_link_5 }}">
+                    {% if form.link_name5.errors %}
+                        {{ form.link_name5(class="form-control is-invalid link-name", placeholder="Link 5 Name") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.link_name5.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.link_name5(class="form-control link-name", placeholder="Link 5 Name") }}
+                    {% endif %}
+
+                    {% if form.link5.errors %}
+                        {{ form.link5(class="form-control is-invalid link", placeholder="Link 5") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.link5.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %} 
+                        {{ form.link5(class="form-control link", placeholder="Link 5") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Desktop Reminders?</h5>
+                    <div id="email-reminders">
+                        {% if form.desktop_reminder.errors %}
+                            {{ form.desktop_reminder(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.desktop_reminder.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %} 
+                                {{ form.desktop_reminder(class="form-control") }}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h5>Automatically Load Class?</h5>
+                    <div id="email-reminders">
+                        {% if form.auto_load_time.errors %}
+                            {{ form.auto_load_time(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.auto_load_time.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %} 
+                                {{ form.auto_load_time(class="form-control") }}
+                        {% endif %}
+                    </div>
                 </div>
             </div>
 

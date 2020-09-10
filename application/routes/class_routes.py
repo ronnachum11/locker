@@ -75,12 +75,12 @@ def add_class():
 
             sorted(times, key=lambda x: weekdays.index(x))
             course = Course(id=str(ObjectId()), name=form.name.data, link=form.link.data, color=color, period=form.period.data, links=links,
-                            times=times, teacher=form.teacher.data, user_id=current_user.id, custom_times=True, desktop_alert_time=int(form.desktop_reminder.data))
+                            times=times, teacher=form.teacher.data, user_id=current_user.id, custom_times=True, desktop_alert_time=int(form.desktop_reminder.data), auto_load_time=int(form.auto_load_time.data))
         current_user.add_course(course)
         flash('Class Added Successfully!', 'success')
         return redirect(url_for('dashboard'))
 
-    return render_template('add_class.html', header="Add A Class", custom_time=False, update_class=False, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None and current_user.carrier is not None, display_custom_div="none", display_class_1="inline", display_class_2="none", display_class_3="none", custom_color="none", display_link_1="none", display_link_2="none", display_link_3="none", display_link_4="none", display_link_5="none", display_link_div="none", form=form)
+    return render_template('add_class.html', header="Add A Class", custom_time=False, update_class=False, color_list=color_list, period_list=period_list, has_email = current_user.email is not None, has_phone=current_user.phone is not None and current_user.carrier is not None, display_custom_div="none", display_class_1="inline", display_class_2="none", display_class_3="none", custom_color="none", display_link_1="", display_link_2="none", display_link_3="none", display_link_4="none", display_link_5="none", display_link_div="none", form=form)
 
 @app.route("/import_classes", methods=["GET", "POST"])
 def import_classes():
@@ -112,7 +112,7 @@ def update_class(course_id):
                         period=course.period, color=color, custom_color=custom_color, desktop_reminder=course.desktop_alert_time, 
                         link_name1=link_data[0][0], link1=link_data[0][1], link_name2=link_data[1][0], link2=link_data[1][1], 
                         link_name3=link_data[2][0], link3=link_data[2][1], link_name4=link_data[3][0], link4=link_data[3][1], 
-                        link_name5=link_data[4][0], link5=link_data[4][1])
+                        link_name5=link_data[4][0], link5=link_data[4][1], additional_links=course.links is not None and len(course.links) > 0, auto_load_time=course.auto_load_time)
     else:
         for i, day in enumerate(course.times):
             data[i][0] = day
@@ -129,7 +129,7 @@ def update_class(course_id):
                      day3=data[2][0], hour3=data[2][1], minute3=data[2][2], hour3End=data[2][3], minute3End=data[2][4], 
                      link_name1=link_data[0][0], link1=link_data[0][1], link_name2=link_data[1][0], link2=link_data[1][1], 
                      link_name3=link_data[2][0], link3=link_data[2][1], link_name4=link_data[3][0], link4=link_data[3][1], 
-                     link_name5=link_data[4][0], link5=link_data[4][1], number_of_links=len(course.links))
+                     link_name5=link_data[4][0], link5=link_data[4][1], number_of_links=len(course.links), additional_links=course.links is not None and len(course.links) > 0, auto_load_time=course.auto_load_time)
     color_list, period_list = get_color_period_list(form)        
     
     display_custom_div = "inline" if course.custom_times else "none"
@@ -152,20 +152,23 @@ def update_class(course_id):
         if color == "custom":
             color = form.custom_color.data.hex
 
-        if int(form.number_of_links.data) >= 1:
-            links[form.link_name1.data] = form.link1.data
-        if int(form.number_of_links.data) >= 2:
-            links[form.link_name2.data] = form.link2.data
-        if int(form.number_of_links.data) >= 3:
-            links[form.link_name3.data] = form.link3.data
-        if int(form.number_of_links.data) >= 4:
-            links[form.link_name4.data] = form.link4.data
-        if int(form.number_of_links.data) >= 5:
-            links[form.link_name5.data] = form.link5.data
+        if form.additional_links.data:
+            if int(form.number_of_links.data) >= 1:
+                links[form.link_name1.data] = form.link1.data
+            if int(form.number_of_links.data) >= 2:
+                links[form.link_name2.data] = form.link2.data
+            if int(form.number_of_links.data) >= 3:
+                links[form.link_name3.data] = form.link3.data
+            if int(form.number_of_links.data) >= 4:
+                links[form.link_name4.data] = form.link4.data
+            if int(form.number_of_links.data) >= 5:
+                links[form.link_name5.data] = form.link5.data
+        else:
+            links = None
 
         if not form.custom_time.data:
             course = current_user.update_course(course.id, name=form.name.data, link=form.link.data, color=color, period=form.period.data, links=links,
-                            custom_times=False, times=None, teacher=form.teacher.data, user_id=current_user.id, desktop_alert_time=int(form.desktop_reminder.data))
+                            custom_times=False, times=None, teacher=form.teacher.data, user_id=current_user.id, desktop_alert_time=int(form.desktop_reminder.data), auto_load_time=int(form.auto_load_time.data))
         else:
             if int(form.number_of_classes.data) >= 1:
                 times[form.day1.data] = dict()
@@ -182,7 +185,7 @@ def update_class(course_id):
 
             sorted(times, key=lambda x: weekdays.index(x))
             course = current_user.update_course(course.id, name=form.name.data, link=form.link.data, color=color, period=form.period.data, links=links,
-                            times=times, teacher=form.teacher.data, user_id=current_user.id, custom_times=True, desktop_alert_time=int(form.desktop_reminder.data))
+                            times=times, teacher=form.teacher.data, user_id=current_user.id, custom_times=True, desktop_alert_time=int(form.desktop_reminder.data), auto_load_time=int(form.auto_load_time.data))
       
         flash('Class Updated Successfully!', 'success')
         return redirect(url_for('dashboard'))

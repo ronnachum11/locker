@@ -56,7 +56,9 @@ class ClassForm(FlaskForm):
     minute3 = SelectField('Minute', choices=minutes)
     minute3End = SelectField('Minute', choices=minutes)
 
-    number_of_links = SelectField('Number of Links',choices=[('0', 'None'), ('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5')])
+    additional_links = BooleanField('Additional Links')
+
+    number_of_links = SelectField('Number of Links',choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5')])
     link_name1 = StringField('Link Name 1')
     link1 = StringField('Link 1')
     link_name2 = StringField('Link Name 2')
@@ -69,6 +71,7 @@ class ClassForm(FlaskForm):
     link5 = StringField('Link 5')
 
     desktop_reminder = SelectField('Minutes Before', validators=[DataRequired()], choices=minute_choices, default='-1')
+    auto_load_time = SelectField('Minutes Before', validators=[DataRequired()], choices=minute_choices, default='-1')
     notes = TextAreaField('Notes', validators=[])
     submit = SubmitField('Add Class')
 

@@ -73,8 +73,16 @@
             document.getElementsByClassName("classes-column")[0].style.display == "inline";
             val = 1;
         }
-    }
+    }    
 </script>
+
+{% if current_class != "" %}
+    <script>
+        window.onbeforeunload = function() {
+            return true;
+        };
+    </script>
+{% endif %}
 
 {% if current_user.is_authenticated %}
     <div id="content-container" class="row">

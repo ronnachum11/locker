@@ -4,7 +4,7 @@ from bson import ObjectId
 from application import db
 
 class Course:
-    def __init__(self, id:str, name:str, link:str, color:str, period:str, teacher:str, user_id:str, custom_times:bool=False, email_alert_time:int=-1, text_alert_time:int=-1, desktop_alert_time:int=-1, times:dict=None, links:dict=None, data:dict=None):
+    def __init__(self, id:str, name:str, link:str, color:str, period:str, teacher:str, user_id:str, custom_times:bool=False, email_alert_time:int=-1, text_alert_time:int=-1, desktop_alert_time:int=-1, auto_load_time:int=-1, times:dict=None, links:dict=None, data:dict=None):
         self.id = str(id)
 
         self.name = name
@@ -20,6 +20,7 @@ class Course:
         self.email_alert_time = int(email_alert_time)
         self.text_alert_time = int(text_alert_time)
         self.desktop_alert_time = int(desktop_alert_time)
+        self.auto_load_time = int(auto_load_time)
 
         self.data = data
 
@@ -39,6 +40,7 @@ class Course:
                     int(dictionary.get("email_alert_time")),
                     int(dictionary.get("text_alert_time")),
                     int(dictionary.get("desktop_alert_time")),
+                    int(dictionary.get("auto_load_time")),
                     dictionary.get("times"),
                     dictionary.get("links"),
                     dictionary.get("data")
