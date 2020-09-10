@@ -47,8 +47,6 @@
             <th>Teacher</th>
             <th>Period</th>
             <th>Link</th>
-            <th>Email?</th>
-            <th>Text?</th>
             <th>Settings</th>
         </tr>
         {% for class in classes %}
@@ -57,16 +55,6 @@
                 <td>{{ class.teacher }}</td>
                 <td>{{ class.period }}</td>
                 <td><a class="" href="{{ class.link }}" target="_blank">Link</a></td>
-                {% if class.email_alert_time == -1 %}
-                    <td>None</td>
-                {% else %}
-                    <td>{{ class.email_alert_time }} min</td>
-                {% endif %}
-                {% if class.text_alert_time == -1 %}
-                    <td>None</td>
-                {% else %}
-                    <td>{{ class.text_alert_time }} min</td>
-                {% endif %}
                 <td>
                     <a class="settings" href="{{ url_for('update_class', course_id=class.id) }}">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
