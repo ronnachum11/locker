@@ -3,8 +3,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu&display=swap");
 
 #content-div {
-    padding-right: 25%;
-    padding-left: 25%;
+    margin-right: 25%;
+    margin-left: 25%;
 }
 
 #class1 {
@@ -44,13 +44,9 @@
 }
 
 .link-row {
-    padding-top: 10px;
+    margin-top: 5px;
 }
 
-h5 {
-    padding-top: 10px;
-}
- 
 /* The container */
 .container {
     display: block;

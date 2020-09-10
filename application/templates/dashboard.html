@@ -7,19 +7,6 @@
 {% block content %}
 <!-- <iframe src="https://meet.google.com/twy-ibpj-jgs" title="Google Meets"></iframe> -->
 <script>
-    val = 0
-    function makeSettingsVisible() {
-        var elementsArray = document.getElementsByClassName("settings");
-        for (var i = 0; i < elementsArray.length; i++) {
-            console.log(elementsArray[i])
-            if(elementsArray[i].style.display == "none"){
-                elementsArray[i].style.display = "block";
-            }
-            else if(elementsArray[i].style.display == "block"){
-                elementsArray[i].style.display = "none";
-            }
-        }
-    }
 
     function updateDisplay(new_display) {
         console.log("clicked")
@@ -61,19 +48,10 @@
         }
     }
 
-    function fullScreen(){
-        console.log(val)
-        if(val == 1){
-            document.getElementsByClassName("class-container")[0].className = "fullScreen";
-            document.getElementsByClassName("classes-column")[0].style.display = "none";
-            val = 0;
-        }
-        else {
-            // document.getElementsByClassName("class-container")[0].classList.remove("fullScreen");
-            document.getElementsByClassName("classes-column")[0].style.display == "inline";
-            val = 1;
-        }
-    }    
+    $('.expand-button').click(function(){
+        console.log("Here")
+        $(this).find('.extra-div').toggle()
+    })
 </script>
 
 {% if current_class != "" %}
@@ -89,17 +67,106 @@
         <div class="col-md-3 content-column classes-column">
             <div class="row">
                 <h3>Classes</h3>
-                <div class="main-settings" style="padding-left: 10px" onclick="makeSettingsVisible();">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z"/>
-                        <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                        <circle cx="12" cy="12" r="3" />
-                    </svg>
-                </div>
             </div>
             <div class="classes">
                 {% for class, time_string in classes %}
                     {% if class.link == current_class %}
+                        <div class="class-card current-class" style="border: solid 3px {{ class.color }};">
+                            <div class="main-div current-class">
+                                {% if class.period == "Homeroom" %}
+                                    <h5>{{ class.name }}</h5>
+                                {% else %}
+                                    <h5>{{ class.name }} - Period {{ class.period }}</h5>
+                                {% endif %}
+                                    <p>This Week: {{ time_string }}</p>
+                            </div>
+                            <div class="extra-div current-class">
+                                {% if class.links %}
+                                    {% for name in class.links %}
+                                        <div class="row">
+                                            <a href="{{ class.links[name] }}" target="_blank" style="font-size: 11px">{{ name }}</a>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a class="btn-dark btn-wide text-small" title="Coming Soon!">HW</a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a class="btn-dark btn-wide text-small" title="Coming Soon!">Notes</a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a class="btn-dark btn-wide text-small" href="{{ class.link }}" target="_blank">Join Externally</a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a class="btn-dark btn-wide text-small" href="{{ url_for('classroom', course_id=class.id) }}">Join Class</a>
+                                    </div>
+                                </div>
+                                <a class="settings-icon" href="{{ url_for('update_class', course_id=class.id) }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z"/>
+                                        <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    {% elif "https://us.bbcollab.com/invite/" in class.link %}
+                        <div class="class-card" style="border: solid 3px {{ class.color }};">
+                            <!-- <a class="expand-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-caret-down" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z"/>
+                                    <path d="M18 15l-6-6l-6 6h12" transform="rotate(180 12 12)" />
+                                </svg>
+                            </a> -->
+                            <div class="main-div">
+                                {% if class.period == "Homeroom" %}
+                                    <h5>{{ class.name }}</h5>
+                                {% else %}
+                                    <h5>{{ class.name }} - Period {{ class.period }}</h5>
+                                {% endif %}
+                                    <p>This Week: {{ time_string }}</p>
+                            </div>
+                            <div class="extra-div" style="">
+                                {% if class.links %}
+                                    {% for name in class.links %}
+                                        <div class="row">
+                                            <a href="{{ class.links[name] }}" target="_blank" style="font-size: 11px">{{ name }}</a>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a class="btn-dark btn-wide text-small" title="Coming Soon!">HW</a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a class="btn-dark btn-wide text-small" title="Coming Soon!">Notes</a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a class="btn-dark btn-wide text-small" href="{{ class.link }}" target="_blank">Join Externally</a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a class="btn-dark btn-wide text-small" href="{{ url_for('classroom', course_id=class.id) }}">Join Class</a>
+                                    </div>
+                                </div>
+                                <a class="settings-icon" href="{{ url_for('update_class', course_id=class.id) }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z"/>
+                                        <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    {% else %}
+
+                    {% endif %}
+
+                    <!-- {% if class.link == current_class %}
                         <div class="class-card current-class" style="border: solid 3px {{ class.color }};">
                             <div class="text-div current-class">
                     {% elif "https://us.bbcollab.com/invite/" in class.link %}
@@ -110,39 +177,13 @@
                         <div class="class-card" style="border: solid 3px {{ class.color }};">
                             <a href="{{ class.link }}" target="_blank">
                                 <div class="text-div">
-                    {% endif %}
-                            {% if class.period == "Homeroom" %}
-                                <h5>{{ class.name }}</h5>
-                            {% else %}
-                                <h5>{{ class.name }} - Period {{ class.period }}</h5>
-                            {% endif %}
-                                <p>This Week: {{ time_string }}</p>
-                            </div>
-                            {% if class.link == current_class %}</a>{% endif %}
-                                {% if class.link != current_class %}<div class="settings" style="display: none;">
-                                {% else %}<div class="current-settings">{% endif %}
-                                {% if class.links %}
-                                    {% for name in class.links %}
-                                        <div class="row">
-                                            <a href="{{ class.links[name] }}" target="_blank" style="font-size: 11px">{{ name }}</a>
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-                                <a class="settings-icon" href="{{ url_for('update_class', course_id=class.id) }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z"/>
-                                        <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                        <circle cx="12" cy="12" r="3" />
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
+                    {% endif %} -->
                 {% endfor %}
             </div>
             <div class="button">
                 <div class="row" style="padding-top: 5px">
                     <!-- <div class="col-md-6"> -->
-                    <a class="btn-color btn-wide" href="{{ url_for('add_class') }}">Add Class</a>
+                    <a class="btn-dark btn-wide" href="{{ url_for('add_class') }}">Add Class</a>
                     <!-- </div>
                     <div class="col-md-6">
                         <a class="btn-light btn-wide" href="{{ url_for('import_classes') }}">Import All</a>

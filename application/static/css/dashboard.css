@@ -17,6 +17,16 @@ html {
     height: 90vh;
  }
 
+ .expand-button {
+  /* position: absolute;
+  float: right; */
+  opacity: 80%;
+} 
+
+.expand-button:hover {
+  opacity: 100%;
+}
+
 #content-container {
     height: 85vh;
     padding-left: 5%;
@@ -52,6 +62,14 @@ html {
 
 .class-card h5{
     font-size: 18px;
+}
+
+.text-small {
+  font-size: 10px;
+}
+
+.text-small:hover{
+  font-size: 11px;
 }
 
 .classes {
@@ -99,12 +117,11 @@ html {
 .class-card {
     text-align: center;
     background-color: rgb(37, 37, 37);
-    opacity: 85%;
     padding: 5px;
 }
 
 .class-card:hover{
-    /* background-color: rgb(209, 209, 209); */
+    background-color: rgb(34, 34, 34);
     opacity: 100%;
 }
 
@@ -139,6 +156,10 @@ html {
 
 .current-class {
     opacity: 100%;
+}
+
+.row {
+  margin-top: 10px;
 }
 
 input.select-display-button {
