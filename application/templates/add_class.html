@@ -238,7 +238,12 @@
                 </div>
             </div>
             <hr>
-            <h5>Set Custom Time (Leave unchecked to use {{current_user.school}}'s default)</h5>
+            {% if current_user.school != "Other" %}
+                <h5>Set Custom Time? (Leave unchecked to use {{current_user.school}}'s default)</h5>
+            {% else %}
+                <h5>Set Custom Time?</h5>
+            {% endif %}
+            
             {% if current_user.school == "TJ" %}
                 <h6>Note: TJ class times automatically update from ION but will not if customs are set</h6>
             {% endif %}
@@ -286,6 +291,10 @@
                         {{ form.day3(class="form-control day-field") }} {{ form.hour3(class="form-control hour-field") }} : {{ form.minute3(class="form-control minute-field") }} - {{ form.hour3End(class="form-control hour-field") }} : {{ form.minute3End(class="form-control minute-field") }}
                     </div>
                 </div>
+            </div>
+            <hr>
+            <div>
+                <h5>Add Office Hours?</h5>
             </div>
             <hr>
             <div>
@@ -430,8 +439,9 @@
                 </div>
             </div>
             <hr>
-            <div class="row">
-                <div class="col-md-6">
+            <div class="row" style="display: flex; justify-content: center">
+                <h5>Desktop Reminders and Automatic Class Loading Coming Soon</h5>
+                <!-- <div class="col-md-6">
                     <h5>Desktop Reminders?</h5>
                     <div id="email-reminders">
                         {% if form.desktop_reminder.errors %}
@@ -460,7 +470,7 @@
                                 {{ form.auto_load_time(class="form-control") }}
                         {% endif %}
                     </div>
-                </div>
+                </div> -->
             </div>
             <hr>
 

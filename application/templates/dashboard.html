@@ -19,6 +19,7 @@
             iframe.style.height = "100%";
             document.getElementsByClassName("classes-column")[0].style.display = "block";
             document.getElementsByClassName("class-container")[0].classList.remove("col-md-12"); 
+            document.getElementsByClassName("site-header")[0].style.display = "block";
         }
         else if(new_display == "theater"){
             iframe.removeAttribute("style")
@@ -27,6 +28,7 @@
             iframe.style.height = "100%";
             document.getElementsByClassName("classes-column")[0].style.display = "none";
             document.getElementsByClassName("class-container")[0].classList.add("col-md-12");
+            document.getElementsByClassName("site-header")[0].style.display = "block";
         }
         else if(new_display == "full-screen"){
             iframe.style.position = "fixed";
@@ -35,16 +37,19 @@
             iframe.style.right = 0;
             iframe.style.bottom = 0;
             iframe.style.width = "100%";
-            iframe.style.height = "calc(100% - 60px)";
+            iframe.style.height = "100%"; // "calc(100% - 60px)";
             iframe.style.border = "none";
-            iframe.style.margin = '65px 0 0 0';
+            iframe.style.margin = '0 0 0 0';
             iframe.style.padding = 0;
             iframe.style.overflow = "hidden";
             iframe.style.left = 999999;   
 
             options_div.style.position = "fixed";
-            options_div.style.top = "65px";
-            options_div.style.right = 0;
+            options_div.style.top = 0;
+            options_div.style.right = "30%";
+            options_div.style.left = "30%";
+
+            document.getElementsByClassName("site-header")[0].style.display = "none";
         }
     }
 
