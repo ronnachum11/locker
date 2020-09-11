@@ -102,6 +102,131 @@
                 $("#link5").show()
             }
         });
+
+        $('.office-hours').change(function(){
+            if( $(this).is(':checked') ) {
+                $(".office-hours-div").show()
+            }
+            else {
+                $(".office-hours-div").hide()
+            }
+        });
+        $('.teacher-contact').change(function(){
+            if( $(this).is(':checked') ) {
+                $(".teacher-contact-div").show()
+            }
+            else {
+                $(".teacher-contact-div").hide()
+            }
+        });
+        $('.embedded-custom-color-picker').change(function(){
+            console.log('here')
+            $('#custom-checkmark').css("background-color", this.value);
+            $('#color-10').prop('checked', true);
+        });
+    });
+
+    $(window).on('load',function(){
+        console.log('here')
+        if( $('.custom-time').is(':checked') ) {
+            $("#custom-time-div").show()
+        }
+        else {
+            $("#custom-time-div").hide()
+        }
+
+        if( $('.additional-links-checkbox').is(':checked') ) {
+            $("#additional-links-div").show()
+        }
+        else {
+            $("#additional-links-div").hide()
+        }
+
+        if( $('.number_of_classes').val()=="1" ){
+            $("#class1").show()
+            $("#class2").hide()
+            $("#class3").hide()
+        }
+        else if( $('.number_of_classes').val()=="2" ){
+            $("#class1").show()
+            $("#class2").show()
+            $("#class3").hide()
+        }
+        else{
+            $("#class1").show()
+            $("#class2").show()
+            $("#class3").show()
+        }
+
+        if( $('#color-10').is(':checked') ) {
+            $(".custom-color").show()
+        }
+        else {
+            $(".custom-color").hide()
+        }
+
+        if( $('.num-additional-links').val()=="0" ){
+            $("#links-div").hide()
+            $("#link1").hide()
+            $("#link2").hide()
+            $("#link3").hide()
+            $("#link4").hide()
+            $("#link5").hide()
+        }
+        else if( $('.num-additional-links').val()=="1" ){
+            $("#links-div").show()
+            $("#link1").show()
+            $("#link2").hide()
+            $("#link3").hide()
+            $("#link4").hide()
+            $("#link5").hide()
+        }
+        else if( $('.num-additional-links').val()=="2" ){
+            $("#links-div").show()
+            $("#link1").show()
+            $("#link2").show()
+            $("#link3").hide()
+            $("#link4").hide()
+            $("#link5").hide()
+        }
+        else if( $('.num-additional-links').val()=="3" ){
+            $("#links-div").show()
+            $("#link1").show()
+            $("#link2").show()
+            $("#link3").show()
+            $("#link4").hide()
+            $("#link5").hide()
+        }
+        else if( $('.num-additional-links').val()=="4" ){
+            $("#links-div").show()
+            $("#link1").show()
+            $("#link2").show()
+            $("#link3").show()
+            $("#link4").show()
+            $("#link5").hide()
+        }
+        else{
+            $("#links-div").show()
+            $("#link1").show()
+            $("#link2").show()
+            $("#link3").show()
+            $("#link4").show()
+            $("#link5").show()
+        }
+
+        if( $('.office-hours').is(':checked') ) {
+            $(".office-hours-div").show()
+        }
+        else {
+            $(".office-hours-div").hide()
+        }
+
+        if( $('.teacher-contact').is(':checked') ) {
+            $(".teacher-contact-div").show()
+        }
+        else {
+            $(".teacher-contact-div").hide()
+        }
     });
 </script>
 
@@ -113,7 +238,7 @@
 {% endif %}
 
 <div id="content-div">
-    <form action="" method="POST">
+    <form method="POST">
         {{ form.csrf_token() }}
         <fieldset>
             <hr>
@@ -200,8 +325,15 @@
                         {% elif value == "custom" %}
                             <div>
                                 <label class="container">
-                                    <td><input id="{{ id }}" name="color" type="radio" value="{{ value }}"></td>
-                                    <span id="custom-checkmark" class="checkmark {{value}}" style="font-size: 8px">Custom</span>
+                                    {% if color == "custom" %}
+                                        <td><input id="{{ id }}" name="color" type="radio" value="{{ value }}" checked="checked"></td>
+                                        <span id="custom-checkmark" class="checkmark {{value}}" style="font-size: 8px">Custom</span>
+                                        {{ form.custom_color(class="form-control embedded-custom-color-picker") }}
+                                    {% else %}
+                                        <td><input id="{{ id }}" name="color" type="radio" value="{{ value }}"></td>
+                                        <span id="custom-checkmark" class="checkmark {{value}}" style="font-size: 8px">Custom</span>
+                                        {{ form.custom_color(class="form-control embedded-custom-color-picker") }}
+                                    {% endif %}
                                 </label>
                             </div>
                         {% else %}
@@ -222,34 +354,21 @@
                 {% endif %}
                 </div>
             </div>
-            <div class="form-group">
-                <div class="custom-color" style="display: {{ custom_color }}">
-                    <h5>Custom Color Picker</h5>
-                        {% if form.custom_color.errors %}
-                            {{ form.custom_color(class="form-control is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.custom_color.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %} 
-                            {{ form.custom_color(class="form-control") }}
-                        {% endif %}
-                </div>
-            </div>
             <hr>
-            {% if current_user.school != "Other" %}
-                <h5>Set Custom Time? (Leave unchecked to use {{current_user.school}}'s default)</h5>
-            {% else %}
-                <h5>Set Custom Time?</h5>
-            {% endif %}
-            
-            {% if current_user.school == "TJ" %}
-                <h6>Note: TJ class times automatically update from ION but will not if customs are set</h6>
-            {% endif %}
+            <div>
+                {% if current_user.school != "Other" %}
+                    <h5>Set Custom Time? (Leave unchecked to use {{current_user.school}}'s default)</h5>
+                {% else %}
+                    <h5>Set Custom Time?</h5>
+                {% endif %}
+
+                {% if current_user.school == "TJ" %}
+                    <h6>Note: TJ class times automatically update from ION but will not if customs are set</h6>
+                {% endif %}
+            </div>
             <div class="form-group">
                 {% if form.custom_time.errors %}
-                    {{ form.custom_time(class="form-control is-invalid custom-time") }}
+                    {{ form.custom_time(class="is-invalid custom-time") }}
                     <div class="invalid-feedback">
                         {% for error in form.custom_time.errors %}
                             <span>{{ error }}</span>
@@ -259,7 +378,7 @@
                     {{ form.custom_time(class="form-control custom-time") }}
                 {% endif %}
             </div>
-            <div id="custom-time-div" style="display: {{ display_custom_div }}">
+            <div id="custom-time-div">
                 <div class="form-group">
                     <h5>How many times a week is your class?</h5>
                     {% if form.number_of_classes.errors %}
@@ -273,19 +392,19 @@
                         {{ form.number_of_classes(class="form-control number_of_classes") }}
                     {% endif %}
                 </div>
-            <div id="class1" class="custom-time-div-individual" style="display: {{ display_class_1 }}">
+                <div id="class1" class="custom-time-div-individual">
                     <div class="form-group row class-time-row">
                         <h5>Class 1</h5>
                         {{ form.day1(class="form-control day-field") }} {{ form.hour1(class="form-control hour-field") }} : {{ form.minute1(class="form-control minute-field") }} - {{ form.hour1End(class="form-control hour-field") }} : {{ form.minute1End(class="form-control minute-field") }}
                     </div>
                 </div>
-                <div id="class2" class="custom-time-div-individual" style="display: {{ display_class_2 }}">
+                <div id="class2" class="custom-time-div-individual">
                     <div class="form-group row class-time-row">
                         <h5>Class 2</h5>
                         {{ form.day2(class="form-control day-field") }} {{ form.hour2(class="form-control hour-field") }} : {{ form.minute2(class="form-control minute-field") }} - {{ form.hour2End(class="form-control hour-field") }} : {{ form.minute2End(class="form-control minute-field") }}
                     </div>
                 </div>
-                <div id="class3" class="custom-time-div-individual" style="display: {{ display_class_3 }}">
+                <div id="class3" class="custom-time-div-individual">
                     <div class="form-group row class-time-row">
                         <h5>Class 3</h5>
                         {{ form.day3(class="form-control day-field") }} {{ form.hour3(class="form-control hour-field") }} : {{ form.minute3(class="form-control minute-field") }} - {{ form.hour3End(class="form-control hour-field") }} : {{ form.minute3End(class="form-control minute-field") }}
@@ -295,6 +414,51 @@
             <hr>
             <div>
                 <h5>Add Office Hours?</h5>
+                <div>
+                    {% if form.office_hours.errors %}
+                    {{ form.office_hours(class="form-control is-invalid office-hours") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.office_hours.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %} 
+                        {{ form.office_hours(class="form-control office-hours") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="office-hours-div" style="padding-top: 15px">
+                <div class="form-group row class-time-row">
+                    {{ form.day1(class="form-control day-field") }} {{ form.hour1(class="form-control hour-field") }} : {{ form.minute1(class="form-control minute-field") }} - {{ form.hour1End(class="form-control hour-field") }} : {{ form.minute1End(class="form-control minute-field") }}
+                </div>
+            </div>
+            <hr>
+            <div>
+                <h5>Add Teacher Contact Info?</h5>
+                <div>
+                    {% if form.teacher_contact.errors %}
+                    {{ form.teacher_contact(class="form-control is-invalid teacher-contact") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.teacher_contact.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %} 
+                        {{ form.teacher_contact(class="form-control teacher-contact") }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="teacher-contact-div" style="padding-top: 15px">
+                {% if form.teacher_email.errors %}
+                    {{ form.teacher_email(class="form-control is-invalid teacher-email", placeholder="Teacher Email") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.teacher_email.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %} 
+                    {{ form.teacher_email(class="form-control teacher-email", placeholder="Teacher Email") }}
+                {% endif %}
             </div>
             <hr>
             <div>
@@ -310,7 +474,7 @@
                     {{ form.additional_links(class="form-control additional-links-checkbox") }}
                 {% endif %}
             </div>
-            <div id="additional-links-div" style="display: {{ display_link_div }}">
+            <div id="additional-links-div" style="padding-top: 15px">
                 <h5>How many additional links would you like to add?</h5>
                 {% if form.number_of_links.errors %}
                     {{ form.number_of_links(class="form-control is-invalid num-additional-links") }}
@@ -322,7 +486,7 @@
                 {% else %} 
                     {{ form.number_of_links(class="form-control num-additional-links") }}
                 {% endif %}
-                <div id="link1" class="form-group row link-row" style="display: {{ display_link_1 }}">
+                <div id="link1" class="form-group row link-row">
                     {% if form.link_name1.errors %}
                         {{ form.link_name1(class="form-control is-invalid link-name", placeholder="Link 1 Name") }}
                         <div class="invalid-feedback">
@@ -345,7 +509,7 @@
                         {{ form.link1(class="form-control link", placeholder="Link 1") }}
                     {% endif %}
                 </div>
-                <div id="link2" class="form-group row link-row" style="display: {{ display_link_2 }}">
+                <div id="link2" class="form-group row link-row">
                     {% if form.link_name2.errors %}
                         {{ form.link_name2(class="form-control is-invalid link-name", placeholder="Link 2 Name") }}
                         <div class="invalid-feedback">
@@ -368,7 +532,7 @@
                         {{ form.link2(class="form-control link", placeholder="Link 2") }}
                     {% endif %}
                 </div>
-                <div id="link3" class="form-group row link-row" style="display: {{ display_link_3 }}">
+                <div id="link3" class="form-group row link-row">
                     {% if form.link_name3.errors %}
                         {{ form.link_name3(class="form-control is-invalid link-name", placeholder="Link 3 Name") }}
                         <div class="invalid-feedback">
@@ -391,7 +555,7 @@
                         {{ form.link3(class="form-control link", placeholder="Link 3") }}
                     {% endif %}
                 </div>
-                <div id="link4" class="form-group row link-row" style="display: {{ display_link_4 }}">
+                <div id="link4" class="form-group row link-row">
                     {% if form.link_name4.errors %}
                         {{ form.link_name4(class="form-control is-invalid link-name", placeholder="Link 4 Name") }}
                         <div class="invalid-feedback">
@@ -414,7 +578,7 @@
                         {{ form.link4(class="form-control link", placeholder="Link 4") }}
                     {% endif %}
                 </div>
-                <div id="link5" class="form-group row link-row" style="display: {{ display_link_5 }}">
+                <div id="link5" class="form-group row link-row">
                     {% if form.link_name5.errors %}
                         {{ form.link_name5(class="form-control is-invalid link-name", placeholder="Link 5 Name") }}
                         <div class="invalid-feedback">
@@ -439,41 +603,10 @@
                 </div>
             </div>
             <hr>
-            <div class="row" style="display: flex; justify-content: center">
-                <h5>Desktop Reminders and Automatic Class Loading Coming Soon</h5>
-                <!-- <div class="col-md-6">
-                    <h5>Desktop Reminders?</h5>
-                    <div id="email-reminders">
-                        {% if form.desktop_reminder.errors %}
-                            {{ form.desktop_reminder(class="form-control is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.desktop_reminder.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                            {% else %} 
-                                {{ form.desktop_reminder(class="form-control") }}
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <h5>Automatically Load Class?</h5>
-                    <div id="email-reminders">
-                        {% if form.auto_load_time.errors %}
-                            {{ form.auto_load_time(class="form-control is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.auto_load_time.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                            {% else %} 
-                                {{ form.auto_load_time(class="form-control") }}
-                        {% endif %}
-                    </div>
-                </div> -->
+            <div class="row" style="justify-content: center">
+                <h6>Desktop Reminders and Automatic Class Loading Coming Soon</h6>
             </div>
             <hr>
-
         </fieldset>
         <div class="submit-button">
             {{ form.submit(class="btn-wide btn-color") }}
@@ -497,7 +630,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <form action="{{ url_for('delete_class', course_id=course_id) }}" method="POST">
+            <form action="{{ url_for('delete_class', course_id=course.id) }}" method="POST">
                 <input class="btn btn-danger" type="submit" value="Delete">
             </form>
             </div>

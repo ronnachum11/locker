@@ -6,11 +6,8 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from application import app, db
 from application.classes.course import Course
 
-
-
-
 class User(UserMixin):
-    def __init__(self, id:str=None, name:str=None, email:str=None, ion_id:int=None, phone:str=None, carrier:str=None, password:str=None, school:str="TJ", hasIon:bool=False, hasGoogle:bool=False, seen_recent_update:bool=False, _is_active:bool=False, courses: [Course]=[], data:dict=None):
+    def __init__(self, id:str=None, name:str=None, email:str=None, ion_id:int=None, phone:str=None, carrier:str=None, password:str=None, school:str="TJ", school_type:str="HS", city:str="Annandale", state:str="VA", country:str="USA", hasIon:bool=False, hasGoogle:bool=False, seen_recent_update:bool=False, _is_active:bool=False, courses: [Course]=[], data:dict=None):
         self.id = str(id)
         self.ion_id = ion_id
         self.name = name
@@ -18,7 +15,12 @@ class User(UserMixin):
         self.phone = phone
         self.carrier = carrier
         self.password = password
+
         self.school = school
+        self.school_type = school_type
+        self.city = city
+        self.state = state 
+        self.country = country
 
         self.hasIon = hasIon
         self.hasGoogle = hasGoogle
@@ -54,6 +56,10 @@ class User(UserMixin):
             "carrier": self.carrier,
             "password": self.password,
             "school": self.school,
+            "school_type": self.school_type,
+            "city": self.city,
+            "state": self.state,
+            "country": self.country,
             "hasIon": self.hasIon,
             "hasGoogle": self.hasGoogle,
             "seen_recent_update": self.seen_recent_update,
@@ -75,6 +81,10 @@ class User(UserMixin):
                     dictionary.get('carrier'),
                     dictionary.get('password'),
                     dictionary.get('school'),
+                    dictionary.get('school_type'),
+                    dictionary.get('city'),
+                    dictionary.get('state'),
+                    dictionary.get('country'),
                     dictionary.get('hasIon'),
                     dictionary.get('hasGoogle'),
                     dictionary.get('seen_recent_update'),

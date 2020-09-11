@@ -6,6 +6,7 @@ class DB:
     def __init__(self, connection_string: str):
         self.db = MongoClient(connection_string).get_database("locker-database")
         self.users = self.db.users
+        self.updates = self.db.updates
 
     def __repr__(self):
         return "<MongoDB database>"

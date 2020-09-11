@@ -3,6 +3,10 @@
     padding-left: 25%;
 }
 
+.location-field {
+    height: 45px;
+}
+
 @media only screen and (max-width: 600px) {
     .form-div {
        padding-left: 5%;
