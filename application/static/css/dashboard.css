@@ -116,17 +116,17 @@ html {
 
 .class-card {
     text-align: center;
-    background-color: rgb(37, 37, 37);
+    background-color: rgba(37, 37, 37, 0.3);
     padding: 5px;
+    border-radius: 20px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    transition: all 0.4s;
 }
 
 .class-card:hover{
-    background-color: rgb(34, 34, 34);
-    opacity: 100%;
-}
-
-.class-card:hover .text-div{
-    opacity: 100%;
+  background-color: rgba(37, 37, 37, 1);
 }
 
 /* .class-card:hover .settings {
@@ -147,6 +147,7 @@ html {
 }
 
 .settings-icon {
+  transition: all 0.4s;
     opacity: 50%;
 }
 

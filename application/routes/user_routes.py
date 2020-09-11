@@ -213,7 +213,7 @@ def reset_token(token):
     form = ResetPasswordForm()
 
     if form.validate_on_submit():
-        user.update_password(bcrypt.generate_password_hash(form.password.data))
+        user.update_password(bcrypt.generate_password_hash(form.password.data).decode("utf-8"))
         flash('Your password has been reset!', 'success')
         return redirect(url_for('login'))
     

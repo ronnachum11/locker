@@ -23,7 +23,7 @@ body.fade-out {
   transition: none;
 }
 
-.btn-light, .btn-color, .btn-red, .btn-dark {
+.btn-light, .btn-color, .btn-red {
   border-radius: 50px;
   border: none;
   text-align: center;
@@ -33,6 +33,39 @@ body.fade-out {
   -o-transition: background 0.5s ease-in-out;
   transition: background 0.5s ease-in-out;
 }
+
+.btn-dark {
+  margin-top: 5px;
+  position: relative;
+  display: inline-block;
+  padding: 0.25em 0.5em;
+  text-decoration: none;
+  color: #FFF;
+  background: #0d0a09;/*button color*/
+  border-bottom: solid 2px #000000;/*daker color*/
+  border-radius: 4px;
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
+  font-weight: bold;
+  transition: all 0.4s;
+}
+
+
+.btn-dark-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.icon-tabler-settings {
+  margin-top: -20px;
+}
+
+
+  @media all and (max-width:30em){
+   a.button4{
+    display:block;
+    margin:0.2em auto;
+  }
+  }
 
 .btn-color {
   background-color: DodgerBlue;
@@ -50,17 +83,6 @@ body.fade-out {
 
 .btn-red:hover {
   background-color: rgb(156, 28, 28);
-  color: white;
-}
-
-.btn-dark {
-  background-color: rgb(24, 24, 24);
-  color: white;
-  box-shadow: 0 0 3pt 2pt black;
-}
-
-.btn-dark:hover {
-  background-color: rgb(17, 17, 17);
   color: white;
 }
 
