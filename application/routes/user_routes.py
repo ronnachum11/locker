@@ -37,10 +37,15 @@ def register():
             form1.carrier.data = None
         user = User.get_by_email(form1.email.data)
         if user:
-            if user.hasIon:
+            if user.hasIon and user.password is None:
                 user.update_password(bcrypt.generate_password_hash(form1.password.data).decode('utf-8'))
                 user.update_phone(form1.phone.data)
                 user.update_carrier(form1.carrier.data)
+                flash('An already existing ION account was detected, and so we merged your information. You can now log with both ION and your account.', 'success')
+                return redirect('login')
+            else:
+                flash('An account with this email already exists', 'danger')
+                return redirect('login')
         else:
             if form1.tj_student.data:
                 form1.school_name.data="TJ"
