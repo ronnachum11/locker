@@ -66,11 +66,11 @@ html {
 }
 
 .text-small {
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .text-small:hover{
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .classes {

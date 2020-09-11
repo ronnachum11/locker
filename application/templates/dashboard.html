@@ -76,14 +76,15 @@
             <div class="classes">
                 {% for class, time_string in classes %}
                     {% if class.link == current_class %}
-                        <div class="class-card current-class" style="border: solid 3px {{ class.color }};">
+                        <div class="class-card current-class" style="border: solid 5px {{ class.color }};">
                             <div class="main-div current-class">
+                                <p style="text-align: center">Currently In:</p>
                                 {% if class.period == "Homeroom" %}
-                                    <h5>{{ class.name }}</h5>
+                                    <strong><h5>{{ class.name }}</h5></strong>
                                 {% else %}
-                                    <h5>{{ class.name }} - Period {{ class.period }}</h5>
+                                    <strong><h5>{{ class.name }} - Period {{ class.period }}</h5></strong>
                                 {% endif %}
-                                    <p>This Week: {{ time_string }}</p>
+                                    <strong><p>This Week: {{ time_string }}</p></strong>
                             </div>
                             <div class="extra-div current-class">
                                 {% if class.links %}
@@ -93,22 +94,14 @@
                                         </div>
                                     {% endfor %}
                                 {% endif %}
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-md-6">
                                         <a class="btn-dark btn-wide text-small" title="Coming Soon!">Planner</a>
                                     </div>
                                     <div class="col-md-6">
                                         <a class="btn-dark btn-wide text-small" title="Coming Soon!">Notes</a>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <a class="btn-dark btn-wide text-small" href="{{ class.link }}" target="_blank">Join Externally</a>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <a class="btn-dark btn-wide text-small" href="{{ url_for('classroom', course_id=class.id) }}">Join Class</a>
-                                    </div>
-                                </div>
+                                </div> -->
                                 <a class="settings-icon" href="{{ url_for('update_class', course_id=class.id) }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z"/>
@@ -142,20 +135,20 @@
                                         </div>
                                     {% endfor %}
                                 {% endif %}
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-md-6">
                                         <a class="btn-dark btn-wide text-small" title="Coming Soon!">Planner</a>
                                     </div>
                                     <div class="col-md-6">
                                         <a class="btn-dark btn-wide text-small" title="Coming Soon!">Notes</a>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <a class="btn-dark btn-wide text-small" href="{{ class.link }}" target="_blank">Join Externally</a>
+                                        <a class="btn-dark btn-wide text-small" href="{{ url_for('classroom', course_id=class.id) }}">Join Class</a>
                                     </div>
                                     <div class="col-md-6">
-                                        <a class="btn-dark btn-wide text-small" href="{{ url_for('classroom', course_id=class.id) }}">Join Class</a>
+                                        <a class="btn-dark btn-wide text-small" href="{{ class.link }}" target="_blank">Join Externally</a>
                                     </div>
                                 </div>
                                 <a class="settings-icon" href="{{ url_for('update_class', course_id=class.id) }}">
