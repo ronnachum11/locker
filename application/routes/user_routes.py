@@ -42,6 +42,13 @@ def register():
                 user.update_phone(form1.phone.data)
                 user.update_carrier(form1.carrier.data)
         else:
+            if form1.tj_student.data:
+                form1.school_name.data="TJ"
+                form1.school_type.data="HS"
+                form1.city.data="Annandale"
+                form1.state.data="VA"
+                form1.country.data="USA"
+
             hashed_pw = bcrypt.generate_password_hash(form1.password.data).decode('utf-8')
             user = User(
                 id=str(ObjectId()),
@@ -50,7 +57,11 @@ def register():
                 phone=form1.phone.data,
                 carrier=form1.carrier.data,
                 password=hashed_pw,
-                school=form1.school.data,
+                school=form1.school_name.data,
+                school_type=form1.school_type.data,
+                city = form1.city.data,
+                state = form1.state.data,
+                country = form1.country.data,
                 _is_active=False
             )
             flash("Your account has been created! Please check your email to verify your account.", "success")

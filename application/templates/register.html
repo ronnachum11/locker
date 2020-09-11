@@ -5,6 +5,32 @@
 {% endblock page_styles %}
 
 {% block content %}
+<script>
+    $(window).on('load',function(){
+        $('.tj-student').change(function(){
+            console.log('here')
+            if( $(this).is(':checked') ) {
+                $(".location-div").hide()
+            }
+            else {
+                $(".location-div").show()
+            }
+        });
+    });
+
+    $(document).ready(function(){
+        $('.tj-student').change(function(){
+            console.log('here')
+            if( $(this).is(':checked') ) {
+                $(".location-div").hide()
+            }
+            else {
+                $(".location-div").show()
+            }
+        });
+    });
+</script>
+
 <h1>Register</h1>
 <div class="form-div" style="padding-top: 15px;">
     <form action="" method="POST">
@@ -88,20 +114,87 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="form-group" style="display: flex; align-items: center; justify-content: center;">
-                {% if form1.school.errors %}
-                    {{ form1.school(class="form-control is-invalid", style="height: 45px; width: 50%", placholder="School") }}
+            <div class="form-group">
+                <h6>Are you a student at TJHSST in Northern Virginia?</h6>
+                {% if form1.tj_student.errors %}
+                    {{ form1.tj_student(class="form-control is-invalid tj-student") }}
                     <div class="invalid-feedback">
-                        {% for error in form1.school.errors %}
+                        {% for error in form1.tj_student.errors %}
                             <span>{{ error }}</span>
                         {% endfor %}
                     </div>
                 {% else %} 
-                    {{ form1.school(class="form-control", style="height: 45px; width: 50%", placeholder="School") }}
+                    {{ form1.tj_student(class="form-control tj-student") }}
                 {% endif %}
             </div>
+            <div class="location-div">
+                <div class="row">
+                    <div class="col-md-6">
+                        {% if form1.school_name.errors %}
+                            {{ form1.school_name(class="form-control is-invalid school-name location-field", placeholder="School Name") }}
+                            <div class="invalid-feedback">
+                                {% for error in form1.school_name.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %} 
+                            {{ form1.school_name(class="form-control school-name location-field", placeholder="School Name") }}
+                        {% endif %}                       
+                    </div>
+                    <div class="col-md-6">
+                        {% if form1.school_type.errors %}
+                            {{ form1.school_type(class="form-control is-invalid school-type location-field", style="height: 45px") }}
+                            <div class="invalid-feedback">
+                                {% for error in form1.school_type.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %} 
+                            {{ form1.school_type(class="form-control school-type location-field", style="height: 45px") }}
+                        {% endif %}                    
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 10px">
+                    <div class="col-md-4">
+                        {% if form1.city.errors %}
+                            {{ form1.city(class="form-control is-invalid city location-field", placeholder="City") }}
+                            <div class="invalid-feedback">
+                                {% for error in form1.city.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %} 
+                            {{ form1.city(class="form-control city location-field", placeholder="City") }}
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4">
+                        {% if form1.state.errors %}
+                            {{ form1.state(class="form-control is-invalid state location-field", style="height: 45px") }}
+                            <div class="invalid-feedback">
+                                {% for error in form1.state.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %} 
+                            {{ form1.state(class="form-control state location-field", style="height: 45px") }}
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4">
+                        {% if form1.country.errors %}
+                            {{ form1.country(class="form-control is-invalid country location-field", style="height: 45px") }}
+                            <div class="invalid-feedback">
+                                {% for error in form1.country.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %} 
+                            {{ form1.country(class="form-control country location-field", style="height: 45px") }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </fieldset>
-        <div class="submit-button">
+        <div class="submit-button" style="padding-top: 10px">
             {{ form1.submit(class="btn-wide btn-color") }}
         </div>
     </form>
