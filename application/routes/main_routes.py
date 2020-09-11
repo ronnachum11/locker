@@ -37,18 +37,24 @@ def get_courses_and_strings():
         for course in courses:
             if course.custom_times:
                 times = course.times
-                time_strings = []
+                string = ""
                 for i, day in enumerate(times):
-                    time_strings.append(day + " " + times[day]["start"] + "-" + times[day]["end"])
-                strings.append(time_strings)
+                    if i == 0:
+                        string += day + " " + times[day]["start"] + "-" + times[day]["end"]
+                    else:
+                        string += ", " + day + " " + times[day]["start"] + "-" + times[day]["end"]
+                strings.append(string)
             elif current_user.school in school_to_times:
                 times = school_to_times[current_user.school][course.period]
-                time_strings = []
+                string = ""
                 for i, day in enumerate(times):
-                    time_strings.append(day + " " + times[day]["start"] + "-" + times[day]["end"])
-                strings.append(time_strings)
+                    if i == 0:
+                        string += day + " " + times[day]["start"] + "-" + times[day]["end"]
+                    else:
+                        string += ", " + day + " " + times[day]["start"] + "-" + times[day]["end"]
+                strings.append(string)
             else:
-                strings.append(["None"])
+                strings.append("None")
         courses = [(courses[i], strings[i]) for i in range(len(courses))]
     else:
         courses = []
