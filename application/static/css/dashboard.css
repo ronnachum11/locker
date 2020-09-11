@@ -167,6 +167,10 @@ html {
   margin-bottom: 1px;
 }
 
+.class-card .btn-dark {
+  margin-top: 5px;
+}
+
 input.select-display-button {
     position: absolute;
     background-color: #262626;

@@ -84,7 +84,7 @@
                                 {% else %}
                                     <strong><h5>{{ class.name }} - Period {{ class.period }}</h5></strong>
                                 {% endif %}
-                                    <p><strong style="font-size: 11px">This Week: {{ time_string }}</strong>
+                                    <p><strong style="font-size: 10px">This Week: {{ time_string }}</strong>
                                     {% if class.office_hours %}
                                         {% for day in class.office_hours %}
                                             <br>Office Hours: {{ day }} {{ class.office_hours[day]["start"] }} - {{ class.office_hours[day]["end"] }}
@@ -148,7 +148,7 @@
                                 {% else %}
                                     <h5>{{ class.name }} - Period {{ class.period }}</h5>
                                 {% endif %}
-                                    <p style="font-size: 11px">This Week: {{ time_string }}
+                                    <p style="font-size: 10px">This Week: {{ time_string }}
                                     {% if class.office_hours %}
                                         {% for day in class.office_hours %}
                                             <br>Office Hours: {{ day }} {{ class.office_hours[day]["start"] }} - {{ class.office_hours[day]["end"] }}
@@ -212,7 +212,7 @@
                                 {% else %}
                                     <h5>{{ class.name }} - Period {{ class.period }}</h5>
                                 {% endif %}
-                                    <p style="font-size: 11px">This Week: {{ time_string }}
+                                    <p style="font-size: 10px">This Week: {{ time_string }}
                                     {% if class.office_hours %}
                                         {% for day in class.office_hours %}
                                             <br>Office Hours: {{ day }} {{ class.office_hours[day]["start"] }} - {{ class.office_hours[day]["end"] }}
