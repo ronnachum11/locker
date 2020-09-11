@@ -240,7 +240,7 @@ def send_verification_email(user: User):
     token = user.get_reset_token()
     msg = Message('Account Verification', sender='thelockerioapp@gmail.com', recipients=[user.email])
     msg.body = f'''To activate your account, visit the following link:
-    {url_for('verify_account', token=token, _external=True)}
+    {url_for('verify_token', token=token, _external=True)}
     '''
     mail.send(msg)
 
