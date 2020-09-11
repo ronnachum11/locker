@@ -7,6 +7,57 @@
 {% endblock page_styles %}
 
 {% block content %}
+<script type="text/javascript" src="../static/jquery.visible.js"></script>
+<script>
+    function animateValue(id, start, end, duration) {
+        // assumes integer values for start and end
+        
+        var obj = document.getElementById(id);
+        var range = end - start;
+        // no timer shorter than 50ms (not really visible any way)
+        var minTimer = 50;
+        // calc step time to show all interediate values
+        var stepTime = Math.abs(Math.floor(duration / range));
+        
+        // never go below minTimer
+        stepTime = Math.max(stepTime, minTimer);
+        
+        // get current time and calculate desired end time
+        var startTime = new Date().getTime();
+        var endTime = startTime + duration;
+        var timer;
+    
+        function run() {
+            var now = new Date().getTime();
+            var remaining = Math.max((endTime - now) / duration, 0);
+            var value = Math.round(end - (remaining * range));
+            obj.innerHTML = value;
+            if (value == end) {
+                clearInterval(timer);
+            }
+        }
+        
+        timer = setInterval(run, stepTime);
+        run();
+        }
+
+    var num = 0;
+    $(document).ready(function(){
+        $(window).scroll(function() {
+            var top_of_element = $(".stats-div").offset().top;
+            var bottom_of_element = $(".stats-div").offset().top + $(".stats-div").outerHeight();
+            var bottom_of_screen = $(window).scrollTop() + $(window).innerHeight();
+            var top_of_screen = $(window).scrollTop();
+
+            if ((bottom_of_screen > top_of_element) && (top_of_screen < bottom_of_element) && num == 0){
+                animateValue("total-students", 0, "{{ total_users }}", 1600);
+                animateValue("total-classes", 0, "{{ total_courses }}", 1600);
+                num = 1;
+            }
+        });
+    });
+</script>
+
 <a id="home" class="anchor home-div-anchor"></a>
 <div class="home-div">
     <div class="home-div-content">
@@ -70,12 +121,12 @@
     <!-- <h1 style="margin-bottom: 20px;">Stats</h1> -->
     <div class="row" style="width: 75%">
         <div class="col-md-6 col-xs-6">
-            <h3>Total Users</h3>
-            <h1>{{ total_users }}</h1>
+            <h3>Total Students</h3>
+            <h1 id='total-students'></h1>
         </div>
         <div class="col-md-6 col-xs-6">
             <h3>Total Classes</h3>
-            <h1>{{ total_courses }}</h1>
+            <h1 id="total-classes"></h1>
         </div>
     </div>
 </div>
