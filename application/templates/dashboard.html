@@ -125,14 +125,16 @@
                                 </svg>
                             </a> -->
                         <div class="row class-card" style="border: 3px solid {{ class.color }};">
-                                <div class="col" style="display: flex; flex-direction: column; justify-content: center;">
+                                <div class="col-6" style="display: flex; flex-direction: column; justify-content: center;">
                                     <div class="row">
                                         {% if class.period == "Homeroom" %}
                                             <h2>{{ class.name }}</h2>
                                         {% else %}
                                             <h2>{{ class.name }} <span class="badge badge-secondary" > {{ class.period }} </span></h2>
                                         {% endif %}
-                                            <h6>{{ time_string }}</h6>
+                                            {% for time in time_string %}
+                                                <h6>{{ time }}</h6><br>
+                                            {% endfor %}
                                     </div>
                                     <div class="row">
                                         {% if class.links %}
@@ -145,7 +147,7 @@
                                     </div>
                                 </div>
                                 
-                                <div class="col btn-dark-group" style="padding: 0px;">
+                                <div class="col-6 btn-dark-group" style="padding: 0px;">
                                     <a class="btn-dark" title="Coming Soon!">Homework</a>
                                     <a class="btn-dark" title="Coming Soon!">Notes</a>
                                     <a class="btn-dark" href="{{ class.link }}" target="_blank">Join Externally</a>
