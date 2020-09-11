@@ -159,8 +159,12 @@ html {
     opacity: 100%;
 }
 
-.row {
-  margin-top: 10px;
+.class-card p {
+  margin-bottom: 1px;
+}
+
+.class-card a{
+  margin-bottom: 1px;
 }
 
 input.select-display-button {

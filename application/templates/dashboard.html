@@ -84,15 +84,30 @@
                                 {% else %}
                                     <strong><h5>{{ class.name }} - Period {{ class.period }}</h5></strong>
                                 {% endif %}
-                                    <strong><p>This Week: {{ time_string }}</p></strong>
+                                    <p><strong style="font-size: 11px">This Week: {{ time_string }}</strong>
+                                    {% if class.office_hours %}
+                                        {% for day in class.office_hours %}
+                                            <br>Office Hours: {{ day }} {{ class.office_hours[day]["start"] }} - {{ class.office_hours[day]["end"] }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </p>
                             </div>
-                            <div class="extra-div current-class">
+                            <div class="extra-div" style="">
                                 {% if class.links %}
                                     {% for name in class.links %}
                                         <div class="row">
-                                            <a href="{{ class.links[name] }}" target="_blank" style="font-size: 11px">{{ name }}</a>
+                                            <a href="{{ class.links[name] }}" target="_blank" style="font-size: 12px">{{ name }}</a>
                                         </div>
                                     {% endfor %}
+                                {% endif %}
+                                {% if class.teacher_contact %}
+                                    <div class="row" style="margin-top: 5px">
+                                        {% if class.teacher and class.teacher != "" %}
+                                            <a style="font-size: 12px" href="mailto:{{ class.teacher_contact['email'] }}" target="_blank" style="font-size: 11px">Email {{ class.teacher }}</a>
+                                        {% else %}
+                                            <a style="font-size: 12px" href="mailto:{{ class.teacher_contact['email'] }}" target="_blank" style="font-size: 11px">Email Teacher</a>
+                                        {% endif %}
+                                    </div>
                                 {% endif %}
                                 <!-- <div class="row">
                                     <div class="col-md-6">
@@ -102,6 +117,14 @@
                                         <a class="btn-dark btn-wide text-small" title="Coming Soon!">Notes</a>
                                     </div>
                                 </div> -->
+                                <div class="row" style="margin-top: 5px">
+                                    <div class="col-md-6">
+                                        <a class="btn-dark btn-wide text-small" href="{{ url_for('classroom', course_id=class.id) }}">Join Class</a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a class="btn-dark btn-wide text-small" href="{{ class.link }}" target="_blank">Join Externally</a>
+                                    </div>
+                                </div>
                                 <a class="settings-icon" href="{{ url_for('update_class', course_id=class.id) }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z"/>
@@ -125,15 +148,30 @@
                                 {% else %}
                                     <h5>{{ class.name }} - Period {{ class.period }}</h5>
                                 {% endif %}
-                                    <p>This Week: {{ time_string }}</p>
+                                    <p style="font-size: 11px">This Week: {{ time_string }}
+                                    {% if class.office_hours %}
+                                        {% for day in class.office_hours %}
+                                            <br>Office Hours: {{ day }} {{ class.office_hours[day]["start"] }} - {{ class.office_hours[day]["end"] }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </p>
                             </div>
                             <div class="extra-div" style="">
                                 {% if class.links %}
                                     {% for name in class.links %}
                                         <div class="row">
-                                            <a href="{{ class.links[name] }}" target="_blank" style="font-size: 11px">{{ name }}</a>
+                                            <a href="{{ class.links[name] }}" target="_blank" style="font-size: 12px">{{ name }}</a>
                                         </div>
                                     {% endfor %}
+                                {% endif %}
+                                {% if class.teacher_contact %}
+                                    <div class="row" style="margin-top: 5px">
+                                        {% if class.teacher and class.teacher != "" %}
+                                            <a style="font-size: 12px" href="mailto:{{ class.teacher_contact['email'] }}" target="_blank" style="font-size: 11px">Email {{ class.teacher }}</a>
+                                        {% else %}
+                                            <a style="font-size: 12px" href="mailto:{{ class.teacher_contact['email'] }}" target="_blank" style="font-size: 11px">Email Teacher</a>
+                                        {% endif %}
+                                    </div>
                                 {% endif %}
                                 <!-- <div class="row">
                                     <div class="col-md-6">
@@ -143,7 +181,7 @@
                                         <a class="btn-dark btn-wide text-small" title="Coming Soon!">Notes</a>
                                     </div>
                                 </div> -->
-                                <div class="row">
+                                <div class="row" style="margin-top: 5px">
                                     <div class="col-md-6">
                                         <a class="btn-dark btn-wide text-small" href="{{ url_for('classroom', course_id=class.id) }}">Join Class</a>
                                     </div>
@@ -161,7 +199,65 @@
                             </div>
                         </div>
                     {% else %}
-
+                        <div class="class-card" style="border: solid 3px {{ class.color }};">
+                            <!-- <a class="expand-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-caret-down" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z"/>
+                                    <path d="M18 15l-6-6l-6 6h12" transform="rotate(180 12 12)" />
+                                </svg>
+                            </a> -->
+                            <div class="main-div">
+                                {% if class.period == "Homeroom" %}
+                                    <h5>{{ class.name }}</h5>
+                                {% else %}
+                                    <h5>{{ class.name }} - Period {{ class.period }}</h5>
+                                {% endif %}
+                                    <p style="font-size: 11px">This Week: {{ time_string }}
+                                    {% if class.office_hours %}
+                                        {% for day in class.office_hours %}
+                                            <br>Office Hours: {{ day }} {{ class.office_hours[day]["start"] }} - {{ class.office_hours[day]["end"] }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <div class="extra-div" style="">
+                                {% if class.links %}
+                                    {% for name in class.links %}
+                                        <div class="row">
+                                            <a href="{{ class.links[name] }}" target="_blank" style="font-size: 12px">{{ name }}</a>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                {% if class.teacher_contact %}
+                                    <h1>{{ class.teacher_contact }}</h1>
+                                    <div class="row" style="margin-top: 5px">
+                                        {% if class.teacher and class.teacher != "" %}
+                                            <a href="mailto:{{ class.teacher_contact['email'] }}" target="_blank" style="font-size: 11px">Email {{ class.teacher }}</a>
+                                        {% else %}
+                                            <a href="mailto:{{ class.teacher_contact['email'] }}" target="_blank" style="font-size: 11px">Email Teacher</a>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                                <!-- <div class="row">
+                                    <div class="col-md-6">
+                                        <a class="btn-dark btn-wide text-small" title="Coming Soon!">Planner</a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a class="btn-dark btn-wide text-small" title="Coming Soon!">Notes</a>
+                                    </div>
+                                </div> -->
+                                <div class="row" style="margin-top: 5px">
+                                    <a class="btn-dark btn-wide text-small" href="{{ class.link }}" target="_blank">Join Externally</a>
+                                </div>
+                                <a class="settings-icon" href="{{ url_for('update_class', course_id=class.id) }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z"/>
+                                        <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
                     {% endif %}
 
                     <!-- {% if class.link == current_class %}
