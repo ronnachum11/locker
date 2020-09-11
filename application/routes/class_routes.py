@@ -197,7 +197,7 @@ def update_class(course_id):
     office_hour_data = [None for a in range(5)]
     email = None 
 
-    if course.times:
+    if course.custom_times and course.times:
         for i, day in enumerate(course.times):
             time_data[i][0] = day
             hours_minutes = course.times[day]["start"].split(":")
