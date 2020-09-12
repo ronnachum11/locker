@@ -119,10 +119,16 @@
                 $(".teacher-contact-div").hide()
             }
         });
-        $('.embedded-custom-color-picker').change(function(){
-            console.log('here')
+        $('.embedded-custom-color-picker').click(function(){
             $('#custom-checkmark').css("background-color", this.value);
             $('#color-10').prop('checked', true);
+        });
+        $('.embedded-custom-color-picker').change(function(){
+            $('#custom-checkmark').css("background-color", this.value);
+            $('#color-10').prop('checked', true);
+        });
+        $('body').click(function(){
+            $('#custom-checkmark').css("background-color", $('.embedded-custom-color-picker').value);
         });
     });
 
@@ -316,24 +322,24 @@
                 <div class="color-select">
                     {% for id, value, name in color_list %}
                         {% if value == color %}
-                            <div>
+                            {% if value == "custom" %}
                                 <label class="container">
                                     <td><input id="{{ id }}" name="color" type="radio" value="{{ value }}" checked="checked"></td>
-                                    <span class="checkmark {{value}}"></span>
+                                    <span id="custom-checkmark" class="checkmark {{value}}" style="font-size: 8px; background-color: {{ custom_color }};">Custom</span>
+                                    {{ form.custom_color(class="form-control embedded-custom-color-picker") }}
                                 </label>
-                            </div>
+                            {% else %}
+                                <div>
+                                    <td><input id="{{ id }}" name="color" type="radio" value="{{ value }}" checked="checked"></td>
+                                    <span class="checkmark {{value}}"></span>
+                                </div>
+                            {% endif %}
                         {% elif value == "custom" %}
                             <div>
                                 <label class="container">
-                                    {% if color == "custom" %}
-                                        <td><input id="{{ id }}" name="color" type="radio" value="{{ value }}" checked="checked"></td>
-                                        <span id="custom-checkmark" class="checkmark {{value}}" style="font-size: 8px">Custom</span>
-                                        {{ form.custom_color(class="form-control embedded-custom-color-picker") }}
-                                    {% else %}
-                                        <td><input id="{{ id }}" name="color" type="radio" value="{{ value }}"></td>
-                                        <span id="custom-checkmark" class="checkmark {{value}}" style="font-size: 8px">Custom</span>
-                                        {{ form.custom_color(class="form-control embedded-custom-color-picker") }}
-                                    {% endif %}
+                                    <td><input id="{{ id }}" name="color" type="radio" value="{{ value }}"></td>
+                                    <span id="custom-checkmark" class="checkmark {{value}}" style="font-size: 8px">Custom</span>
+                                    {{ form.custom_color(class="form-control embedded-custom-color-picker") }}
                                 </label>
                             </div>
                         {% else %}

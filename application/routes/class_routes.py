@@ -242,7 +242,7 @@ def update_class(course_id):
                 office_minute=office_hour_data[2], office_hourEnd=office_hour_data[3], office_minuteEnd=office_hour_data[4])
     form.submit.label.text = "Update Class"
 
-    return render_template('add_class.html', header=f"{course.name} ({course.period})", course=course, color=color, period=course.period, update_class=True, color_list=color_list, period_list=period_list, form=form)
+    return render_template('add_class.html', header=f"{course.name} ({course.period})", course=course, color=color, custom_color=custom_color, period=course.period, update_class=True, color_list=color_list, period_list=period_list, form=form)
 
 @app.route("/delete_class/<string:course_id>", methods=["GET", "POST"])
 @login_required
