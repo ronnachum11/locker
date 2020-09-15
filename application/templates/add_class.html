@@ -331,7 +331,7 @@
                             {% else %}
                                 <div>
                                     <td><input id="{{ id }}" name="color" type="radio" value="{{ value }}" checked="checked"></td>
-                                    <span class="checkmark {{value}}"></span>
+                                    <span id="custom-checkmark" class="checkmark {{value}}"></span>
                                 </div>
                             {% endif %}
                         {% elif value == "custom" %}

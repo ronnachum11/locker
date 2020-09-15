@@ -52,11 +52,6 @@
             document.getElementsByClassName("site-header")[0].style.display = "none";
         }
     }
-
-    $('.expand-button').click(function(){
-        console.log("Here")
-        $(this).find('.extra-div').toggle()
-    })
 </script>
 
 {% if current_class != "" %}
@@ -135,7 +130,7 @@
                                 </a>
                             </div>
                         </div>
-                    {% elif "https://us.bbcollab.com/invite/" in class.link %}
+                    {% elif "https://us.bbcollab.com/invite/" in class.link or 'zoom' in class.link %}
                         <div class="class-card" style="border: solid 3px {{ class.color }};">
                             <!-- <a class="expand-button">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-caret-down" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -293,10 +288,18 @@
                     <p>{{ error }}</p>
                 {% endif %}
             {% else %}
-                <iframe id="iframe" style="width: 100%; height: 100%" allow="camera *; microphone *" 
-                        src="{{ current_class }}" title="Classroom">
-                    Your browser doesn't support this feature. Try a different browser for a better experience.    
-                </iframe>
+                {% if 'bbcollab' in current_class %}
+                    <iframe id="iframe" style="width: 100%; height: 100%" allow="camera *; microphone *" 
+                            src="{{ current_class }}" title="Classroom">
+                        Your browser doesn't support this feature. Try a different browser for a better experience.    
+                    </iframe>
+                {% elif 'zoom' in current_class %}
+                    <!-- <iframe id="iframe" style="width: 100%; height: 100%" allow="camera *; microphone *" 
+                        src="https://success.zoom.us/wc/join/{{ meeting_id }}" title="Classroom">
+                        Your browser doesn't support this feature. Try a different browser for a better experience.    
+                    </iframe> -->
+                    <h3>Your zoom class is currently open. <br> Don't worry, we'll be adding zoom integration straight into The Locker very soon!</h3>
+                {% endif %}
             {% endif %}
         </div>
         <!-- <a class="btn-light btn-wide" onClick="fullScreen();">Full Screen</a> -->

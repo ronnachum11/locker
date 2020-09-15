@@ -110,12 +110,16 @@ def classroom(course_id):
         abort(403)
 
     current_course = current_user.get_course_by_id(course_id)
-    
+    meeting_id, password = "", ""
+
     if current_course is None:
         text = "The class you selected is invalid."
         error = "Error Code: 404"
     else:
         current_link = current_course.link
+        if "zoom" in current_link:
+            meeting_id = current_link[current_link.index("/j/") + 3 : current_link.index("?pwd")]
+            password = current_link[current_link.index("?pwd=") + 4 :]
         text, error = "", ""
     name = current_user.name
 
@@ -127,7 +131,7 @@ def classroom(course_id):
             break
     courses = [current_course_info] + courses
 
-    return render_template("dashboard.html", classes=courses, name=name, text=text, error=error, current_class=current_link)
+    return render_template("dashboard.html", classes=courses, name=name, text=text, error=error, meeting_id=meeting_id, password=password, current_class=current_link)
 
 @app.route("/privacy_policy")
 def privacy_policy():
