@@ -222,6 +222,8 @@ def update_class(course_id):
             office_hour_data[3] = hours_minutes[0]
             office_hour_data[4] = hours_minutes[1] if len(hours_minutes[1]) == 2 else " " + hours_minutes[1]
 
+    print(office_hour_data)
+
     if course.teacher_contact:
         email = course.teacher_contact["email"]
 

@@ -330,8 +330,10 @@
                                 </label>
                             {% else %}
                                 <div>
-                                    <td><input id="{{ id }}" name="color" type="radio" value="{{ value }}" checked="checked"></td>
-                                    <span id="custom-checkmark" class="checkmark {{value}}"></span>
+                                    <label class="container">
+                                        <td><input id="{{ id }}" name="color" type="radio" value="{{ value }}" checked="checked"></td>
+                                        <span class="checkmark {{value}}"></span>
+                                    </label>
                                 </div>
                             {% endif %}
                         {% elif value == "custom" %}
