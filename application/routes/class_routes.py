@@ -176,7 +176,7 @@ def update_class(course_id):
             office_hours[form.office_day.data] = dict()
             office_hours[form.office_day.data]["start"] = form.office_hour.data + ":" + form.office_minute.data
             office_hours[form.office_day.data]["end"] = form.office_hourEnd.data + ":" + form.office_minuteEnd.data
-     
+
         if form.teacher_contact.data and form.teacher_email.data is not None and form.teacher_email.data.strip() != "":
             teacher_contact = dict()
             teacher_contact['email'] = form.teacher_email.data
@@ -243,6 +243,8 @@ def update_class(course_id):
                 office_hours=course.office_hours is not None and len(course.office_hours) > 0, office_day=office_hour_data[0], office_hour=office_hour_data[1], 
                 office_minute=office_hour_data[2], office_hourEnd=office_hour_data[3], office_minuteEnd=office_hour_data[4])
     form.submit.label.text = "Update Class"
+
+    print(form.office_hour.data)
 
     return render_template('add_class.html', header=f"{course.name} ({course.period})", course=course, color=color, custom_color=custom_color, period=course.period, update_class=True, color_list=color_list, period_list=period_list, form=form)
 
