@@ -124,14 +124,21 @@ def classroom(course_id):
     name = current_user.name
 
     courses = get_courses_and_strings()
+    new_courses1, new_courses2 = [], []
+    found = False
     for i, course in enumerate(courses):
         if course[0] == current_course:
-            current_course_info = course 
-            courses.pop(i)
-            break
-    courses = [current_course_info] + courses
+            new_courses2 = [course] + new_courses2
+            found = True
+        else:
+            if found:
+                new_courses2.append(course)
+            else:
+                new_courses1.append(course)
+    
+    new_courses = new_courses2 + new_courses1
 
-    return render_template("dashboard.html", classes=courses, name=name, text=text, error=error, meeting_id=meeting_id, password=password, current_class=current_link)
+    return render_template("dashboard.html", classes=new_courses, name=name, text=text, error=error, meeting_id=meeting_id, password=password, current_class=current_link)
 
 @app.route("/privacy_policy")
 def privacy_policy():
