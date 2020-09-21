@@ -7,36 +7,97 @@
 {% block content %}
 <!-- <iframe src="https://meet.google.com/twy-ibpj-jgs" title="Google Meets"></iframe> -->
 <script>
-    var classes_hidden = true;
-    var assignments_hidden = true;
+    var classes_hidden = false;
+    var assignments_hidden = false;
 
     function openClasses() {
         column = document.getElementsByClassName("classes-column")[0];
-        classsroom = document.getElementsByClassName("class-container")[0];
+        classroom = document.getElementsByClassName("class-container")[0];
         show_button = document.getElementById("show-classes");
 
         column.style.display = "block";
+        classroom.classList.remove("col-md-6");
+        classroom.classList.remove("col-md-9");
         classroom.classList.remove("col-md-12");
-        show_button.style.display = "none";
+        if(assignments_hidden){
+            classroom.classList.add("col-md-9");
+        }
+        else {
+            classroom.classList.add("col-md-6");
+        }
 
+        show_button.style.display = "none";
         classes_hidden = false;
-        assignments_hidden = false;
-        if(!classes_hidden && !assignments_hidden){
-            document.getElementById("stanard").checked = true;
+        if(!classes_hidden || !assignments_hidden && document.getElementById("theater").checked){
+            document.getElementById("standard").checked = true;
         }
     }
+    
     function closeClasses() {
         column = document.getElementsByClassName("classes-column")[0];
         classroom = document.getElementsByClassName("class-container")[0];
         show_button = document.getElementById("show-classes");
 
         column.style.display = "none";
-        classroom.classList.add("col-md-12");
-        show_button.style.display = "block";
+        classroom.classList.remove("col-md-6");
+        classroom.classList.remove("col-md-9");
+        classroom.classList.remove("col-md-12");
+        if(assignments_hidden){
+            classroom.classList.add("col-md-12");
+        }
+        else {
+            classroom.classList.add("col-md-9");
+        }
 
+        show_button.style.display = "block";
         classes_hidden = true;
+        if(classes_hidden && assignments_hidden && document.getElementById("standard").checked){
+            document.getElementById("theater").checked = true;
+        }
+    }
+
+    function openAssignments() {
+        column = document.getElementsByClassName("assignments-column")[0];
+        classroom = document.getElementsByClassName("class-container")[0];
+        show_button = document.getElementById("show-assignments");
+
+        column.style.display = "block";
+        classroom.classList.remove("col-md-6");
+        classroom.classList.remove("col-md-9");
+        classroom.classList.remove("col-md-12");
+        if(classes_hidden){
+            classroom.classList.add("col-md-9");
+        }
+        else {
+            classroom.classList.add("col-md-6");
+        }
+
+        show_button.style.display = "none";
+        assignments_hidden = false;
+        if(!classes_hidden || !assignments_hidden && document.getElementById("theater").checked){
+            document.getElementById("standard").checked = true;
+        }
+    }
+
+    function closeAssignments() {
+        column = document.getElementsByClassName("assignments-column")[0];
+        classroom = document.getElementsByClassName("class-container")[0];
+        show_button = document.getElementById("show-assignments");
+
+        column.style.display = "none";
+        classroom.classList.remove("col-md-6");
+        classroom.classList.remove("col-md-9");
+        classroom.classList.remove("col-md-12");
+        if(classes_hidden){
+            classroom.classList.add("col-md-12");
+        }
+        else {
+            classroom.classList.add("col-md-9");
+        }
+
+        show_button.style.display = "block";
         assignments_hidden = true;
-        if(classes_hidden && assignments_hidden){
+        if(classes_hidden && assignments_hidden && document.getElementById("standard").checked){
             document.getElementById("theater").checked = true;
         }
     }
@@ -56,12 +117,16 @@
 
             if(new_display == "standard"){
                 openClasses();
+                openAssignments();
             }
             else {
                 closeClasses();
+                closeAssignments();
             }
         }
         else if(new_display == "native" || new_display == "full-screen"){
+            closeClasses();
+            closeAssignments();
             iframe.style.position = "fixed";
             iframe.style.top = 0;
             iframe.style.left = 0;
@@ -304,36 +369,18 @@
                             </div>
                         </div>
                     {% endif %}
-
-                    <!-- {% if class.link == current_class %}
-                        <div class="class-card current-class" style="border: solid 3px {{ class.color }};">
-                            <div class="text-div current-class">
-                    {% elif "https://us.bbcollab.com/invite/" in class.link %}
-                        <div class="class-card" style="border: solid 3px {{ class.color }};">
-                            <a href="{{ url_for('classroom', course_id=class.id) }}">
-                                <div class="text-div">
-                    {% else %}
-                        <div class="class-card" style="border: solid 3px {{ class.color }};">
-                            <a href="{{ class.link }}" target="_blank">
-                                <div class="text-div">
-                    {% endif %} -->
                 {% endfor %}
             </div>
             <div class="button">
                 <div class="row" style="margin-top: 3px">
-                    <!-- <div class="col-md-6"> -->
                     <a class="btn-dark btn-wide" href="{{ url_for('add_class') }}">Add Class</a>
-                    <!-- </div>
-                    <div class="col-md-6">
-                        <a class="btn-light btn-wide" href="{{ url_for('import_classes') }}">Import All</a>
-                    </div> -->
                 </div>
             </div>
             {% if current_class != "" %}
                 <a class="btn-color btn-wide" style="font-size: 10px; margin-top: 10px; width: 70%" onclick="closeClasses();">Hide Classes Bar</a>
             {% endif %}
         </div>
-        <div class="col-md-9 content-column class-container">
+        <div class="content-column class-container col-md-6">
             {% if current_class == "" %}
                 <h3>Hi {{ name }}! <br> {{ text }}</h3>
                 {% if error %}
@@ -354,7 +401,22 @@
                 {% endif %}
             {% endif %}
         </div>
-        <!-- <a class="btn-light btn-wide" onClick="fullScreen();">Full Screen</a> -->
+        <div class="col-md-3 content-column assignments-column">
+            <div class="row">
+                <h3>Assignments</h3>
+            </div>
+            <div class="assignments">
+
+            </div>
+            <div class="button">
+                <div class="row" style="margin-top: 3px">
+                    <a class="btn-dark btn-wide">Add Assignment</a>
+                </div>
+            </div>
+            {% if current_class != "" %}
+                <a class="btn-color btn-wide" style="font-size: 10px; margin-top: 10px; width: 70%" onclick="closeAssignments();">Hide Assignments Bar</a>
+            {% endif %}
+        </div>
     </div>
     {% if current_class != "" %}
         <div class="row options-div">
@@ -368,6 +430,7 @@
             <label for="full-screen">Full Screen</label>
         </div>
         <a id="show-classes" class="btn-color btn-wide" style="font-size: 10px; margin-top: 10px; width: 50%;" onclick="openClasses();">Show Class Bar</a>
+        <a id="show-assignments" class="btn-color btn-wide" style="font-size: 10px; margin-top: 10px; width: 50%;" onclick="openAssignments();">Show Assignments Bar</a>
     {% endif %}
 {% else %}
     <h1>Please Log In</h1>
