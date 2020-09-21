@@ -5,9 +5,10 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 from application import app, db
 from application.classes.course import Course
+from application.classes.assignment import Assignment
 
 class User(UserMixin):
-    def __init__(self, id:str=None, name:str=None, email:str=None, ion_id:int=None, phone:str=None, carrier:str=None, password:str=None, school:str="TJ", school_type:str="HS", city:str="Annandale", state:str="VA", country:str="USA", hasIon:bool=False, hasGoogle:bool=False, seen_recent_update:bool=False, _is_active:bool=False, courses: [Course]=[], data:dict=None):
+    def __init__(self, id:str=None, name:str=None, email:str=None, ion_id:int=None, phone:str=None, carrier:str=None, password:str=None, school:str="TJ", school_type:str="HS", city:str="Annandale", state:str="VA", country:str="USA", hasIon:bool=False, hasGoogle:bool=False, seen_recent_update:bool=False, _is_active:bool=False, courses: [Course]=[], data:dict=None, assignments: [Assignment]=[]):
         self.id = str(id)
         self.ion_id = ion_id
         self.name = name
@@ -30,6 +31,7 @@ class User(UserMixin):
 
         self.courses = courses
         self.data = data
+        self.assignments = assignments
 
     def __repr__(self):
         return f"User('{str(self.id)}', '{self.email}', '{self.phone}')"
@@ -65,7 +67,8 @@ class User(UserMixin):
             "seen_recent_update": self.seen_recent_update,
             "is_active": self._is_active,
             "courses": [course.to_dict() for course in self.courses],
-            "data": self.data
+            "data": self.data,
+            "assignments": self.assignments
         }
         return dictionary
 
@@ -90,7 +93,8 @@ class User(UserMixin):
                     dictionary.get('seen_recent_update'),
                     dictionary.get('is_active'), 
                     [Course.from_dict(course) for course in dictionary.get('courses')] if dictionary.get('courses') else None,
-                    dictionary.get('data')
+                    dictionary.get('data'),
+                    dictionary.get('assignments')
             )
         return user
     
@@ -123,6 +127,20 @@ class User(UserMixin):
     def update_course(self, course_id, **kwargs):
         for key, value in kwargs.items():
             db.users.update({"id": self.id, "courses.id": course_id}, {"$set": {f"courses.$.{key}": value}}, False, True)
+
+    def get_assignment_by_id(self, assignment_id: str):
+        courses = [a for a in self.assignments if a.id == assignment_id]
+        return courses[0]
+
+    def add_assignment(self, assignment: Assignment):
+        db.users.update({"id": self.id}, {"$push": {"assignments": assignment.to_dict()}})
+    
+    def delete_assignment(self, assignment_id: str):
+        db.users.update({"id": self.id}, {"$pull": {"assignments": {"id": assignment_id}}})
+    
+    def update_course(self, assignment_id, **kwargs):
+        for key, value in kwargs.items():
+            db.users.update({"id": self.id, "assignment.id": assignment_id}, {"$set": {f"assignment.$.{key}": value}}, False, True)
 
     def update_ion_status(self, status: bool):
         db.users.update({"id": self.id}, {'$set' : {"hasIon":status}})

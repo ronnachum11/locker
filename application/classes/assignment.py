@@ -3,7 +3,7 @@ from bson import ObjectId
 
 from application import db
 
-class Homework:
+class Assignment:
     def __init__(self, id:str, name:str, course_id:str, due_date:str, notes:str):
         self.id = str(id)
 
@@ -25,4 +25,4 @@ class Homework:
             )
 
     def __repr__(self):
-        return f"Homework('{str(self.id)}', '{self.name}', '{self.due_date}')"
+        return f"Assignment('{str(self.id)}', '{self.name}', '{self.due_date}')"

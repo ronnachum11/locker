@@ -1,7 +1,7 @@
 import phonenumbers
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextField, TextAreaField, BooleanField, RadioField, SelectField, PasswordField
+from wtforms import StringField, SubmitField, TextField, TextAreaField, BooleanField, DateField, RadioField, SelectField, PasswordField
 from wtforms_components import ColorField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp, ValidationError
 from application.classes.user import User
@@ -93,6 +93,12 @@ class ClassForm(FlaskForm):
         if 'https://us.bbcollab.com/invite/' not in link.data and 'https://meet.google.com/' not in link.data and 'https://us04web.zoom.us' not in link.data:
             raise ValidationError('Invalid Link. Try right clicking the email link and then clicking "Copy Link Address"')
 
+class AssignmentForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    course = SelectField('Course', choices=[('-1', '-1')])
+    due_date = DateField('Due Date', format="%m/%d/%Y")
+    notes = TextAreaField('Additional Info (Optional)')
+    submit = SubmitField('Add Assignment')
 
 class RegistrationForm(FlaskForm):
     name = StringField('Full Name', validators=[DataRequired(), Length(min=1, max=50)])
@@ -181,7 +187,6 @@ class UpdatePhoneForm(FlaskForm):
 class UpdateEmailForm(FlaskForm):
     email = StringField('Phone', validators=[Email()])
     submit = SubmitField('Update Email')
-
 
 class ImportClassesForm(FlaskForm):
     text = TextAreaField('Email Text', validators=[DataRequired()])

@@ -85,6 +85,7 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 from application.routes import main_routes
 from application.routes import user_routes
 from application.routes import class_routes
+from application.routes import assignment_routes
 from application.routes import handlers
 
 atexit.register(lambda: scheduler.shutdown())
