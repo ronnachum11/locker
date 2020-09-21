@@ -329,7 +329,9 @@
                     </div> -->
                 </div>
             </div>
-            <a class="btn-color btn-wide" style="font-size: 10px; margin-top: 10px; width: 70%" onclick="closeClasses();">Hide Classes Bar</a>
+            {% if current_class != "" %}
+                <a class="btn-color btn-wide" style="font-size: 10px; margin-top: 10px; width: 70%" onclick="closeClasses();">Hide Classes Bar</a>
+            {% endif %}
         </div>
         <div class="col-md-9 content-column class-container">
             {% if current_class == "" %}
