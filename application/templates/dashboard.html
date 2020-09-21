@@ -7,12 +7,45 @@
 {% block content %}
 <!-- <iframe src="https://meet.google.com/twy-ibpj-jgs" title="Google Meets"></iframe> -->
 <script>
+    var classes_hidden = true;
+    var assignments_hidden = true;
+
+    function openClasses() {
+        column = document.getElementsByClassName("classes-column")[0];
+        classsroom = document.getElementsByClassName("class-container")[0];
+        show_button = document.getElementById("show-classes");
+
+        column.style.display = "block";
+        classroom.classList.remove("col-md-12");
+        show_button.style.display = "none";
+
+        classes_hidden = false;
+        assignments_hidden = false;
+        if(!classes_hidden && !assignments_hidden){
+            document.getElementById("stanard").checked = true;
+        }
+    }
+    function closeClasses() {
+        column = document.getElementsByClassName("classes-column")[0];
+        classroom = document.getElementsByClassName("class-container")[0];
+        show_button = document.getElementById("show-classes");
+
+        column.style.display = "none";
+        classroom.classList.add("col-md-12");
+        show_button.style.display = "block";
+
+        classes_hidden = true;
+        assignments_hidden = true;
+        if(classes_hidden && assignments_hidden){
+            document.getElementById("theater").checked = true;
+        }
+    }
 
     function updateDisplay(new_display) {
         console.log("clicked")
         iframe = document.getElementById("iframe")
         options_div = document.getElementsByClassName("options-div")[0]
-        if(new_display == "standard"){
+        if(new_display == "standard" || new_display == "theater"){
             iframe.removeAttribute("style")
             options_div.removeAttribute("style")
             iframe.style.width = "100%";
@@ -20,17 +53,15 @@
             document.getElementsByClassName("classes-column")[0].style.display = "block";
             document.getElementsByClassName("class-container")[0].classList.remove("col-md-12"); 
             document.getElementsByClassName("site-header")[0].style.display = "block";
+
+            if(new_display == "standard"){
+                openClasses();
+            }
+            else {
+                closeClasses();
+            }
         }
-        else if(new_display == "theater"){
-            iframe.removeAttribute("style")
-            options_div.removeAttribute("style")
-            iframe.style.width = "100%";
-            iframe.style.height = "100%";
-            document.getElementsByClassName("classes-column")[0].style.display = "none";
-            document.getElementsByClassName("class-container")[0].classList.add("col-md-12");
-            document.getElementsByClassName("site-header")[0].style.display = "block";
-        }
-        else if(new_display == "full-screen"){
+        else if(new_display == "native" || new_display == "full-screen"){
             iframe.style.position = "fixed";
             iframe.style.top = 0;
             iframe.style.left = 0;
@@ -50,9 +81,28 @@
             options_div.style.left = "30%";
 
             document.getElementsByClassName("site-header")[0].style.display = "none";
+
+            if(new_display == "full-screen"){
+                iframe.requestFullscreen();
+            }
         }
     }
 </script>
+
+{% if 'zoom' in current_class %}
+    <!-- <script src="https://source.zoom.us/1.7.2/lib/vendor/react.min.js"></script>
+    <script src="https://source.zoom.us/1.7.2/lib/vendor/react-dom.min.js"></script>
+    <script src="https://source.zoom.us/1.7.2/lib/vendor/redux.min.js"></script>
+    <script src="https://source.zoom.us/1.7.2/lib/vendor/redux-thunk.min.js"></script>
+    <script src="https://source.zoom.us/1.7.2/lib/vendor/jquery.min.js"></script>
+    <script src="https://source.zoom.us/1.7.2/lib/vendor/lodash.min.js"></script>
+    <!-- <script src="https://source.zoom.us/zoom-meeting-1.7.2.min.js"></script> -->
+
+    <!-- <script>
+        console.log('here')
+        // ZoomMtg.setZoomJSLib('https://source.zoom.us/1.7.2/lib', '/av'); 
+    </script> -->
+{% endif %}
 
 {% if current_class != "" %}
     <script>
@@ -67,7 +117,6 @@
         <div class="col-md-3 content-column classes-column">
             <div class="row">
                 <h3>Classes</h3>
-                <h6>Edit your classes or add new ones to try out our new features!</h6>
             </div>
             <div class="classes">
                 {% for class, time_string in classes %}
@@ -271,7 +320,7 @@
                 {% endfor %}
             </div>
             <div class="button">
-                <div class="row" style="padding-top: 5px">
+                <div class="row" style="margin-top: 3px">
                     <!-- <div class="col-md-6"> -->
                     <a class="btn-dark btn-wide" href="{{ url_for('add_class') }}">Add Class</a>
                     <!-- </div>
@@ -280,6 +329,7 @@
                     </div> -->
                 </div>
             </div>
+            <a class="btn-color btn-wide" style="font-size: 10px; margin-top: 10px; width: 70%" onclick="closeClasses();">Hide Classes Bar</a>
         </div>
         <div class="col-md-9 content-column class-container">
             {% if current_class == "" %}
@@ -310,9 +360,12 @@
             <label for="standard">Standard</label><br>
             <input class="select-display-button" type="radio" id="theater" name="display" value="theater" onclick="updateDisplay('theater');">
             <label for="theater">Theater</label><br>
+            <input class="select-display-button" type="radio" id="native" name="display" value="native" onclick="updateDisplay('native');">
+            <label for="native">Native</label>
             <input class="select-display-button" type="radio" id="full-screen" name="display" value="full-screen" onclick="updateDisplay('full-screen');">
             <label for="full-screen">Full Screen</label>
         </div>
+        <a id="show-classes" class="btn-color btn-wide" style="font-size: 10px; margin-top: 10px; width: 50%;" onclick="openClasses();">Show Class Bar</a>
     {% endif %}
 {% else %}
     <h1>Please Log In</h1>
