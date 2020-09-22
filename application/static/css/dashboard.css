@@ -77,6 +77,11 @@ html {
   transition: left 0.5s ease;
 }
 
+a svg:hover {
+  width: 36px;
+  height: 36px;
+}
+
 #show-classes {
   display: none;
 }
@@ -157,7 +162,7 @@ html {
 } */
 
 .main-settings {
-    opacity: 75%;
+    opacity: 100%;
 }
 
 .main-settings:hover {
@@ -170,7 +175,7 @@ html {
 }
 
 .settings-icon {
-    opacity: 50%;
+    opacity: 100%;
 }
 
 .settings-icon:hover {

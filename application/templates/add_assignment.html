@@ -6,7 +6,7 @@
 
 {% block content %}
 {% if update %}
-    <h1> Update Assignment</h1>
+    <h1>Update Assignment - {{ assignment.name }}</h1>
 {% else %}
     <h1>Add Assignment</h1>
 {% endif %}
@@ -80,5 +80,6 @@
     <div class="submit-button">
         {{ form.submit(class="btn-wide btn-color") }}
     </div>
+    
 </form>
 {% endblock content %}

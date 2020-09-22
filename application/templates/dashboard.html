@@ -2,6 +2,7 @@
 
 {% block page_styles %}
 <link rel="stylesheet" href="../static/css/dashboard.css?v=1.2">
+<!-- <script type="text/babel" src="../static/js/assignments_bar.js"></script> -->
 {% endblock page_styles %}
 
 {% block content %}
@@ -158,6 +159,29 @@
     //         document.getElementById("native").checked = true;
     //     }
     // });
+    $(document).ready(function(){
+        $('.complete').on('click', function(){
+            console.log('here')
+
+            $.ajax({
+                type: "POST",
+                url: "/complete_assignment/" + $(this).attr('id')
+            });
+            $(this).parent().parent().fadeOut(1000)
+        });
+    });
+
+    $(document).ready(function(){
+        $('.delete').on('click', function(){
+            console.log('here')
+
+            $.ajax({
+                type: "POST",
+                url: "/delete_assignment/" + $(this).attr('id')
+            });
+            $(this).parent().parent().fadeOut(1000)
+        });
+    });
 </script>
 
 {% if current_class != "" %}
@@ -390,7 +414,11 @@
             </div>
             <div class="button">
                 <div class="row" style="margin-top: 3px">
-                    <a class="btn-dark btn-wide" href="{{ url_for('add_class') }}">Add Class</a>
+                    {% if current_class != "" %}
+                        <a class="btn-dark btn-wide" href="{{ url_for('add_class') }}" target="_blank">Add Class</a>
+                    {% else %}
+                        <a class="btn-dark btn-wide" href="{{ url_for('add_class') }}">Add Class</a>
+                    {% endif %}
                 </div>
             </div>
             {% if current_class != "" %}
@@ -422,7 +450,7 @@
             <div class="row">
                 <h3>Assignments</h3>
             </div>
-            <div class="assignments">
+            <div id="assignments-react" class="assignments">
                 {% for assignment, course, date in assignments %}
                     <div class="class-card" style="border: solid 3px {{ course.color }};">
                         <div class="main-div">
@@ -431,29 +459,39 @@
                             <h6 style="font-size: 12px">Due: {{ date }}</h6>
                             <p>{{ assignment.notes }}</p>
                         </div>
-                        <div class="extra-div" style="">
-                            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#4CAF50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M5 12l5 5l10 -10" />
-                            </svg>
-                            <svg class="x" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#F44336" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <line x1="18" y1="6" x2="6" y2="18" />
-                                <line x1="6" y1="6" x2="18" y2="18" />
-                            </svg>
-                            <svg class="edit-assignment" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
-                                <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
-                                <line x1="16" y1="5" x2="19" y2="8" />
-                            </svg>
+                        <div class="extra-div">
+                            <a id="{{ assignment.id }}" class="complete">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#4CAF50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M5 12l5 5l10 -10" />
+                                </svg>
+                            </a>
+                            <a id="{{ assignment.id }}" class="delete">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#F44336" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <line x1="18" y1="6" x2="6" y2="18" />
+                                    <line x1="6" y1="6" x2="18" y2="18" />
+                                </svg>
+                            </a>
+                            <a href="{{ url_for('update_assignment', assignment_id=assignment.id) }}">
+                                <svg class="edit-assignment" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+                                    <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+                                    <line x1="16" y1="5" x2="19" y2="8" />
+                                </svg>
+                            </a>
                         </div>
                     </div>
                 {% endfor %}
             </div>
             <div class="button">
                 <div class="row" style="margin-top: 3px">
-                    <a class="btn-dark btn-wide" href="{{ url_for('add_assignment') }}">Add Assignment</a>
+                    {% if current_class != "" %}
+                        <a class="btn-dark btn-wide" href="{{ url_for('add_assignment') }}" target="_blank">Add Assignment</a>
+                    {% else %}
+                        <a class="btn-dark btn-wide" href="{{ url_for('add_assignment') }}">Add Assignment</a>
+                    {% endif %}
                 </div>
             </div>
             {% if current_class != "" %}

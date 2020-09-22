@@ -138,9 +138,13 @@ class User(UserMixin):
     def delete_assignment(self, assignment_id: str):
         db.users.update({"id": self.id}, {"$pull": {"assignments": {"id": assignment_id}}})
     
-    def update_course(self, assignment_id, **kwargs):
+    def update_assignment(self, assignment_id, **kwargs):
+        print(kwargs.items())
         for key, value in kwargs.items():
-            db.users.update({"id": self.id, "assignment.id": assignment_id}, {"$set": {f"assignment.$.{key}": value}}, False, True)
+            db.users.update({"id": self.id, "assignments.id": assignment_id}, {"$set": {f"assignments.$.{key}": value}}, False, True)
+
+    def increment_assignment_count(self):
+        db.users.update({"id": self.id}, {"$inc": {"assignments_completed" : 1}})
 
     def update_ion_status(self, status: bool):
         db.users.update({"id": self.id}, {'$set' : {"hasIon":status}})
