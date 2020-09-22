@@ -65,7 +65,7 @@ def check_recent_update():
         if not current_user.seen_recent_update:
             seen_recent_update = False
             update = Update.get_most_recent()
-            current_user.update_view_update(True)
+            # current_user.update_view_update(True)
             return(update)
     return None
 
@@ -78,6 +78,7 @@ def home():
         form.email.data = current_user.email
 
     update = check_recent_update()
+    print(update)
 
     total_users = User.get_total_users()
     total_courses = User.get_total_courses()
@@ -110,6 +111,7 @@ def dashboard():
 @app.route("/classroom/<string:course_id>")
 @login_required
 def classroom(course_id):
+    current_link = ""
     if not current_user.is_authenticated:
         abort(403)
 
@@ -120,11 +122,13 @@ def classroom(course_id):
         text = "The class you selected is invalid."
         error = "Error Code: 404"
     else:
+        text, error = "", ""
         current_link = current_course.link
+        if "bbcollab" not in current_link:
+            text, error = "Your class is open in another tab.", "Don't worry, we'll be adding integration straight into The Locker very soon!"
         if "zoom" in current_link:
             meeting_id = current_link[current_link.index("/j/") + 3 : current_link.index("?pwd")]
             password = current_link[current_link.index("?pwd=") + 4 :]
-        text, error = "", ""
     name = current_user.name
 
     courses = get_courses_and_strings()
@@ -144,8 +148,9 @@ def classroom(course_id):
     assignments = [] if not current_user.assignments else current_user.assignments
     assignments = sorted(assignments, key=lambda x: x.due_date)
     assignments = [(a, current_user.get_course_by_id(a.course_id), a.due_date.strftime("%a, %m/%d/%y %I:%M %p")) for a in assignments]
-
-    return render_template("dashboard.html", classes=new_courses, assignments=assignments, name=name, text=text, error=error, meeting_id=meeting_id, password=password, current_class=current_link)
+    
+    update = check_recent_update()
+    return render_template("dashboard.html", update=update, classes=new_courses, assignments=assignments, name=name, text=text, error=error, meeting_id=meeting_id, password=password, current_class=current_link)
 
 @app.route("/privacy_policy")
 def privacy_policy():

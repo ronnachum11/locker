@@ -116,7 +116,8 @@ class User(UserMixin):
 
     def get_course_by_id(self, course_id: str):
         courses = [c for c in self.courses if c.id == course_id]
-        return courses[0]
+        print(courses)
+        return courses[0] if len(courses) > 0 else None
 
     def add_course(self, course: Course):
         db.users.update({"id": self.id}, {"$push": {"courses": course.to_dict()}})
@@ -129,8 +130,8 @@ class User(UserMixin):
             db.users.update({"id": self.id, "courses.id": course_id}, {"$set": {f"courses.$.{key}": value}}, False, True)
 
     def get_assignment_by_id(self, assignment_id: str):
-        courses = [a for a in self.assignments if a.id == assignment_id]
-        return courses[0]
+        assignments = [a for a in self.assignments if a.id == assignment_id]
+        return assignments[0] if len(assignments) > 0 else None
 
     def add_assignment(self, assignment: Assignment):
         db.users.update({"id": self.id}, {"$push": {"assignments": assignment.to_dict()}})

@@ -184,7 +184,7 @@
     });
 </script>
 
-{% if current_class != "" %}
+{% if 'bbcollab' in current_class %}
 <script>
     window.addEventListener('load', (event) => {
         closeAssignments();
@@ -207,7 +207,7 @@
     </script> -->
 {% endif %}
 
-{% if current_class != "" %}
+{% if 'bbcollab' in current_class %}
     <script>
         window.onbeforeunload = function() {
             return true;
@@ -283,7 +283,7 @@
                                 </a>
                             </div>
                         </div>
-                    {% elif "https://us.bbcollab.com/invite/" in class.link or 'zoom' in class.link %}
+                    {% elif "https://us.bbcollab.com/invite/" in class.link %}
                         <div class="class-card" style="border: solid 3px {{ class.color }};">
                             <!-- <a class="expand-button">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-caret-down" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -397,7 +397,7 @@
                                     </div>
                                 </div> -->
                                 <div class="row" style="margin-top: 5px">
-                                    <a class="btn-dark btn-wide text-small" href="{{ class.link }}" target="_blank">Join Externally</a>
+                                    <a class="btn-dark btn-wide text-small" href="{{ url_for('classroom', course_id=class.id) }}" onclick="window.open('{{ class.link }}', '_blank');">Join Externally</a>
                                 </div>
                                 <a class="settings-icon" href="{{ url_for('update_class', course_id=class.id) }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -414,19 +414,19 @@
             </div>
             <div class="button">
                 <div class="row" style="margin-top: 3px">
-                    {% if current_class != "" %}
+                    {% if 'bbcollab' in current_class %}
                         <a class="btn-dark btn-wide" href="{{ url_for('add_class') }}" target="_blank">Add Class</a>
                     {% else %}
                         <a class="btn-dark btn-wide" href="{{ url_for('add_class') }}">Add Class</a>
                     {% endif %}
                 </div>
             </div>
-            {% if current_class != "" %}
+            {% if 'bbcollab' in current_class %}
                 <a class="btn-color btn-wide" style="font-size: 10px; margin-top: 10px; width: 70%" onclick="closeClasses();">Hide Classes Bar</a>
             {% endif %}
         </div>
         <div class="content-column class-container col-md-6">
-            {% if current_class == "" %}
+            {% if 'bbcollab' not in current_class %}
                 <h3>Hi {{ name }}! <br> {{ text }}</h3>
                 {% if error %}
                     <p>{{ error }}</p>
@@ -437,12 +437,6 @@
                             src="{{ current_class }}" title="Classroom">
                         Your browser doesn't support this feature. Try a different browser for a better experience.    
                     </iframe>
-                {% elif 'zoom' in current_class %}
-                    <!-- <iframe id="iframe" style="width: 100%; height: 100%" allow="camera *; microphone *" 
-                        src="https://success.zoom.us/wc/join/{{ meeting_id }}" title="Classroom">
-                        Your browser doesn't support this feature. Try a different browser for a better experience.    
-                    </iframe> -->
-                    <h3>Your zoom class is currently open. <br> Don't worry, we'll be adding zoom integration straight into The Locker very soon!</h3>
                 {% endif %}
             {% endif %}
         </div>
@@ -488,7 +482,7 @@
             <div class="button">
                 <div class="row" style="margin-top: 3px">
                     {% if classes|length != 0 %}
-                        {% if current_class != "" %}
+                        {% if 'bbcollab' in current_class %}
                             <a class="btn-dark btn-wide" href="{{ url_for('add_assignment') }}" target="_blank">Add Assignment</a>
                         {% else %}
                             <a class="btn-dark btn-wide" href="{{ url_for('add_assignment') }}">Add Assignment</a>
@@ -498,12 +492,12 @@
                     {% endif %}
                 </div>
             </div>
-            {% if current_class != "" %}
+            {% if 'bbcollab' in current_class %}
                 <a class="btn-color btn-wide" style="font-size: 10px; margin-top: 10px; width: 70%" onclick="closeAssignments();">Hide Assignments Bar</a>
             {% endif %}
         </div>
     </div>
-    {% if current_class != "" %}
+    {% if 'bbcollab' in current_class %}
         <div class="row options-div">
             <input class="select-display-button" type="radio" id="standard" name="display" value="standard" checked="checked" onclick="updateDisplay('standard');">
             <label for="standard">Standard</label><br>
@@ -521,7 +515,7 @@
     <h1>Please Log In</h1>
 {% endif %}
 
-{% if update %}
+{% if update is not none %}
     <div id="home-modal" class="modal animate__animated animate__slideInDown" tabindex="-1" style="color: black;">
         <div class="modal-dialog">
         <div class="modal-content">

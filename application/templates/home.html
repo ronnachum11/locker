@@ -195,8 +195,8 @@
     </form>
 </div>
 
-{% if update %}
-    <div id="home-modal" class="modal animate__animated animate__slideInDown" tabindex="-1" style="color: black;">
+{% if update is not none %}
+    <div id="home-modal" class="modal animate__animated animate__slideInDown" style="color: black; display: block; overflow-y: scroll" tabindex="-1">
         <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
