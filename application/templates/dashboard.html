@@ -487,10 +487,14 @@
             </div>
             <div class="button">
                 <div class="row" style="margin-top: 3px">
-                    {% if current_class != "" %}
-                        <a class="btn-dark btn-wide" href="{{ url_for('add_assignment') }}" target="_blank">Add Assignment</a>
+                    {% if classes|length != 0 %}
+                        {% if current_class != "" %}
+                            <a class="btn-dark btn-wide" href="{{ url_for('add_assignment') }}" target="_blank">Add Assignment</a>
+                        {% else %}
+                            <a class="btn-dark btn-wide" href="{{ url_for('add_assignment') }}">Add Assignment</a>
+                        {% endif %}
                     {% else %}
-                        <a class="btn-dark btn-wide" href="{{ url_for('add_assignment') }}">Add Assignment</a>
+                        <a class="btn-dark btn-wide" title="Add a class to add assignments!">Add Assignment</a>
                     {% endif %}
                 </div>
             </div>
