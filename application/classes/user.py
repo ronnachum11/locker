@@ -68,7 +68,7 @@ class User(UserMixin):
             "is_active": self._is_active,
             "courses": [course.to_dict() for course in self.courses],
             "data": self.data,
-            "assignments": self.assignments
+            "assignments": [assignment.to_dict() for assignment in self.assignments]
         }
         return dictionary
 
@@ -94,7 +94,7 @@ class User(UserMixin):
                     dictionary.get('is_active'), 
                     [Course.from_dict(course) for course in dictionary.get('courses')] if dictionary.get('courses') else None,
                     dictionary.get('data'),
-                    dictionary.get('assignments')
+                    [Assignment.from_dict(assignment) for assignment in dictionary.get('assignments')] if dictionary.get('assignments') else None
             )
         return user
     

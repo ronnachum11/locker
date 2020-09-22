@@ -17,7 +17,7 @@ class Assignment:
 
     @staticmethod
     def from_dict(dictionary:dict):
-        return Course(str(dictionary.get("id")),
+        return Assignment(str(dictionary.get("id")),
                     dictionary.get("name"),
                     dictionary.get("course_id"),
                     dictionary.get("due_date"),

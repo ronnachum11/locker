@@ -11,6 +11,7 @@ from application.forms.forms import AssignmentForm
 import os 
 import json 
 import re
+from datetime import datetime 
 from bson import ObjectId
 
 ## Routesin this file
@@ -22,10 +23,15 @@ from bson import ObjectId
 def add_assignment():
     form = AssignmentForm()
 
-    choices = [(str(course.id), str(course.name)) for course in current_user.courses]
+    courses = sorted(current_user.courses, key = lambda x: x.period)
+    choices = [(str(course.id), f"{str(course.name)} - {course.period}") for course in courses]
     form.course.choices = choices
 
     if form.validate_on_submit():
-        a = Assignment(str(ObjectId()), form.name.data, form.course.data, form.due_date.data, form.notes.data)
+        a = Assignment(str(ObjectId()), form.name.data, form.course.data, 
+                       datetime.combine(form.due_date.data, form.due_time.data), form.notes.data)
+        current_user.add_assignment(a)
+        flash('Assignment added successfuly', 'success')
+        return redirect(url_for("dashboard"))
 
     return render_template('add_assignment.html', form=form, update=False)
