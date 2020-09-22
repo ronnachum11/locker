@@ -99,8 +99,8 @@ def dashboard():
     text = "Choose a class or add a new one to get started."
     name=current_user.name
 
-    print(current_user.assignments)
-    assignments = sorted(current_user.assignments, key=lambda x: x.due_date)
+    assignments = [] if not current_user.assignments else current_user.assignments
+    assignments = sorted(assignments, key=lambda x: x.due_date)
     assignments = [(a, current_user.get_course_by_id(a.course_id), a.due_date.strftime("%a, %m/%d/%y %H:%M")) for a in assignments]
 
     seen_recent_update = check_recent_update()
@@ -141,7 +141,8 @@ def classroom(course_id):
                 new_courses1.append(course)
     
     new_courses = new_courses2 + new_courses1
-    assignments = sorted(current_user.assignments, key=lambda x: x.due_date)
+    assignments = [] if not current_user.assignments else current_user.assignments
+    assignments = sorted(assignments, key=lambda x: x.due_date)
     assignments = [(a, current_user.get_course_by_id(a.course_id), a.due_date.strftime("%a, %m/%d/%y %H:%M")) for a in assignments]
 
     return render_template("dashboard.html", classes=new_courses, assignments=assignments, name=name, text=text, error=error, meeting_id=meeting_id, password=password, current_class=current_link)
