@@ -191,7 +191,7 @@
                  type: "POST",
                  url: "/complete_assignment/" + $(this).attr('id').substring(24)
             });
-            $(this).parent().parent().parent().parent().fadeOut(1000)
+            $(this).parent().parent().parent().fadeOut(1000)
         });
 
         $('.confirm-delete-button').on('click', function(){
@@ -199,7 +199,7 @@
                  type: "POST",
                  url: "/delete_assignment/" + $(this).attr('id').substring(22)
             });
-            $(this).parent().parent().parent().parent().fadeOut(1000)
+            $(this).parent().parent().parent().fadeOut(1000)
         });
 
         $('.cancel-button').on('click', function(){
