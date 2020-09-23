@@ -65,7 +65,7 @@ def check_recent_update():
         if not current_user.seen_recent_update:
             seen_recent_update = False
             update = Update.get_most_recent()
-            # current_user.update_view_update(True)
+            current_user.update_view_update(True)
             return(update)
     return None
 

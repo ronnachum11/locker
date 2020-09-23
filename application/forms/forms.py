@@ -1,5 +1,6 @@
 import phonenumbers
 from datetime import datetime
+from datetime import date
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextField, TextAreaField, BooleanField, DateField, RadioField, SelectField, PasswordField
@@ -97,8 +98,11 @@ class ClassForm(FlaskForm):
 
 class AssignmentForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
+    a_type = SelectField('Assignment Type', validators=[DataRequired()], 
+                          choices=[("Homework", "Homework"), ("Reading", "Reading"), ("Project", "Project"), 
+                                   ("Studying", "Studying"), ("Test", "Test"), ("Other", "Other")])
     course = SelectField('Course', choices=[('-1', '-1')], validators=[DataRequired()])
-    due_date = DateField('Due Date', validators=[DataRequired()]) #, format="%m/%d/%Y")
+    due_date = DateField('Due Date', validators=[DataRequired()], default=date.today()) #, format="%m/%d/%Y")
     due_time = TimeField('Time Due', validators=[DataRequired()], default=datetime.strptime("23:59:00", "%H:%M:%S"))
     notes = TextAreaField('Additional Info (Optional)')
     submit = SubmitField('Add Assignment')

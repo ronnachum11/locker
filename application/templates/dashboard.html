@@ -159,27 +159,64 @@
     //         document.getElementById("native").checked = true;
     //     }
     // });
-    $(document).ready(function(){
-        $('.complete').on('click', function(){
-            console.log('here')
+    function update_assignments(course, value) {
+        console.log(course + " " + value)
+        $("#assignments-updated").load("/get_assignments/" + course + "/" + value);
+    }
 
-            $.ajax({
-                type: "POST",
-                url: "/complete_assignment/" + $(this).attr('id')
-            });
-            $(this).parent().parent().fadeOut(1000)
+    document.addEventListener('DOMContentLoaded', function(){
+        update_assignments("all", "all");
+        setInterval(update_assignments(document.getElementById('assignment-class').value, document.getElementById('assignment-type').value), 60000);
+    }, false);
+
+
+    $(document).on('click', function(){
+        $('.complete-button').on('click', function(){
+            console.log('here')
+            $('.complete-div').css({'display' : 'none'})
+            $('.delete-div').css({'display' : 'none'})
+            $('#complete-div-' + $(this).attr('id')).css({'display' : 'block'})
+            console.log('#complete-div-' + $(this).attr('id'))
         });
-    });
 
-    $(document).ready(function(){
-        $('.delete').on('click', function(){
-            console.log('here')
+        $('.delete-button').on('click', function(){
+            $('.complete-div').css({'display' : 'none'})
+            $('.delete-div').css({'display' : 'none'})
+            $('#delete-div-' + $(this).attr('id')).css({'display' : 'block'})
+            console.log('#complete-div-' + $(this).attr('id'))
+        });
 
+        $('.confirm-complete-button').on('click', function(){
             $.ajax({
-                type: "POST",
-                url: "/delete_assignment/" + $(this).attr('id')
+                 type: "POST",
+                 url: "/complete_assignment/" + $(this).attr('id').substring(24)
             });
-            $(this).parent().parent().fadeOut(1000)
+            $(this).parent().parent().parent().parent().fadeOut(1000)
+        });
+
+        $('.confirm-delete-button').on('click', function(){
+            $.ajax({
+                 type: "POST",
+                 url: "/delete_assignment/" + $(this).attr('id').substring(22)
+            });
+            $(this).parent().parent().parent().parent().fadeOut(1000)
+        });
+
+        $('.cancel-button').on('click', function(){
+            $('.complete-div').css({'display' : 'none'})
+            $('.delete-div').css({'display' : 'none'})
+        });
+
+        $('#force-refresh').on('click', function(){
+            update_assignments($('#assignment-class').val(), $('#assignment-type').val());
+        });
+
+        $('#assignment-class').on('change', function(){
+            update_assignments($('#assignment-class').val(), $('#assignment-type').val());
+        });
+
+        $('#assignment-type').on('change', function(){
+            update_assignments($('#assignment-class').val(), $('#assignment-type').val());
         });
     });
 </script>
@@ -187,7 +224,7 @@
 {% if 'bbcollab' in current_class %}
 <script>
     window.addEventListener('load', (event) => {
-        closeAssignments();
+        // closeAssignments();
     });
 </script>
 {% endif %}
@@ -244,7 +281,11 @@
                                 {% if class.links %}
                                     {% for name in class.links %}
                                         <div class="row">
-                                            <a href="{{ class.links[name] }}" target="_blank" style="font-size: 12px">{{ name }}</a>
+                                            {% if 'http://' in class.links[name] or 'https://' in class.links[name] %}
+                                                <a href="{{ class.links[name] }}" target="_blank" style="font-size: 12px">{{ name }}</a>
+                                            {% else %}
+                                                <a href="http://{{ class.links[name] }}" target="_blank" style="font-size: 12px">{{ name }}</a>
+                                            {% endif %}
                                         </div>
                                     {% endfor %}
                                 {% endif %}
@@ -309,7 +350,11 @@
                                 {% if class.links %}
                                     {% for name in class.links %}
                                         <div class="row">
-                                            <a href="{{ class.links[name] }}" target="_blank" style="font-size: 12px">{{ name }}</a>
+                                            {% if 'http://' in class.links[name] or 'https://' in class.links[name] %}
+                                                <a href="{{ class.links[name] }}" target="_blank" style="font-size: 12px">{{ name }}</a>
+                                            {% else %}
+                                                <a href="http://{{ class.links[name] }}" target="_blank" style="font-size: 12px">{{ name }}</a>
+                                            {% endif %}
                                         </div>
                                     {% endfor %}
                                 {% endif %}
@@ -374,7 +419,11 @@
                                 {% if class.links %}
                                     {% for name in class.links %}
                                         <div class="row">
-                                            <a href="{{ class.links[name] }}" target="_blank" style="font-size: 12px">{{ name }}</a>
+                                            {% if 'http://' in class.links[name] or 'https://' in class.links[name] %}
+                                                <a href="{{ class.links[name] }}" target="_blank" style="font-size: 12px">{{ name }}</a>
+                                            {% else %}
+                                                <a href="http://{{ class.links[name] }}" target="_blank" style="font-size: 12px">{{ name }}</a>
+                                            {% endif %}
                                         </div>
                                     {% endfor %}
                                 {% endif %}
@@ -422,7 +471,7 @@
                 </div>
             </div>
             {% if 'bbcollab' in current_class %}
-                <a class="btn-color btn-wide" style="font-size: 10px; margin-top: 10px; width: 70%" onclick="closeClasses();">Hide Classes Bar</a>
+                <a class="btn-color btn-wide" style="font-size: 12px; margin-top: 10px; width: 70%" onclick="closeClasses();">Hide Classes</a>
             {% endif %}
         </div>
         <div class="content-column class-container col-md-6">
@@ -442,48 +491,16 @@
         </div>
         <div class="col-md-3 content-column assignments-column">
             <div class="row">
-                <h3>Assignments</h3>
+            <h3>Assignments</h3>
             </div>
-            <div id="assignments-react" class="assignments">
-                {% for assignment, course, date in assignments %}
-                    <div class="class-card" style="border: solid 3px {{ course.color }};">
-                        <div class="main-div">
-                            <h5>{{ assignment.name }}</h5>
-                            <h6 style="font-size: 12px">{{ course.name }}</h6>
-                            <h6 style="font-size: 12px">Due: {{ date }}</h6>
-                            <p>{{ assignment.notes }}</p>
-                        </div>
-                        <div class="extra-div">
-                            <a id="{{ assignment.id }}" class="complete">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#4CAF50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                    <path d="M5 12l5 5l10 -10" />
-                                </svg>
-                            </a>
-                            <a id="{{ assignment.id }}" class="delete">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#F44336" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                    <line x1="18" y1="6" x2="6" y2="18" />
-                                    <line x1="6" y1="6" x2="18" y2="18" />
-                                </svg>
-                            </a>
-                            <a href="{{ url_for('update_assignment', assignment_id=assignment.id) }}">
-                                <svg class="edit-assignment" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                    <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
-                                    <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
-                                    <line x1="16" y1="5" x2="19" y2="8" />
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                {% endfor %}
+            <div id="assignments-updated" class="assignments">
+                
             </div>
             <div class="button">
                 <div class="row" style="margin-top: 3px">
                     {% if classes|length != 0 %}
                         {% if 'bbcollab' in current_class %}
-                            <a class="btn-dark btn-wide" href="{{ url_for('add_assignment') }}" target="_blank">Add Assignment</a>
+                            <a class="btn-dark btn-wide" href="{{ url_for('add_assignment', close=True) }}" target="_blank">Add Assignment</a>
                         {% else %}
                             <a class="btn-dark btn-wide" href="{{ url_for('add_assignment') }}">Add Assignment</a>
                         {% endif %}
@@ -492,9 +509,38 @@
                     {% endif %}
                 </div>
             </div>
-            {% if 'bbcollab' in current_class %}
-                <a class="btn-color btn-wide" style="font-size: 10px; margin-top: 10px; width: 70%" onclick="closeAssignments();">Hide Assignments Bar</a>
-            {% endif %}
+            <div class="row" style="font-size: 11px; margin-top: 10px;">
+                {% if 'bbcollab' in current_class %}
+                    <div class="col-md-6">
+                        <a id="force-refresh" class="btn-dark btn-wide">Refresh Assignments</a>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn-color btn-wide" onclick="closeAssignments();">Hide Assignments</a>
+                    </div>
+                {% endif %}
+            </div>
+            <h5 style="margin-top: 10px">Filters:</h5>
+            <div class="row" style="font-size: 12px; margin-top: 10px;">
+                <div class="col-md-6">
+                    <select id="assignment-class" style="width: 100%">
+                        <option value="all">All Classes</option>
+                        {% for class, time_string in classes %}
+                            <option value="{{ class.id }}">{{ class.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <select id="assignment-type" style="width: 100%">
+                        <option value="all">All Types</option>
+                        <option value="Homework">Homework</option>
+                        <option value="Reading">Reading</option>
+                        <option value="Studying">Studying</option>
+                        <option value="Project">Project</option>
+                        <option value="Test">Test</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
         </div>
     </div>
     {% if 'bbcollab' in current_class %}

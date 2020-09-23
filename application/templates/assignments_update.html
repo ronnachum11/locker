@@ -1,0 +1,41 @@
+{% for assignment, course, date in assignments %}
+    <div class="class-card" style="border: solid 3px {{ course.color }};">
+        <div class="main-div">
+            <h5>{{ assignment.name }}</h5>
+            <h6 style="font-size: 12px">{{ course.name }} - {{ assignment.a_type }}</h6>
+            <h6 style="font-size: 12px">Due: {{ date }}</h6>
+            <!-- <p>{{ assignment.notes }}</p> -->
+        </div>
+        <div class="extra-div">
+            <svg id="{{ assignment.id }}" class="complete-button" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#4CAF50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M5 12l5 5l10 -10" />
+            </svg>
+            <svg id="{{ assignment.id }}" class="delete-button" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#F44336" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+            {% if 'bbcollab' in current_class %}
+                <a href="{{ url_for('update_assignment', assignment_id=assignment.id, close=True) }}" target="_blank">
+            {% else %}
+                <a href="{{ url_for('update_assignment', assignment_id=assignment.id) }}">
+            {% endif %}
+                <svg class="edit-assignment" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+                    <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+                    <line x1="16" y1="5" x2="19" y2="8" />
+                </svg>
+            </a>
+            <div id="complete-div-{{ assignment.id }}" class="complete-div row" style="font-size: 9px; display: none">
+                <a id="confirm-complete-button-{{ assignment.id }}" class="confirm-complete-button btn-color btn-wide" style="background-color: #4CAF50; width: 80%;">Complete?</a>
+                <a class="cancel-button btn-color btn-wide" style="background-color: grey; width: 80%;">Cancel</a>
+            </div>
+            <div id="delete-div-{{ assignment.id }}" class="delete-div row" style="font-size: 9px; display: none">
+                <a id="confirm-delete-button-{{ assignment.id }}" class="confirm-delete-button btn-color btn-wide" style="background-color: #F44336; width: 80%;">Delete?</a>
+                <a class="cancel-button btn-color btn-wide" style="background-color: grey; width: 80%;">Cancel</a>
+            </div>
+        </div>
+    </div>
+{% endfor %}

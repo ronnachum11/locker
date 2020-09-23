@@ -116,7 +116,6 @@ class User(UserMixin):
 
     def get_course_by_id(self, course_id: str):
         courses = [c for c in self.courses if c.id == course_id]
-        print(courses)
         return courses[0] if len(courses) > 0 else None
 
     def add_course(self, course: Course):

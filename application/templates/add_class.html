@@ -364,14 +364,11 @@
             </div>
             <hr>
             <div>
-                {% if current_user.school != "Other" %}
+                {% if current_user.school == "TJ" %}
                     <h5>Set Custom Time? (Leave unchecked to use {{current_user.school}}'s default)</h5>
+                    <h6>Note: TJ class times automatically update from ION but will not if customs are set</h6>
                 {% else %}
                     <h5>Set Custom Time?</h5>
-                {% endif %}
-
-                {% if current_user.school == "TJ" %}
-                    <h6>Note: TJ class times automatically update from ION but will not if customs are set</h6>
                 {% endif %}
             </div>
             <div class="form-group">
