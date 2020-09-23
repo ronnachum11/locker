@@ -17,6 +17,17 @@ html {
     height: 90vh;
  }
 
+ select {
+  color: white;
+  background-color: #232629;
+  border-radius: 5px;
+ }
+
+ option {
+   color: white;
+   background-color: #232629;
+ }
+
  .expand-button {
   /* position: absolute;
   float: right; */
