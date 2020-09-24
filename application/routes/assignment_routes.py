@@ -41,8 +41,8 @@ def add_assignment(close):
 
     return render_template('add_assignment.html', form=form, update=False, close=close)
 
-@app.route("/add_assignment/<string:assignment_id>", methods=["GET", "POST"], defaults={'close': False})
-@app.route("/add_assignment/<string:assignment_id>/<close>", methods=["GET", "POST"])
+@app.route("/update_assignment/<string:assignment_id>", methods=["GET", "POST"], defaults={'close': False})
+@app.route("/update_assignment/<string:assignment_id>/<close>", methods=["GET", "POST"])
 @login_required
 def update_assignment(assignment_id, close):
     form = AssignmentForm()
