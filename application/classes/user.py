@@ -8,7 +8,7 @@ from application.classes.course import Course
 from application.classes.assignment import Assignment
 
 class User(UserMixin):
-    def __init__(self, id:str=None, name:str=None, email:str=None, ion_id:int=None, phone:str=None, carrier:str=None, password:str=None, school:str="TJ", school_type:str="HS", city:str="Annandale", state:str="VA", country:str="USA", hasIon:bool=False, hasGoogle:bool=False, seen_recent_update:bool=False, _is_active:bool=False, courses: [Course]=[], data:dict=None, assignments: [Assignment]=[]):
+    def __init__(self, id:str=None, name:str=None, email:str=None, ion_id:int=None, phone:str=None, carrier:str=None, password:str=None, school:str="TJ", school_type:str="HS", city:str="Annandale", state:str="VA", country:str="USA", hasIon:bool=False, hasGoogle:bool=False, seen_recent_update:bool=False, _is_active:bool=False, courses: [Course]=[], data:dict=None, assignments: [Assignment]=[], assignments_completed:int=0):
         self.id = str(id)
         self.ion_id = ion_id
         self.name = name
@@ -32,6 +32,7 @@ class User(UserMixin):
         self.courses = courses
         self.data = data
         self.assignments = assignments
+        self.assignments_completed = assignments_completed
 
     def __repr__(self):
         return f"User('{str(self.id)}', '{self.email}', '{self.phone}')"
@@ -68,7 +69,8 @@ class User(UserMixin):
             "is_active": self._is_active,
             "courses": [course.to_dict() for course in self.courses],
             "data": self.data,
-            "assignments": [assignment.to_dict() for assignment in self.assignments]
+            "assignments": [assignment.to_dict() for assignment in self.assignments],
+            "assignments_completed": self.assigments_completed
         }
         return dictionary
 
@@ -94,7 +96,8 @@ class User(UserMixin):
                     dictionary.get('is_active'), 
                     [Course.from_dict(course) for course in dictionary.get('courses')] if dictionary.get('courses') else None,
                     dictionary.get('data'),
-                    [Assignment.from_dict(assignment) for assignment in dictionary.get('assignments')] if dictionary.get('assignments') else None
+                    [Assignment.from_dict(assignment) for assignment in dictionary.get('assignments')] if dictionary.get('assignments') else None,
+                    dictionary.get('assignments_completed')
             )
         return user
     
