@@ -70,7 +70,7 @@ class User(UserMixin):
             "courses": [course.to_dict() for course in self.courses],
             "data": self.data,
             "assignments": [assignment.to_dict() for assignment in self.assignments],
-            "assignments_completed": self.assigments_completed
+            "assignments_completed": self.assignments_completed
         }
         return dictionary
 
