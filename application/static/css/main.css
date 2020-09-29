@@ -57,6 +57,7 @@ body.fade-out {
   background-color: rgb(24, 24, 24);
   color: white;
   box-shadow: 0 0 3pt 2pt black;
+  transition: all 0.2s ease;
 }
 
 .btn-dark:hover {

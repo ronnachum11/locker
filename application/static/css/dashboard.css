@@ -87,10 +87,13 @@ html {
 .classes-column {
   transition: left 0.5s ease;
 }
+svg {
+  transition: all 0.2s ease;
+  opacity: 85%;
+}
 
 svg:hover {
-  width: 36px;
-  height: 36px;
+  opacity: 100%;
 }
 
 #show-classes {
@@ -155,12 +158,13 @@ svg:hover {
 
 .class-card {
     text-align: center;
-    background-color: rgb(37, 37, 37);
+    background-color: rgba(37, 37, 37, 0.75);
     padding: 5px;
+    transition: all 0.3s ease;
 }
 
 .class-card:hover{
-    background-color: rgb(34, 34, 34);
+    background-color: rgb(37, 37, 37, 1);
     opacity: 100%;
 }
 
