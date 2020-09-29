@@ -89,7 +89,7 @@ html {
 }
 svg {
   transition: all 0.2s ease;
-  opacity: 75%;
+  opacity: 50%;
 }
 
 svg:hover {
