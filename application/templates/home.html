@@ -31,7 +31,7 @@
             var now = new Date().getTime();
             var remaining = Math.max((endTime - now) / duration, 0);
             var value = Math.round(end - (remaining * range));
-            obj.innerHTML = value;
+            obj.innerHTML = String(value) + "+";
             if (value == end) {
                 clearInterval(timer);
             }
@@ -121,7 +121,7 @@
     <!-- <h1 style="margin-bottom: 20px;">Stats</h1> -->
     <div class="row" style="width: 75%">
         <div class="col-md-6 col-xs-6">
-            <h3>Total Students</h3>
+            <h3>Total Students Served</h3>
             <h1 id='total-students'></h1>
         </div>
         <div class="col-md-6 col-xs-6">

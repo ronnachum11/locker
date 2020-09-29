@@ -80,8 +80,8 @@ def home():
     update = check_recent_update()
     print(update)
 
-    total_users = User.get_total_users()
-    total_courses = User.get_total_courses()
+    total_users = (User.get_total_users() // 100) * 100
+    total_courses = (User.get_total_courses() // 100) * 100
 
     if form.validate_on_submit():
         send_contact_email(form.name.data, form.email.data, form.subject.data, form.message.data)
