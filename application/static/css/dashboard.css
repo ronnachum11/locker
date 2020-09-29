@@ -78,10 +78,10 @@ html {
 
 .text-small {
   font-size: 12px;
+  transition: all 0.2s;
 }
-
-.text-small:hover{
-  font-size: 13px;
+.text-small:hover {
+  font-size: 12.5px;
 }
 
 .classes-column {
@@ -89,7 +89,7 @@ html {
 }
 svg {
   transition: all 0.2s ease;
-  opacity: 85%;
+  opacity: 75%;
 }
 
 svg:hover {
