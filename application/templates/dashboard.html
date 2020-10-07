@@ -428,7 +428,6 @@
                                     {% endfor %}
                                 {% endif %}
                                 {% if class.teacher_contact %}
-                                    <h1>{{ class.teacher_contact }}</h1>
                                     <div class="row" style="margin-top: 5px">
                                         {% if class.teacher and class.teacher != "" %}
                                             <a href="mailto:{{ class.teacher_contact['email'] }}" target="_blank" style="font-size: 11px">Email {{ class.teacher }}</a>
