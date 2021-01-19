@@ -11,4 +11,5 @@ def send_contact_email(name, email, subject, message):
         Message:
         {message}
     '''
-    mail.send(msg)
+    if [word in message + ' ' + subject for word in ['SEO', 'seo', 'bots', 'package', 'keyword', 'USD', 'discount']]:
+        mail.send(msg)
