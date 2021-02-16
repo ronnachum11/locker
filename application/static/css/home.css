@@ -97,14 +97,14 @@
       overflow: hidden;
       border-radius: 50%;
   }
-  .img-zoom img {
+  .img-zoom {
       transition: transform .5s ease;
   }
 
-  .img-zoom img {
+  .img-zoom {
       transition: transform .5s ease;
   }
-  .img-zoom:hover img {
+  .img-zoom:hover {
       transform: scale(1.05);
   }
 
